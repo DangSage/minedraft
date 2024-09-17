@@ -119,77 +119,24 @@ function awards.unlock(name, award)
 		end
 	end
 
-	if awards.show_mode == "chat" then
-		local chat_announce
-		if awdef.secret then
-			chat_announce = S("Secret Award Unlocked: @1", title)
-		else
-			chat_announce = S("Award Unlocked: @1", title)
-		end
-		-- use the chat console to send it
-		minetest.chat_send_player(name, chat_announce)
-		if desc~="" then
-			minetest.chat_send_player(name, desc)
-		end
+	-- Define the color codes
+	local title_color = "#ffcc00"  -- gold color for the title
+	local desc_color = "#aaaaaa"   -- gray color for the description
+
+	local chat_announce
+	if awdef.secret then
+		chat_announce = S("Secret Award Unlocked: @1", title)
 	else
-		local player = minetest.get_player_by_name(name)
-		local one = player:hud_add({
-			[hud_elem_type_field] = "image",
-			name = "award_bg",
-			scale = {x = 2, y = 1},
-			text = background,
-			position = {x = 0.5, y = 0.05},
-			offset = {x = 0, y = 138},
-			alignment = {x = 0, y = -1}
-		})
-		local hud_announce
-		if awdef.secret == true then
-			hud_announce = S("Secret Advancement Made!")
-		elseif awdef.type == "Goal" then
-			hud_announce = S("Goal Completed!")
-		elseif awdef.type == "Challenge" then
-			hud_announce = S("Challenge Completed!")
-		else
-			hud_announce = S("Advancement Made!")
-		end
-		local two = player:hud_add({
-			[hud_elem_type_field] = "text",
-			name = "award_au",
-			number = 0xFFFFFF,
-			scale = {x = 100, y = 20},
-			text = hud_announce,
-			position = {x = 0.5, y = 0.05},
-			offset = {x = 0, y = 45},
-			alignment = {x = 0, y = -1}
-		})
-		local three = player:hud_add({
-			[hud_elem_type_field] = "text",
-			name = "award_title",
-			number = 0xFFFFFF,
-			scale = {x = 100, y = 20},
-			text = title,
-			position = {x = 0.5, y = 0.05},
-			offset = {x = 0, y = 100},
-			alignment = {x = 0, y = -1}
-		})
-		local four = player:hud_add({
-			[hud_elem_type_field] = "image",
-			name = "award_icon",
-			scale = {x = 2, y = 2}, -- adjusted for 32x32 from x/y = 4
-			text = icon,
-			position = {x = 0.5, y = 0.05},
-			offset = {x = -200.5, y = 126},
-			alignment = {x = 0, y = -1}
-		})
-		minetest.after(4, function()
-			local player2 = minetest.get_player_by_name(name)
-			if player2 then
-				player2:hud_remove(one)
-				player2:hud_remove(two)
-				player2:hud_remove(three)
-				player2:hud_remove(four)
-			end
-		end)
+		chat_announce = S("Award Unlocked: @1", title)
+	end
+	-- Colorize the chat announcement
+	chat_announce = minetest.colorize(title_color, chat_announce)
+	-- use the chat console to send it
+	minetest.chat_send_player(name, chat_announce)
+	if desc ~= "" then
+		-- Colorize the description
+		local colorized_desc = minetest.colorize(desc_color, desc)
+		minetest.chat_send_player(name, colorized_desc)
 	end
 end
 

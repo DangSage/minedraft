@@ -2,7 +2,7 @@
 
 Minedraft is an unofficial Minecraft-like game for Minetest, forked from Mineclonia. This project focuses on classic Minecraft gameplay and aesthetics, with personal modifications and enhancements.
 
-For more information on the original project, see the [original Mineclonia repository](https://codeberg.org/mineclonia/mineclonia). Most work is done by the original Mineclonia developers; this fork is a personal project to make the game more like classic Minecraft.
+**Most work is done by the original Mineclonia developers; this fork is a personal project to make the game more like classic Minecraft. For more information on the original project, see the [original Mineclonia repository](https://codeberg.org/mineclonia/mineclonia).**
 
 Based on Mineclonia version: 0.106.0
 

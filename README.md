@@ -1,6 +1,8 @@
 # Minedraft
 
-Minedraft is an unofficial Minecraft-like game for Minetest, forked from Mineclonia. This project focuses on classic Minecraft gameplay and aesthetics, with personal modifications and enhancements. For more information on the original project, see the [original Mineclonia repository](https://codeberg.org/mineclonia/mineclonia). Most work is done by the original Mineclonia developers; this fork is a personal project to make the game more like classic Minecraft.
+Minedraft is an unofficial Minecraft-like game for Minetest, forked from Mineclonia. This project focuses on classic Minecraft gameplay and aesthetics, with personal modifications and enhancements.
+
+For more information on the original project, see the [original Mineclonia repository](https://codeberg.org/mineclonia/mineclonia). Most work is done by the original Mineclonia developers; this fork is a personal project to make the game more like classic Minecraft.
 
 Based on Mineclonia version: 0.106.0
 
@@ -103,10 +105,9 @@ Technical differences from Minecraft:
 * Different engine (Minetest)
 * Different easter eggs
 
-## Other readme files (from the original Mineclonia repository)
-* [LICENSE.txt](../../../src/branch/main/LICENSE.txt): The GPLv3 license text
-* [CONTRIBUTING.md](../../../src/branch/main/CONTRIBUTING.md): Information for those who want to contribute
-* [API.md](../../../src/branch/main/API.md): For Minetest modders who want to mod this game
-* [LEGAL.md](../../../src/branch/main/LEGAL.md): Legal information
-* [CREDITS.md](../../../src/branch/main/CREDITS.md): List of everyone who contributed
-# minedraft
+## Other readme files (from the original Mineclonia repository on Codeberg)
+* [LICENSE](LICENSE): The license of the project.
+* [CONTRIBUTING.md](CONTRIBUTING.md): How to contribute to the project.
+* [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md): Code of conduct for the project.
+* [CHANGELOG.md](CHANGELOG.md): The changelog of the project.
+* [TODO.md](TODO.md): The to-do list of the project.

@@ -16,7 +16,8 @@ mcl_trees.register_wood("oak",{
 		{ file = modpath.."/schematics/mcl_core_oak_v6.mts"},
 		{ file = modpath.."/schematics/mcl_core_oak_classic.mts"},
 	},
-	tree = { tiles = {"default_tree_top.png", "default_tree_top.png","default_tree.png"} },
+	tree = { tiles = {"default_log_top.png",
+	"default_log_top.png","default_tree.png"} },
 	leaves = {
 		tiles = { "default_leaves.png" },
 		color = "#77ab2f",
@@ -50,7 +51,8 @@ mcl_trees.register_wood("dark_oak",{
 	tree_schems_2x2 = {
 		{ file = modpath.."/schematics/mcl_core_dark_oak.mts"},
 	},
-	tree = { tiles = {"mcl_core_log_big_oak_top.png", "mcl_core_log_big_oak_top.png","mcl_core_log_big_oak.png"} },
+	tree = { tiles = {"default_log_top.png",
+	"default_log_top.png","mcl_core_log_big_oak.png"} },
 	leaves = {
 		tiles = { "mcl_core_leaves_big_oak.png" },
 		color = "#77ab2f",
@@ -88,7 +90,8 @@ mcl_trees.register_wood("jungle",{
 		{ file = modpath.."/schematics/mcl_core_jungle_tree_huge_3.mts"},
 		{ file = modpath.."/schematics/mcl_core_jungle_tree_huge_4.mts"},
 	},
-	tree = { tiles = {"default_jungletree_top.png", "default_jungletree_top.png","default_jungletree.png"} },
+	tree = { tiles = {"default_log_top.png",
+	"default_log_top.png","default_jungletree.png"} },
 	leaves = {
 		tiles = { "default_jungleleaves.png" },
 		color = "#30bb0b",
@@ -127,8 +130,11 @@ mcl_trees.register_wood("spruce",{
 		{ file = modpath.."/schematics/mcl_core_spruce_huge_up_2.mts"},
 		{ file = modpath.."/schematics/mcl_core_spruce_huge_up_3.mts"},
 	},
+	tree = { tiles = {"default_log_top.png",
+	"default_log_top.png","mcl_core_log_spruce.png"} },
 	leaves = {
-		color = "#2bbb0f",
+		tiles = { "mcl_core_leaves_spruce.png" },
+		color = "#30bb0b",
 	},
 	sapling = {
 		_after_grow = function(pos, _, is_2by2)
@@ -156,7 +162,8 @@ mcl_trees.register_wood("acacia",{
 		{ file = modpath.."/schematics/mcl_core_acacia_7.mts"},
 		{ file = modpath.."/schematics/mcl_core_acacia_weirdo.mts"},
 	},
-	tree = { tiles = {"default_acacia_tree_top.png", "default_acacia_tree_top.png","default_acacia_tree.png"} },
+	tree = { tiles = {"default_log_top.png",
+	"default_log_top.png","default_acacia_tree.png"} },
 	leaves = {
 		tiles = { "default_acacia_leaves.png" },
 		color = "#aea42a",

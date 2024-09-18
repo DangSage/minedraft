@@ -406,7 +406,7 @@ function mcl_trees.register_wood(name, p)
 		minetest.register_node(":mcl_trees:".."tree_"..name,table.merge(tpl_log,{
 			description = S("@1 Log", rname),
 			_doc_items_longdesc = S("The trunk of a @1 tree.", rname),
-			tiles = { minetest.get_current_modname().."_log_"..name.."_top.png",  "mcl_core_log_"..name.."_top.png", "mcl_core_log_"..name..".png"},
+			tiles = { "default_log_top.png",  "default_log_top.png", "mcl_core_log_"..name..".png"},
 			_mcl_stripped_variant = "mcl_trees:stripped_"..name,
 		},p.tree or {}))
 	end
@@ -447,7 +447,7 @@ function mcl_trees.register_wood(name, p)
 			description = S("Stripped @1 Log", rname),
 			_doc_items_longdesc = S("The stripped trunk of an @1 tree.", rname),
 			_doc_items_hidden = false,
-			tiles = { minetest.get_current_modname().."_stripped_"..name.."_top.png",  "mcl_core_stripped_"..name.."_top.png", "mcl_core_stripped_"..name.."_side.png"},
+			tiles = { "default_log_top.png",  "default_log_top.png", "mcl_core_stripped_"..name.."_side.png"},
 		}, p.stripped or {}))
 	end
 

@@ -8,5 +8,6 @@
         "vector",
         "dump",
         "ItemStack",
-    ]
+    ],
+    "sarif-viewer.connectToGithubCodeScanning": "off"
 }

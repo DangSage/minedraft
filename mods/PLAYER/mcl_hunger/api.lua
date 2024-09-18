@@ -15,21 +15,33 @@ end
 
 if mcl_hunger.active then
 	function mcl_hunger.get_hunger(player)
+		if player:get_meta():get_string("disable_hunger") == "true" then
+			return 20 -- Max hunger level
+		end
 		local hunger = tonumber(player:get_meta():get_string("mcl_hunger:hunger")) or 20
 		return hunger
 	end
 
 	function mcl_hunger.get_saturation(player)
+		if player:get_meta():get_string("disable_hunger") == "true" then
+			return mcl_hunger.SATURATION_INIT -- Initial saturation level
+		end
 		local saturation = tonumber(player:get_meta():get_string("mcl_hunger:saturation")) or mcl_hunger.SATURATION_INIT
 		return saturation
 	end
 
 	function mcl_hunger.get_exhaustion(player)
+		if player:get_meta():get_string("disable_hunger") == "true" then
+			return 0 -- No exhaustion
+		end
 		local exhaustion = tonumber(player:get_meta():get_string("mcl_hunger:exhaustion")) or 0
 		return exhaustion
 	end
 
 	function mcl_hunger.set_hunger(player, hunger, update_hudbars)
+		if player:get_meta():get_string("disable_hunger") == "true" then
+			return false
+		end
 		hunger = math.min(20, math.max(0, hunger))
 		player:get_meta():set_string("mcl_hunger:hunger", tostring(hunger))
 		if update_hudbars ~= false then
@@ -40,6 +52,9 @@ if mcl_hunger.active then
 	end
 
 	function mcl_hunger.set_saturation(player, saturation, update_hudbar)
+		if player:get_meta():get_string("disable_hunger") == "true" then
+			return false
+		end
 		saturation = math.min(mcl_hunger.get_hunger(player), math.max(0, saturation))
 		player:get_meta():set_string("mcl_hunger:saturation", tostring(saturation))
 		if update_hudbar ~= false then
@@ -49,6 +64,9 @@ if mcl_hunger.active then
 	end
 
 	function mcl_hunger.set_exhaustion(player, exhaustion, update_hudbar)
+		if player:get_meta():get_string("disable_hunger") == "true" then
+			return false
+		end
 		exhaustion = math.min(mcl_hunger.EXHAUST_LVL, math.max(0.0, exhaustion))
 		player:get_meta():set_string("mcl_hunger:exhaustion", tostring(exhaustion))
 		if update_hudbar ~= false then
@@ -59,7 +77,9 @@ if mcl_hunger.active then
 
 	function mcl_hunger.exhaust(playername, increase)
 		local player = minetest.get_player_by_name(playername)
-		if not player then return false end
+		if not player or player:get_meta():get_string("disable_hunger") == "true" then
+			return false
+		end
 		mcl_hunger.set_exhaustion(player, mcl_hunger.get_exhaustion(player) + increase)
 		if mcl_hunger.get_exhaustion(player) >= mcl_hunger.EXHAUST_LVL then
 			mcl_hunger.set_exhaustion(player, 0.0)
@@ -86,6 +106,9 @@ if mcl_hunger.active then
 
 	function mcl_hunger.saturate(playername, increase, update_hudbar)
 		local player = minetest.get_player_by_name(playername)
+		if not player or player:get_meta():get_string("disable_hunger") == "true" then
+			return false
+		end
 		local ok = mcl_hunger.set_saturation(player,
 			math.min(mcl_hunger.get_saturation(player) + increase, mcl_hunger.get_hunger(player)))
 		if update_hudbar ~= false then

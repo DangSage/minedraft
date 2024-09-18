@@ -1,5 +1,12 @@
 {
     "Lua.diagnostics.globals": [
-        "minetest"
+        "minetest",
+        "core",
+        "minetest.env",
+        "minetest.register_node",
+        "minetest.register_craftitem",
+        "vector",
+        "dump",
+        "ItemStack",
     ]
 }

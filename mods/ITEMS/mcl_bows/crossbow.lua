@@ -364,7 +364,7 @@ controls.register_on_hold(function(player, key)
 			player:set_wielded_item(wielditem)
 			if minetest.get_modpath("playerphysics") then
 				-- Slow player down when using bow
-				playerphysics.add_physics_factor(player, "speed", "mcl_bows:use_crossbow", PLAYER_USE_CROSSBOW_SPEED)
+				-- playerphysics.add_physics_factor(player, "speed", "mcl_bows:use_crossbow", PLAYER_USE_CROSSBOW_SPEED)
 			end
 			bow_load[name] = minetest.get_us_time()
 			bow_index[name] = player:get_wield_index()

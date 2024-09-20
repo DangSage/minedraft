@@ -440,6 +440,8 @@ minetest.register_node("mcl_brewing:stand_000", table.merge(tpl_brewing_stand, {
 	_doc_items_create_entry = true,
 	_doc_items_usagehelp = doc_string,
 	groups = {pickaxey = 1, brewitem = 1, container = 1, brewing_stand = 1},
+	inventory_image = "mcl_brewing_stand_item.png",
+	wield_image = "mcl_brewing_stand_item.png",
 	node_box = {
 		type = "fixed",
 		fixed = {

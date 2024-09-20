@@ -613,11 +613,11 @@ local function init()
 
 	mcl_skins.register_simple_skin({
 		index = 0,
-		texture = "character.png"
+		texture = "steve.png"
 	})
 	mcl_skins.register_simple_skin({
 		index = 1,
-		texture = "mcl_skins_character_1.png",
+		texture = "alex.png",
 		slim_arms = true
 	})
 end

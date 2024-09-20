@@ -75,18 +75,34 @@ function mcl_bows.shoot_arrow_crossbow(arrow_item, pos, dir, yaw, shooter, power
 	return obj
 end
 
-local function get_arrow(player)
-	local inv = player:get_inventory()
-	local arrow_stack, arrow_stack_id
-	for i=1, inv:get_size("main") do
-		local it = inv:get_stack("main", i)
-		if not it:is_empty() and minetest.get_item_group(it:get_name(), "ammo_crossbow") ~= 0 then
-			arrow_stack = it
-			arrow_stack_id = i
-			break
-		end
-	end
-	return arrow_stack, arrow_stack_id
+local function get_ammunition(player)
+    local inv = player:get_inventory()
+    local arrow_stack, arrow_index, rocket_stack, rocket_index
+
+    -- Check for arrows
+    for i, stack in ipairs(inv:get_list("main")) do
+        if stack:get_name() == "mcl_bows:arrow" then
+            arrow_stack = stack
+            arrow_index = i
+            break
+        end
+    end
+
+    -- Check for rockets
+    for i, stack in ipairs(inv:get_list("main")) do
+        if stack:get_name() == "mcl_fireworks:rocket_1" or stack:get_name() == "mcl_fireworks:rocket_2" or stack:get_name() == "mcl_fireworks:rocket_3" then
+            rocket_stack = stack
+            rocket_index = i
+            break
+        end
+    end
+
+    if arrow_stack then
+        return arrow_stack, arrow_index, "arrow"
+    elseif rocket_stack then
+        return rocket_stack, rocket_index, "rocket"
+    end
+    return nil, nil, nil
 end
 
 local function player_shoot_arrow(wielditem, player, power, damage, is_critical)
@@ -160,7 +176,37 @@ minetest.register_tool("mcl_bows:crossbow_loaded", {
 S("The speed and damage of the arrow increases the longer you charge. The regular damage of the arrow is between 1 and 9. At full charge, there's also a 20% of a critical hit, dealing 10 damage instead."),
 	_doc_items_usagehelp = S("To use the crossbow, you first need to have at least one arrow anywhere in your inventory (unless in Creative Mode). Hold down the right mouse button to charge, release to load an arrow into the chamber, then to shoot press left mouse."),
 	_doc_items_durability = BOW_DURABILITY,
-	inventory_image = "mcl_bows_crossbow_3.png",
+	inventory_image = "mcl_bows_crossbow_arrow.png",
+	wield_scale = mcl_vars.tool_wield_scale,
+	stack_max = 1,
+	range = 4,
+	-- Trick to disable digging as well
+	on_use = function() end,
+	on_place = function(itemstack, player, pointed_thing)
+		local rc = mcl_util.call_on_rightclick(itemstack, player, pointed_thing)
+		if rc then return rc end
+
+		itemstack:get_meta():set_string("active", "true")
+		return itemstack
+	end,
+	on_secondary_use = function(itemstack)
+		itemstack:get_meta():set_string("active", "true")
+		return itemstack
+	end,
+	groups = {weapon=1,weapon_ranged=1,crossbow=5,enchantability=1,not_in_creative_inventory=1},
+	_mcl_uses = 326,
+	_mcl_burntime = 15
+})
+
+-- register_tool for rocket loaded crossbow
+minetest.register_tool("mcl_bows:crossbow_loaded_rocket", {
+	description = S("Crossbow"),
+	_tt_help = S("Launches rockets"),
+	_doc_items_longdesc = S("Crossbows are ranged weapons to shoot arrows at your foes.").."\n"..
+S("The speed and damage of the arrow increases the longer you charge. The regular damage of the arrow is between 1 and 9. At full charge, there's also a 20% of a critical hit, dealing 10 damage instead."),
+	_doc_items_usagehelp = S("To use the crossbow, you first need to have at least one arrow anywhere in your inventory (unless in Creative Mode). Hold down the right mouse button to charge, release to load an arrow into the chamber, then to shoot press left mouse."),
+	_doc_items_durability = BOW_DURABILITY,
+	inventory_image = "mcl_bows_crossbow_rocket.png",
 	wield_scale = mcl_vars.tool_wield_scale,
 	stack_max = 1,
 	range = 4,
@@ -206,9 +252,9 @@ end
 local function reset_bow_state(player, also_reset_bows)
 	bow_load[player:get_player_name()] = nil
 	bow_index[player:get_player_name()] = nil
-	if minetest.get_modpath("playerphysics") then
-		playerphysics.remove_physics_factor(player, "speed", "mcl_bows:use_crossbow")
-	end
+	-- if minetest.get_modpath("playerphysics") then
+	-- 	playerphysics.remove_physics_factor(player, "speed", "mcl_bows:use_crossbow")
+	-- end
 	if also_reset_bows then
 		reset_bows(player)
 	end
@@ -248,89 +294,105 @@ end
 
 
 controls.register_on_release(function(player, key)
-	if key~="RMB" and key~="zoom" then return end
-	--local inv = minetest.get_inventory({type="player", name=player:get_player_name()})
-	local wielditem = player:get_wielded_item()
-	if wielditem:get_name()=="mcl_bows:crossbow_2" and get_arrow(player) or wielditem:get_name()=="mcl_bows:crossbow_2" and minetest.is_creative_enabled(player:get_player_name()) or wielditem:get_name()=="mcl_bows:crossbow_2_enchanted" and get_arrow(player) or wielditem:get_name()=="mcl_bows:crossbow_2_enchanted" and minetest.is_creative_enabled(player:get_player_name()) then
-		local arrow_stack, arrow_stack_id = get_arrow(player)
-		local arrow_itemstring
+    if key~="RMB" and key~="zoom" then return end
+    local wielditem = player:get_wielded_item()
+    if wielditem:get_name()=="mcl_bows:crossbow_2" and get_ammunition(player) or wielditem:get_name()=="mcl_bows:crossbow_2" and minetest.is_creative_enabled(player:get_player_name()) or wielditem:get_name()=="mcl_bows:crossbow_2_enchanted" and get_ammunition(player) or wielditem:get_name()=="mcl_bows:crossbow_2_enchanted" and minetest.is_creative_enabled(player:get_player_name()) then
+        local arrow_stack, arrow_index, arrow_type = get_ammunition(player)
+        local arrow_itemstring
 
-		if minetest.is_creative_enabled(player:get_player_name()) then
-			if arrow_stack then
-				arrow_itemstring = arrow_stack:get_name()
-			else
-				arrow_itemstring = "mcl_bows:arrow"
-			end
-		else
-			arrow_itemstring = arrow_stack:get_name()
-			arrow_stack:take_item()
-			player:get_inventory():set_stack("main", arrow_stack_id, arrow_stack)
-		end
+        if minetest.is_creative_enabled(player:get_player_name()) then
+            if arrow_stack then
+                arrow_itemstring = arrow_stack:get_name()
+            else
+                arrow_itemstring = "mcl_bows:arrow"
+            end
+        else
+            arrow_itemstring = arrow_stack:get_name()
+            arrow_stack:take_item()
+            player:get_inventory():set_stack("main", arrow_index, arrow_stack)
+        end
 
-		wielditem:get_meta():set_string("arrow", arrow_itemstring)
+        wielditem:get_meta():set_string("arrow", arrow_itemstring)
 
+        -- if wielditem:get_name()=="mcl_bows:crossbow_2" then
+        --     wielditem:set_name("mcl_bows:crossbow_loaded")
+        -- else
+        --     wielditem:set_name("mcl_bows:crossbow_loaded_enchanted")
+        -- end
 		if wielditem:get_name()=="mcl_bows:crossbow_2" then
-			wielditem:set_name("mcl_bows:crossbow_loaded")
+			if arrow_type == "arrow" then
+				wielditem:set_name("mcl_bows:crossbow_loaded")
+			elseif arrow_type == "rocket" then
+				wielditem:set_name("mcl_bows:crossbow_loaded_rocket")
+			end
 		else
 			wielditem:set_name("mcl_bows:crossbow_loaded_enchanted")
 		end
-		player:set_wielded_item(wielditem)
-		minetest.sound_play("mcl_bows_crossbow_load", {pos=player:get_pos(), max_hear_distance=16}, true)
-	else
-		reset_bow_state(player, true)
-	end
+        player:set_wielded_item(wielditem)
+        minetest.sound_play("mcl_bows_crossbow_load", {pos=player:get_pos(), max_hear_distance=16}, true)
+    else
+        reset_bow_state(player, true)
+    end
 end)
 
 controls.register_on_press(function(player, key)
-	if key~="LMB" then return end
-		local wielditem = player:get_wielded_item()
-		if wielditem:get_name()=="mcl_bows:crossbow_loaded" or wielditem:get_name()=="mcl_bows:crossbow_loaded_enchanted" then
-		local enchanted = mcl_enchanting.is_enchanted(wielditem:get_name())
-		local speed, damage
-		local p_load = bow_load[player:get_player_name()]
-		-- Type sanity check
-		if type(p_load) ~= "number" then
-			-- In case something goes wrong ...
-			-- Just assume minimum charge.
-			minetest.log("warning", "[mcl_bows] Player "..player:get_player_name().." fires arrow with non-numeric bow_load!")
-		end
+    if key ~= "LMB" then return end
+    local wielditem = player:get_wielded_item()
+    if wielditem:get_name() == "mcl_bows:crossbow_loaded" or wielditem:get_name() == "mcl_bows:crossbow_loaded_enchanted" or wielditem:get_name() == "mcl_bows:crossbow_loaded_rocket" then
+        local ammunition_stack, ammunition_type = get_ammunition(player)
+        if not ammunition_stack then
+            minetest.chat_send_player(player:get_player_name(), S("No ammunition found!"))
+            return
+        end
 
-		-- Calculate damage and speed
-		-- Fully charged
-		local is_critical = false
-		speed = BOW_MAX_SPEED
-		local r = math.random(1,5)
-		if r == 1 then
-			-- 20% chance for critical hit
-			damage = 10
-			is_critical = true
-		else
-			damage = 9
-		end
+        local enchanted = mcl_enchanting.is_enchanted(wielditem:get_name())
+        local speed, damage
+        local p_load = bow_load[player:get_player_name()]
+        -- Type sanity check
+        if type(p_load) ~= "number" then
+            minetest.log("warning", "[mcl_bows] Player "..player:get_player_name().." fires arrow with non-numeric bow_load!")
+        end
 
-		local has_shot = player_shoot_arrow(wielditem, player, speed, damage, is_critical)
+        -- Calculate damage and speed
+        -- Fully charged
+        local is_critical = false
+        speed = BOW_MAX_SPEED
+        local r = math.random(1, 5)
+        if r == 1 then
+            -- 20% chance for critical hit
+            damage = 10
+            is_critical = true
+        else
+            damage = 9
+        end
 
-		if enchanted then
-			wielditem:set_name("mcl_bows:crossbow_enchanted")
-		else
-			wielditem:set_name("mcl_bows:crossbow")
-		end
+        if ammunition_type == "arrow" then
+            local has_shot = player_shoot_arrow(wielditem, player, speed, damage, is_critical)
+        elseif ammunition_type == "rocket" then
+            local has_shot = mcl_fireworks.shoot_rocket(ammunition_stack:get_name(), player:get_pos(), player:get_look_dir(), player:get_look_horizontal(), player, speed, damage, is_critical, wielditem, true)
+        end
 
-		if has_shot and not minetest.is_creative_enabled(player:get_player_name()) then
-			local durability = BOW_DURABILITY
-			local unbreaking = mcl_enchanting.get_enchantment(wielditem, "unbreaking")
-			local multishot = mcl_enchanting.get_enchantment(wielditem, "multishot")
-			if unbreaking > 0 then
-				durability = durability * (unbreaking + 1)
-			end
-			if multishot then
-				durability = durability / 3
-			end
-			wielditem:add_wear(65535/durability)
-		end
-		player:set_wielded_item(wielditem)
-		reset_bow_state(player, true)
-	end
+        if enchanted then
+            wielditem:set_name("mcl_bows:crossbow_enchanted")
+        else
+            wielditem:set_name("mcl_bows:crossbow")
+        end
+
+        if has_shot and not minetest.is_creative_enabled(player:get_player_name()) then
+            local durability = BOW_DURABILITY
+            local unbreaking = mcl_enchanting.get_enchantment(wielditem, "unbreaking")
+            local multishot = mcl_enchanting.get_enchantment(wielditem, "multishot")
+            if unbreaking > 0 then
+                durability = durability * (unbreaking + 1)
+            end
+            if multishot then
+                durability = durability / 3
+            end
+            wielditem:add_wear(65535 / durability)
+        end
+        player:set_wielded_item(wielditem)
+        reset_bow_state(player, true)
+    end
 end)
 
 controls.register_on_hold(function(player, key)
@@ -352,7 +414,7 @@ controls.register_on_hold(function(player, key)
 
 	if bow_load[name] == nil
 		and (wielditem:get_name()=="mcl_bows:crossbow" or wielditem:get_name()=="mcl_bows:crossbow_enchanted")
-		and (wielditem:get_meta():get("active") or key=="zoom") and (creative or get_arrow(player)) then
+		and (wielditem:get_meta():get("active") or key=="zoom") and (creative or get_ammunition(player)) then
 			local enchanted = mcl_enchanting.is_enchanted(wielditem:get_name())
 			if enchanted then
 				wielditem:set_name("mcl_bows:crossbow_0_enchanted")

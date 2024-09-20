@@ -17,7 +17,7 @@ mcl_trees.register_wood("oak",{
 		{ file = modpath.."/schematics/mcl_core_oak_classic.mts"},
 	},
 	tree = { tiles = {"default_log_top.png",
-	"default_log_top.png","default_tree.png"} },
+	"default_log_top.png","default_log.png"} },
 	leaves = {
 		tiles = { "default_leaves.png" },
 		color = "#77ab2f",
@@ -91,7 +91,7 @@ mcl_trees.register_wood("jungle",{
 		{ file = modpath.."/schematics/mcl_core_jungle_tree_huge_4.mts"},
 	},
 	tree = { tiles = {"default_log_top.png",
-	"default_log_top.png","default_jungletree.png"} },
+	"default_log_top.png","default_junglelog.png"} },
 	leaves = {
 		tiles = { "default_jungleleaves.png" },
 		color = "#30bb0b",
@@ -163,7 +163,7 @@ mcl_trees.register_wood("acacia",{
 		{ file = modpath.."/schematics/mcl_core_acacia_weirdo.mts"},
 	},
 	tree = { tiles = {"default_log_top.png",
-	"default_log_top.png","default_acacia_tree.png"} },
+	"default_log_top.png","default_acacia_log.png"} },
 	leaves = {
 		tiles = { "default_acacia_leaves.png" },
 		color = "#aea42a",

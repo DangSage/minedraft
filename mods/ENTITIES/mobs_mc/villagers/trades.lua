@@ -28,7 +28,6 @@ return {
 		name = S("Unemployed"),
 		textures = {
 				"mobs_mc_villager.png",
-				"mobs_mc_villager.png",
 			},
 		trades = nil,
 	},

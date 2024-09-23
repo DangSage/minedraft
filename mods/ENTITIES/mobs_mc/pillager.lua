@@ -5,7 +5,7 @@ local function reload(self)
 	minetest.sound_play("mcl_bows_crossbow_drawback_1", {object = self.object, max_hear_distance=16}, true)
 	local props = self.object:get_properties()
 	if not props then return end
-	props.textures[2] = "mcl_bows_crossbow_3.png^[resize:16x16"
+	props.textures[2] = "mcl_bows_crossbow_arrow.png^[resize:16x16"
 	self.object:set_properties(props)
 end
 
@@ -58,7 +58,7 @@ pillager = {
 	textures = {
 		{
 			"mobs_mc_pillager.png", -- Skin
-			"mcl_bows_crossbow_3.png^[resize:16x16", -- Wielded item
+			"mcl_bows_crossbow_arrow.png^[resize:16x16", -- Wielded item
 		}
 	},
 	drops = {

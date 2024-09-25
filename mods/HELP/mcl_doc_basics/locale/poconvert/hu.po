@@ -14,10 +14,10 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Advanced usage"
-msgstr ""
+msgstr "Haladó használat"
 
 msgid "Advanced information which may be nice to know, but is not crucial to gameplay"
-msgstr ""
+msgstr "További információk, melyeket jó tudni, de nem életbevágó a játékmenethez"
 
 msgid "Creative Mode"
 msgstr "Kreatív Mód"

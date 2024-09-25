@@ -4,6 +4,12 @@ local C = minetest.colorize
 mcl_jukebox = {}
 mcl_jukebox.registered_records = {}
 
+-- TODO: when < minetest 5.9 isn't supported anymore, remove this variable check and replace all occurences of [hud_elem_type_field] with type
+local hud_elem_type_field = "type"
+if not minetest.features.hud_def_type_field then
+	hud_elem_type_field = "hud_elem_type"
+end
+
 local HEAR_DISTANCE = 65
 
 -- Player name-indexed table containing the currently heard track
@@ -77,7 +83,7 @@ local function now_playing(player, name)
 		player:hud_change(id, "text", text)
 	else
 		id = player:hud_add({
-			hud_elem_type = "text",
+			[hud_elem_type_field] = "text",
 			position = { x=0.5, y=0.8 },
 			offset = { x=0, y = 0 },
 			number = 0x55FFFF,
@@ -105,10 +111,9 @@ local function check_active_tracks()
 	for k,v in pairs(active_tracks) do
 		local pos = minetest.get_position_from_hash(k)
 		local player_near = false
-		for _,pl in pairs(minetest.get_connected_players()) do
-			if vector.distance(pl:get_pos(), pos) <= HEAR_DISTANCE then
-				player_near = true
-			end
+		for _ in mcl_util.connected_players(pos, HEAR_DISTANCE) do
+			player_near = true
+			break
 		end
 		if not player_near then
 			minetest.sound_stop(v)
@@ -171,12 +176,12 @@ minetest.register_node("mcl_jukebox:jukebox", {
 		inv:set_size("main", 1)
 	end,
 	on_rightclick= function(pos, _, clicker, itemstack, _)
-		if not clicker then return end
+		if not clicker then return itemstack end
 		local cname = clicker:get_player_name()
 		local ph = minetest.hash_node_position(pos)
 		if minetest.is_protected(pos, cname) then
 			minetest.record_protection_violation(pos, cname)
-			return
+			return itemstack
 		end
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()

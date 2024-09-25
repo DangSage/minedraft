@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Sneak to dismount"
-msgstr "Se baisser pour descendre"
+msgstr "S'accroupir pour descendre"
 
 msgid "Boats are used to travel on the surface of water."
 msgstr "Les bateaux sont utilisés pour voyager à la surface de l'eau."

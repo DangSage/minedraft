@@ -2,17 +2,21 @@ local S = minetest.get_translator(minetest.get_current_modname())
 
 mcl_bells = {}
 
-local has_mcl_wip = minetest.get_modpath("mcl_wip")
-
 function mcl_bells.ring_once(pos)
 	local alarm_time = (minetest.get_timeofday() * 24000) % 24000
 
 	minetest.sound_play( "mcl_bells_bell_stroke", { pos = pos, gain = 1.5, max_hear_distance = 150,})
-	local vv=minetest.get_objects_inside_radius(pos,150)
-	for _,o in pairs(vv) do
+	for o in minetest.objects_inside_radius(pos, 32) do
 		local entity = o:get_luaentity()
 		if entity and entity.type and entity.type == "npc" then
-			entity._last_alarm = alarm_time
+		    entity._last_alarm = alarm_time
+		end
+
+		if entity and entity.is_mob and entity.raidmob then
+		    local distance = vector.distance (o:get_pos (), pos)
+		    if distance <= 48 then
+			mcl_potions.give_effect ("glowing", o, o, 1, 3)
+		    end
 		end
 	end
 end
@@ -47,7 +51,3 @@ minetest.register_node("mcl_bells:bell", {
 		rules = mesecon.rules.flat,
 	}},
 })
-
-if has_mcl_wip then
-	mcl_wip.register_wip_item("mcl_bells:bell")
-end

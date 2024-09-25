@@ -12,7 +12,7 @@ mcl_tools.register_set("wood", {
 }, {
     ["pick"] = {
         description = S("Wooden Pickaxe"),
-        inventory_image = "default_tool_woodpick.png",
+        inventory_image = "default_tool_wooden_pickaxe.png",
         tool_capabilities = {
             full_punch_interval = 0.83333333,
             damage_groups = { fleshy = 2 }
@@ -20,7 +20,7 @@ mcl_tools.register_set("wood", {
     },
     ["shovel"] = {
         description = S("Wooden Shovel"),
-        inventory_image = "default_tool_woodshovel.png",
+        inventory_image = "default_tool_wooden_shovel.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 2 }
@@ -28,7 +28,7 @@ mcl_tools.register_set("wood", {
     },
     ["sword"] = {
         description = S("Wooden Sword"),
-        inventory_image = "default_tool_woodsword.png",
+        inventory_image = "default_tool_wooden_sword.png",
         tool_capabilities = {
             full_punch_interval = 0.625,
             damage_groups = { fleshy = 4 }
@@ -36,7 +36,7 @@ mcl_tools.register_set("wood", {
     },
     ["axe"] = {
         description = S("Wooden Axe"),
-        inventory_image = "default_tool_woodaxe.png",
+        inventory_image = "default_tool_wooden_axe.png",
         tool_capabilities = {
             full_punch_interval = 1.25,
             damage_groups = { fleshy = 2 }
@@ -56,7 +56,7 @@ mcl_tools.register_set("stone", {
 }, {
     ["pick"] = {
         description = S("Stone Pickaxe"),
-        inventory_image = "default_tool_stonepick.png",
+        inventory_image = "default_tool_stone_pickaxe.png",
         tool_capabilities = {
             full_punch_interval = 0.83333333,
             damage_groups = { fleshy = 3 }
@@ -64,7 +64,7 @@ mcl_tools.register_set("stone", {
     },
     ["shovel"] = {
         description = S("Stone Shovel"),
-        inventory_image = "default_tool_stoneshovel.png",
+        inventory_image = "default_tool_stone_shovel.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 3 }
@@ -72,7 +72,7 @@ mcl_tools.register_set("stone", {
     },
     ["sword"] = {
         description = S("Stone Sword"),
-        inventory_image = "default_tool_stonesword.png",
+        inventory_image = "default_tool_stone_sword.png",
         tool_capabilities = {
             full_punch_interval = 0.625,
             damage_groups = { fleshy = 5 }
@@ -80,7 +80,7 @@ mcl_tools.register_set("stone", {
     },
     ["axe"] = {
         description = S("Stone Axe"),
-        inventory_image = "default_tool_stoneaxe.png",
+        inventory_image = "default_tool_stone_axe.png",
         tool_capabilities = {
             full_punch_interval = 1.25,
             damage_groups = { fleshy = 9 }
@@ -100,7 +100,7 @@ mcl_tools.register_set("iron", {
 }, {
     ["pick"] = {
         description = S("Iron Pickaxe"),
-        inventory_image = "default_tool_steelpick.png",
+        inventory_image = "default_tool_iron_pickaxe.png",
         tool_capabilities = {
             full_punch_interval = 0.83333333,
             damage_groups = { fleshy = 4 }
@@ -108,7 +108,7 @@ mcl_tools.register_set("iron", {
     },
     ["shovel"] = {
         description = S("Iron Shovel"),
-        inventory_image = "default_tool_steelshovel.png",
+        inventory_image = "default_tool_iron_shovel.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 4 }
@@ -116,7 +116,7 @@ mcl_tools.register_set("iron", {
     },
     ["sword"] = {
         description = S("Iron Sword"),
-        inventory_image = "default_tool_steelsword.png",
+        inventory_image = "default_tool_iron_sword.png",
         tool_capabilities = {
             full_punch_interval = 0.625,
             damage_groups = { fleshy = 6 }
@@ -124,7 +124,7 @@ mcl_tools.register_set("iron", {
     },
     ["axe"] = {
         description = S("Iron Axe"),
-        inventory_image = "default_tool_steelaxe.png",
+        inventory_image = "default_tool_iron_axe.png",
         tool_capabilities = {
             full_punch_interval = 1.11111111,
             damage_groups = { fleshy = 9 }
@@ -144,7 +144,7 @@ mcl_tools.register_set("gold", {
 }, {
     ["pick"] = {
         description = S("Golden Pickaxe"),
-        inventory_image = "default_tool_goldpick.png",
+        inventory_image = "default_tool_golden_pickaxe.png",
         tool_capabilities = {
             full_punch_interval = 0.83333333,
             damage_groups = { fleshy = 2 }
@@ -152,7 +152,7 @@ mcl_tools.register_set("gold", {
     },
     ["shovel"] = {
         description = S("Golden Shovel"),
-        inventory_image = "default_tool_goldshovel.png",
+        inventory_image = "default_tool_golden_shovel.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 2 }
@@ -160,7 +160,7 @@ mcl_tools.register_set("gold", {
     },
     ["sword"] = {
         description = S("Golden Sword"),
-        inventory_image = "default_tool_goldsword.png",
+        inventory_image = "default_tool_golden_sword.png",
         tool_capabilities = {
             full_punch_interval = 0.625,
             damage_groups = { fleshy = 4 }
@@ -168,7 +168,7 @@ mcl_tools.register_set("gold", {
     },
     ["axe"] = {
         description = S("Golden Axe"),
-        inventory_image = "default_tool_goldaxe.png",
+        inventory_image = "default_tool_golden_axe.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 7 }
@@ -188,7 +188,7 @@ mcl_tools.register_set("diamond", {
 }, {
     ["pick"] = {
         description = S("Diamond Pickaxe"),
-        inventory_image = "default_tool_diamondpick.png",
+        inventory_image = "default_tool_diamond_pickaxe.png",
         tool_capabilities = {
             full_punch_interval = 0.83333333,
             damage_groups = { fleshy = 5 }
@@ -198,7 +198,7 @@ mcl_tools.register_set("diamond", {
     },
     ["shovel"] = {
         description = S("Diamond Shovel"),
-        inventory_image = "default_tool_diamondshovel.png",
+        inventory_image = "default_tool_diamond_shovel.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 5 }
@@ -208,7 +208,7 @@ mcl_tools.register_set("diamond", {
     },
     ["sword"] = {
         description = S("Diamond Sword"),
-        inventory_image = "default_tool_diamondsword.png",
+        inventory_image = "default_tool_diamond_sword.png",
         tool_capabilities = {
             full_punch_interval = 0.625,
             damage_groups = { fleshy = 7 }
@@ -218,7 +218,7 @@ mcl_tools.register_set("diamond", {
     },
     ["axe"] = {
         description = S("Diamond Axe"),
-        inventory_image = "default_tool_diamondaxe.png",
+        inventory_image = "default_tool_diamond_axe.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 9 }
@@ -240,7 +240,7 @@ mcl_tools.register_set("netherite", {
 }, {
     ["pick"] = {
         description = S("Netherite Pickaxe"),
-        inventory_image = "default_tool_netheritepick.png",
+        inventory_image = "default_tool_netherite_pickaxe.png",
         tool_capabilities = {
             full_punch_interval = 0.83333333,
             damage_groups = { fleshy = 6 }
@@ -248,7 +248,7 @@ mcl_tools.register_set("netherite", {
     },
     ["shovel"] = {
         description = S("Netherite Shovel"),
-        inventory_image = "default_tool_netheriteshovel.png",
+        inventory_image = "default_tool_netherite_shovel.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 6 }
@@ -256,7 +256,7 @@ mcl_tools.register_set("netherite", {
     },
     ["sword"] = {
         description = S("Netherite Sword"),
-        inventory_image = "default_tool_netheritesword.png",
+        inventory_image = "default_tool_netherite_sword.png",
         tool_capabilities = {
             full_punch_interval = 0.625,
             damage_groups = { fleshy = 9 }
@@ -264,7 +264,7 @@ mcl_tools.register_set("netherite", {
     },
     ["axe"] = {
         description = S("Netherite Axe"),
-        inventory_image = "default_tool_netheriteaxe.png",
+        inventory_image = "default_tool_netherite_axe.png",
         tool_capabilities = {
             full_punch_interval = 1,
             damage_groups = { fleshy = 10 }

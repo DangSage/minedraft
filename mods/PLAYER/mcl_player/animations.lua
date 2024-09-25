@@ -40,12 +40,11 @@ end
 local function player_collision(player)
 
 	local pos = player:get_pos()
-	--local vel = player:get_velocity()
 	local x = 0
 	local z = 0
 	local width = .75
 
-	for _,object in pairs(minetest.get_objects_inside_radius(pos, width)) do
+	for object in minetest.objects_inside_radius(pos, width) do
 
 		local ent = object:get_luaentity()
 		if (object:is_player() or (ent and ent.is_mob and object ~= player)) then
@@ -201,7 +200,7 @@ end
 
 function mcl_player.get_player_formspec_model(player, x, y, w, h, fsname)
 	local model = mcl_player.players[player].model
-	local anim = mcl_player.registered_player_models[model].animations[mcl_player.players[player].animation]
+	local anim = mcl_player.registered_player_models[model].animations["stand"]
 	local textures = table.copy(mcl_player.players[player].textures)
 	if not mcl_player.players[player].visible then
 		textures[1] = "blank.png"

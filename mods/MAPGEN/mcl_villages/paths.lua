@@ -119,7 +119,7 @@ function mcl_villages.store_path_ends(minp, maxp, pos, _, blockseed, bell_pos)
 
 	for _, epos in pairs(path_end_nodes) do
 		table.insert(path_ends["block_" .. blockseed][dist], minetest.pos_to_string(epos))
-		minetest.set_node(epos, { name = "air" })
+		minetest.swap_node(epos, { name = "air" })
 	end
 end
 
@@ -387,7 +387,7 @@ function mcl_villages.paths_new(blockseed, biome_name)
 				{ "mcl_villages:no_paths" }
 			)
 			if #no_paths_nodes > 0 then
-				minetest.bulk_set_node(no_paths_nodes, { name = "air" })
+				mcl_util.bulk_swap_node(no_paths_nodes, { name = "air" })
 			end
 		end
 	end

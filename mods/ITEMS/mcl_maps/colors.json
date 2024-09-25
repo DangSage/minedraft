@@ -4864,7 +4864,7 @@
 		166,
 		77
 	],
-	"mcl_bows_crossbow_arrow.png": [
+	"mcl_bows_crossbow_2.png": [
 		100,
 		82,
 		66
@@ -4894,7 +4894,7 @@
 		129,
 		121
 	],
-	"mcl_bows_crossbow_2.png": [
+	"mcl_bows_crossbow_3.png": [
 		103,
 		87,
 		73
@@ -8669,11 +8669,6 @@
 		126,
 		122
 	],
-	"mcl_core_stripped_birch_top.png": [
-		170,
-		135,
-		108
-	],
 	"mcl_core_stripped_acacia_side.png": [
 		151,
 		90,
@@ -8788,11 +8783,6 @@
 		202,
 		189,
 		167
-	],
-	"mcl_core_stripped_oak_top.png": [
-		153,
-		115,
-		80
 	],
 	"mcl_core_light_2.png": [
 		160,
@@ -8913,11 +8903,6 @@
 		241,
 		126,
 		164
-	],
-	"mcl_core_log_big_oak_top.png": [
-		83,
-		70,
-		62
 	],
 	"mcl_core_dirt_podzol_side.png": [
 		99,
@@ -9084,11 +9069,6 @@
 		110,
 		56
 	],
-	"mcl_core_stripped_jungle_top.png": [
-		170,
-		113,
-		83
-	],
 	"mcl_core_glass_brown_detail.png": [
 		101,
 		75,
@@ -9124,16 +9104,6 @@
 		113,
 		109
 	],
-	"mcl_core_stripped_spruce_top.png": [
-		107,
-		79,
-		64
-	],
-	"mcl_core_log_spruce_top.png": [
-		97,
-		71,
-		57
-	],
 	"default_acacia_wood.png": [
 		152,
 		100,
@@ -9158,11 +9128,6 @@
 		126,
 		62,
 		178
-	],
-	"mcl_core_log_spruce.png": [
-		66,
-		51,
-		44
 	],
 	"default_acacia_tree.png": [
 		105,
@@ -9239,11 +9204,6 @@
 		211,
 		231
 	],
-	"mcl_core_stripped_acacia_top.png": [
-		157,
-		98,
-		62
-	],
 	"mcl_core_sandstone_carved.png": [
 		199,
 		152,
@@ -9273,11 +9233,6 @@
 		215,
 		126,
 		50
-	],
-	"mcl_core_log_birch_top.png": [
-		155,
-		130,
-		112
 	],
 	"mcl_core_light_4.png": [
 		182,
@@ -9313,11 +9268,6 @@
 		110,
 		110,
 		110
-	],
-	"mcl_core_log_big_oak.png": [
-		74,
-		62,
-		55
 	],
 	"default_steel_block.png": [
 		159,
@@ -9368,11 +9318,6 @@
 		13,
 		9,
 		25
-	],
-	"mcl_core_stripped_dark_oak_top.png": [
-		90,
-		78,
-		68
 	],
 	"mcl_core_red_sandstone_top.png": [
 		212,
@@ -9548,11 +9493,6 @@
 		147,
 		198,
 		227
-	],
-	"mcl_core_log_birch.png": [
-		194,
-		184,
-		174
 	],
 	"default_water_flowing_animated.png": [
 		38,

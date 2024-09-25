@@ -41,44 +41,44 @@ msgid "A block used for compact raw copper storage."
 msgstr "Un bloc utilisé pour le stockage compact de cuivre brut."
 
 msgid "Exposed"
-msgstr ""
+msgstr "Exposé"
 
 msgid "Weathered"
-msgstr ""
+msgstr "Érodé"
 
 msgid "Oxidized"
-msgstr ""
+msgstr "Oxydé"
 
 msgid "Block of"
-msgstr ""
+msgstr "Bloc de"
 
 msgid "@1 Copper"
-msgstr ""
+msgstr "@1 Cuivre"
 
 msgid "@1 copper is mostly a decorative block."
-msgstr ""
+msgstr "@1 cuivre est un bloc majoritairement décoratif."
 
 msgid "@1 Cut Copper"
-msgstr ""
+msgstr "@1 Cuivre Taillé"
 
 msgid "@1 Chiseled Copper"
-msgstr ""
+msgstr "@1 Cuivre Ciselé"
 
 msgid "@1 Chiseled copper is mostly a decorative block."
-msgstr ""
+msgstr "@1 Cuivre Ciselé est majoritairement un bloc décoratif."
 
 msgid "@1 Copper Grate"
-msgstr ""
+msgstr "@1 Grille en cuivre"
 
 msgid "@1 Copper Bulb On"
-msgstr ""
+msgstr "@1 Ampoule en Cuivre allumée"
 
 msgid "@1 Copper Bulb"
-msgstr ""
+msgstr "@1 Ampoule en Cuivre"
 
 msgid "@1 Copper Trapdoor"
-msgstr ""
+msgstr "@1 Trappe en Cuivre"
 
 msgid "@1 Copper Door"
-msgstr ""
+msgstr "@1 Porte en Cuivre"
 

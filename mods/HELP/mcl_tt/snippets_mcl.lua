@@ -103,3 +103,47 @@ tt.register_snippet(function(itemstring, _, itemstack)
 		return S("Durability: @1", S("@1 uses", mcl_util.calculate_durability(itemstack or ItemStack(itemstring))))
 	end
 end)
+
+
+-- Potions info
+tt.register_snippet(function(itemstring, _, itemstack)
+	if not itemstack then return end
+	local def = itemstack:get_definition()
+	if def.groups._mcl_potion ~= 1 then return end
+
+	local s = ""
+	local meta = itemstack:get_meta()
+	local potency = meta:get_int("mcl_potions:potion_potent")
+	local plus = meta:get_int("mcl_potions:potion_plus")
+	local sl_factor = 1
+	if def.groups.splash_potion == 1 then
+		sl_factor = mcl_potions.SPLASH_FACTOR
+	elseif def.groups.ling_potion == 1 then
+		sl_factor = mcl_potions.LINGERING_FACTOR
+	end
+	if def._dynamic_tt then s = s.. def._dynamic_tt((potency+1)*sl_factor).. "\n" end
+	local effects = def._effect_list
+	if effects then
+		local effect
+		local dur
+		local timestamp
+		local ef_level
+		local roman_lvl
+		local factor
+		local ef_tt
+		for name, details in pairs(effects) do
+			effect = mcl_potions.registered_effects[name]
+			dur = mcl_potions.duration_from_details (details, potency,
+								 plus, sl_factor)
+			timestamp = math.floor(dur/60)..string.format(":%02d",math.floor(dur % 60))
+			ef_level = mcl_potions.level_from_details (details, potency)
+			if ef_level > 1 then roman_lvl = " ".. mcl_util.to_roman(ef_level)
+			else roman_lvl = "" end
+			s = s.. effect.description.. roman_lvl.. " (".. timestamp.. ")\n"
+			if effect.uses_factor then factor = effect.level_to_factor(ef_level) end
+			if effect.get_tt then ef_tt = minetest.colorize("grey", effect.get_tt(factor)) else ef_tt = "" end
+			if ef_tt ~= "" then s = s.. ef_tt.. "\n" end
+		end
+	end
+	return s:trim()
+end)

@@ -14,17 +14,17 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Firework Rocket"
-msgstr "Fusée"
+msgstr "Fusée de Feu d'Artifice"
 
 msgid "@1s power left. Not using rocket."
-msgstr ""
+msgstr "@1s puissance restante. Fusée non utilisée."
 
 msgid "Elytra not deployed. Jump while falling down to deploy."
-msgstr ""
+msgstr "Élytres non déployées. Sautez au cours d'une chute pour les déployer."
 
 msgid "Elytra not equipped."
-msgstr ""
+msgstr "Élytres non équipées."
 
 msgid "Flight Duration: @1s"
-msgstr ""
+msgstr "Durée du vol : @1s"
 

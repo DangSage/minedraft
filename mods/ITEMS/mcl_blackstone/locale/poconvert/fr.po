@@ -14,10 +14,10 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Blackstone"
-msgstr "Roche noire"
+msgstr "Noirepierre"
 
 msgid "Gilded Blackstone"
-msgstr "Roche noire dorée"
+msgstr "Noirpierre dorée"
 
 msgid "Nether Gold Ore"
 msgstr "Minerai d'or du Nether"
@@ -32,16 +32,16 @@ msgid "Smooth Basalt"
 msgstr "Basalte lisse"
 
 msgid "Polished Blackstone"
-msgstr "Pierre noire"
+msgstr "Noirpierre polie"
 
 msgid "Chiseled Polished Blackstone"
-msgstr "Pierre noire sculptée"
+msgstr "Noirpierre polie ciselée"
 
 msgid "Polished Blackstone Bricks"
-msgstr "Briques de pierre noire"
+msgstr "Briques de Noirpierre polie"
 
 msgid "Cracked Polished Blackstone Bricks"
-msgstr ""
+msgstr "Briques de Noirpierre polie craquelée"
 
 msgid "Quartz Bricks"
 msgstr "Briques de quartz"
@@ -53,29 +53,29 @@ msgid "Eternal Soul Fire"
 msgstr "Feu éternel des âmes"
 
 msgid "Blackstone Stairs"
-msgstr "Escalier en pierre noire"
+msgstr "Escalier de Noirpierre"
 
 msgid "Blackstone Slab"
-msgstr "Dalle de roche noire"
+msgstr "Dalle de Noirpierre"
 
 msgid "Polished Blackstone Stairs"
-msgstr "Escalier en pierre noire taillée"
+msgstr "Escalier de Noirpierre polie"
 
 msgid "Polished Blackstone Slab"
-msgstr "Dalle de pierre noire"
+msgstr "Dalle de Noirpierre polie"
 
 msgid "Blackstone Brick Stairs"
-msgstr "Escalier en brique de pierre noire"
+msgstr "Escalier en briques de Noirpierre"
 
 msgid "Blackstone Brick Slab"
-msgstr "Dalle en pierre noire"
-
-msgid "Blackstone Wall"
-msgstr "Muret de Roche noire"
+msgstr "Dalle en briques de Noirpierre"
 
 msgid "Soul Torch"
 msgstr "Torche des âmes"
 
 msgid "Torches are light sources which can be placed at the side or on the top of most blocks."
 msgstr "Les torches sont des sources de lumière qui peuvent être placées sur le côté ou au sommet de la plupart des blocs."
+
+msgid "Blackstone Wall"
+msgstr "Muret de Noirpierre"
 

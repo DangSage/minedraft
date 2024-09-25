@@ -1,14 +1,6 @@
--- See README.txt for licensing and other information.
 local modname = minetest.get_current_modname()
 local S = minetest.get_translator(modname)
 local modpath = minetest.get_modpath(modname)
-
--- Compatibility with old bucket mod
-minetest.register_alias("bucket:bucket_empty", "mcl_buckets:bucket_empty")
-minetest.register_alias("bucket:bucket_water", "mcl_buckets:bucket_water")
-minetest.register_alias("bucket:bucket_lava", "mcl_buckets:bucket_lava")
-
-local mod_doc = minetest.get_modpath("doc")
 
 minetest.register_craft({
 	output = "mcl_buckets:bucket_empty 1",
@@ -115,19 +107,13 @@ local function get_bucket_drop(itemstack, user, take_bucket)
 end
 
 local function bucket_get_pointed_thing(user)
-	local start = user:get_pos()
-	start.y = start.y + user:get_properties().eye_height
-	local look_dir = user:get_look_dir()
-	local _end = vector.add(start, vector.multiply(look_dir, 5))
-
-	local ray = minetest.raycast(start, _end, false, true)
-	for pointed_thing in ray do
+	return mcl_util.get_pointed_thing(user, false, true, function(pointed_thing)
 		local name = minetest.get_node(pointed_thing.under).name
 		local def = minetest.registered_nodes[name]
-		if not def or def.drawtype ~= "flowingliquid" then
-			return pointed_thing
+		if not def or def.drawtype == "flowingliquid" then
+			return true
 		end
-	end
+	end)
 end
 
 local function on_place_bucket(itemstack, user, _)
@@ -160,17 +146,14 @@ local function on_place_bucket(itemstack, user, _)
 				local node_place = get_node_place(bucket_def.source_place, pos)
 				local player_name = user:get_player_name()
 
-				-- Check protection
 				if minetest.is_protected(pos, player_name) then
 					minetest.record_protection_violation(pos, player_name)
 					return itemstack
 				end
 
-				-- Place liquid
 				place_liquid(pos, node_place)
 
-				-- Update doc mod
-				if mod_doc and doc.entry_exists("nodes", node_place) then
+				if doc.entry_exists("nodes", node_place) then
 					doc.mark_entry_as_revealed(user:get_player_name(), "nodes", node_place)
 				end
 			end
@@ -188,18 +171,18 @@ local function on_place_bucket_empty(itemstack, user, _)
 		return itemstack
 	end
 
-	-- Call on_rightclick if the pointed node defines it
-	local new_stack = mcl_util.call_on_rightclick(itemstack, user, pointed_thing)
-	if new_stack then
-		return new_stack
-	end
-
 	local new_bucket = false
 	local under = pointed_thing.under
 	local node_name = minetest.get_node(under).name
 	local def = minetest.registered_nodes[node_name]
 	if def and def._on_bucket_place_empty then
 		return def._on_bucket_place_empty(itemstack,user,pointed_thing)
+	end
+
+	-- Call on_rightclick if the pointed node defines it
+	local new_stack = mcl_util.call_on_rightclick(itemstack, user, pointed_thing)
+	if new_stack then
+		return new_stack
 	end
 	if pointable_sources[node_name] then
 		if minetest.is_protected(under, user:get_player_name()) then
@@ -217,14 +200,12 @@ local function on_place_bucket_empty(itemstack, user, _)
 			minetest.set_node(under, {name="air"})
 			sound_take(node_name, under)
 
-			if mod_doc and doc.entry_exists("nodes", node_name) then
+			if doc.entry_exists("nodes", node_name) then
 				doc.mark_entry_as_revealed(user:get_player_name(), "nodes", node_name)
 			end
 			if new_bucket then
 				return give_bucket(new_bucket, itemstack, user)
 			end
-		else
-			minetest.log("error", string.format("[mcl_buckets] Node [%s] has invalid group [_mcl_bucket_pointable]!", node_name))
 		end
 		return itemstack
 	else
@@ -251,9 +232,7 @@ function mcl_buckets.register_liquid(def)
 
 	mcl_buckets.buckets[def.bucketname] = def
 
-	if def.bucketname == nil or def.bucketname == "" then
-		error(string.format("[mcl_bucket] Invalid itemname then registering [%s]!", def.name))
-	end
+	assert(def.bucketname and def.bucketname ~= "", string.format("[mcl_bucket] Invalid itemname then registering [%s]!", def.name))
 
 	minetest.register_craftitem(def.bucketname, {
 		description = def.name,

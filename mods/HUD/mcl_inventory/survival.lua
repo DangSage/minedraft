@@ -105,6 +105,9 @@ local main_page_static = table.concat({
 	mcl_formspec.get_itemslot_bg_v4(10.375, 1, 1, 1),
 	"list[current_player;craftpreview;10.375,1;1,1;]",
 
+	"image_button[9.125,2.125;1,1;mcl_crafting_table_inv_fill.png;__mcl_crafting_fillgrid;]",
+	"tooltip[__mcl_crafting_fillgrid;" .. F(S("Fill Craft Grid")) .. "]",
+
 	--Crafting guide button
 	"image_button[6.575,4.075;1.1,1.1;craftguide_book.png;__mcl_craftguide;]",
 	"tooltip[__mcl_craftguide;" .. F(S("Recipe book")) .. "]",

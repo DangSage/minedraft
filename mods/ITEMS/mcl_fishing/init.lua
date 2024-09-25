@@ -275,11 +275,9 @@ local flying_bobber_ENTITY={
 		visual_size = {x=0.5, y=0.5},
 		collisionbox = {0,0,0,0,0,0},
 		pointable = false,
+		static_save = false,
 	},
 	timer=0,
-
-	get_staticdata = mcl_throwing.get_staticdata,
-	on_activate = mcl_throwing.on_activate,
 
 	_lastpos={},
 	_thrower = nil,
@@ -288,6 +286,10 @@ local flying_bobber_ENTITY={
 
 -- Movement function of flying bobber
 local function flying_bobber_on_step(self, dtime)
+	if not self._thrower then
+		self.object:remove()
+		return
+	end
 	self.timer=self.timer+dtime
 	local pos = self.object:get_pos()
 	local node = minetest.get_node(pos)
@@ -299,7 +301,7 @@ local function flying_bobber_on_step(self, dtime)
 		return
 	end
 
-	for _, obj in pairs(minetest.get_objects_inside_radius(pos, 0.4)) do
+	for obj in minetest.objects_inside_radius(pos, 0.4) do
 		local ent = obj:get_luaentity()
 		if ent and ent._mcl_fishing_hookable then
 			bobbers[player] = minetest.add_entity(ent.object:get_pos(), "mcl_fishing:bobber_entity")

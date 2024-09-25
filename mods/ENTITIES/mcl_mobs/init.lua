@@ -55,6 +55,7 @@ mcl_mobs.mob_class = {
 	water_damage = 0,
 	lava_damage = 8,
 	fire_damage = 1,
+	_mcl_freeze_damage = 2,
 	suffocation = true,
 	fall_damage = 1,
 	fall_speed = -9.81 * 1.5,
@@ -124,6 +125,8 @@ mcl_mobs.mob_class = {
 	player_active_range = tonumber(minetest.settings:get("mcl_mob_active_range")) or 48,
 	persist_in_peaceful = true,
 	wears_armor = false,
+	steer_class = "controls",
+	steer_item = nil,
 
 	_mcl_fishing_hookable = true,
 	_mcl_fishing_reelable = true,
@@ -317,10 +320,12 @@ function mcl_mobs.register_mob(name, def)
 			self:set_properties({
 				collide_with_objects = false,
 			})
+			self._physics_factors = {}
 
 			self._timers = {}
 			return self:mob_activate(staticdata, dtime)
 		end,
+		_spawner = def._spawner,
 	}),mcl_mobs.mob_class_meta)
 
 	mcl_mobs.registered_mobs[name] = final_def

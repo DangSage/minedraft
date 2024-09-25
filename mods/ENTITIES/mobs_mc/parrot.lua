@@ -46,17 +46,15 @@ local function imitate_mob_sound(self,mob)
 end
 
 local function check_mobimitate(self,dtime)
-	if not self._mobimitate_timer or self._mobimitate_timer > 30 then
-		self._mobimitate_timer = 0
-		for _,o in pairs(minetest.get_objects_inside_radius(self.object:get_pos(),20)) do
-			local l = o:get_luaentity()
-			if l and l.is_mob and l.name ~= "mobs_mc:parrot" then
-				imitate_mob_sound(self,l)
-				return
-			end
+	if not self:check_timer("mobimitate", 30) then return end
+
+	for o in minetest.objects_inside_radius(self.object:get_pos(), 20) do
+		local l = o:get_luaentity()
+		if l and l.is_mob and l.name ~= "mobs_mc:parrot" then
+			imitate_mob_sound(self,l)
+			return
 		end
 	end
-	self._mobimitate_timer = self._mobimitate_timer + dtime
 
 end
 
@@ -93,7 +91,7 @@ end
 
 local function check_perch(self,dtime)
 	if self.object:get_attach() then
-		for _,p in pairs(minetest.get_connected_players()) do
+		for p in mcl_util.connected_players() do
 			for _,o in pairs(p:get_children()) do
 				local l = o:get_luaentity()
 				if l and l.name == "mobs_mc:parrot" then
@@ -109,7 +107,7 @@ local function check_perch(self,dtime)
 			end
 		end
 	elseif not self.detach_timer then
-		for _,p in pairs(minetest.get_connected_players()) do
+		for p in mcl_util.connected_players() do
 			if vector.distance(self.object:get_pos(),p:get_pos()) < 0.5 then
 				perch(self,p)
 				return

@@ -161,7 +161,7 @@ msgid "Smithing Template"
 msgstr "Plantilla de herrería"
 
 msgid "@1 Armor Trim"
-msgstr "@1 Adorno de Armadura"
+msgstr "Adorno de armadura @1"
 
 msgid "Applies to:"
 msgstr "Se aplica a:"

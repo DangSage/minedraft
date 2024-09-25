@@ -25,6 +25,14 @@ local creeper_defs = {
 	runaway_from = { "mobs_mc:ocelot", "mobs_mc:cat" },
 	attack_type = "explode",
 	maxdrops = 2,
+	sounds = {
+		attack = "tnt_ignite",
+		death = "mobs_mc_creeper_death",
+		damage = "mobs_mc_creeper_hurt",
+		fuse = "tnt_ignite",
+		explode = "tnt_explode",
+		distance = 16,
+	},
 	drops = {
 		{name = "mcl_mobitems:gunpowder",
 		chance = 1,
@@ -87,19 +95,25 @@ local creeper_defs = {
 	end,
 	on_die = function(_, pos, cmi_cause)
 		-- Drop a random music disc when killed by skeleton or stray
-		if cmi_cause and cmi_cause.type == "punch" then
-			local luaentity = cmi_cause.puncher and cmi_cause.puncher:get_luaentity()
-			if luaentity and luaentity.name:find("arrow") then
-				local shooter_luaentity = luaentity._shooter and luaentity._shooter:get_luaentity()
-				if shooter_luaentity and (shooter_luaentity.name == "mobs_mc:skeleton" or shooter_luaentity.name == "mobs_mc:stray") then
-					local loot = mcl_jukebox.get_random_creeper_loot()
-					if loot then
-						minetest.add_item({x=pos.x, y=pos.y+1, z=pos.z}, loot)
-					end
+		if cmi_cause and cmi_cause.type == "arrow" then
+			if cmi_cause.mob_name == "mobs_mc:skeleton" or cmi_cause.mob_name == "mobs_mc:stray" then
+				local loot = mcl_jukebox.get_random_creeper_loot()
+				if loot then
+					minetest.add_item({x=pos.x, y=pos.y+1, z=pos.z}, loot)
 				end
 			end
 		end
-	end
+	end,
+	on_attack = function (self)
+	    -- Dissipate active status effects.
+	    local pos = self.object:get_pos ()
+	    for name, val in pairs (mcl_potions.all_effects (self.object)) do
+		local level = mcl_potions.get_effect_level (self.object,
+							    name)
+		mcl_potions.add_lingering_effect (pos, name, val.dur / 2,
+						  level, 2.5)
+	    end
+	end,
 }
 
 

@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "Sneak to dismount"
-msgstr "Guggolj a kiszálláshoz"
+msgstr "Guggolj, hogy leszereld"
 
 msgid "Boats are used to travel on the surface of water."
 msgstr "Csónakkal a víz felszínén közlekedhetsz."

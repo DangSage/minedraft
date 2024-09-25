@@ -192,6 +192,7 @@ function mobs_mc.spawn_trader_llama(pos, wt)
 		l.base_texture = tx
 		l.following = wt
 		l._follow_trader = wt._id
+		l.can_despawn = true
 		o:set_properties({
 			textures = tx,
 		})
@@ -230,7 +231,7 @@ local function attempt_trader_spawn(manual)
 	if not exists and math.random(100) < current_chance then
 		current_chance = 25
 		local ow_players = {}
-		for _, pl in pairs(minetest.get_connected_players()) do
+		for pl in mcl_util.connected_players() do
 			if mcl_worlds.pos_to_dimension(pl:get_pos()) == "overworld" then
 				table.insert(ow_players, pl)
 			end

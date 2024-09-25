@@ -8,7 +8,6 @@ mcl_enchanting = {
 	book_animation_steps = {0, 640, 680, 700, 740},
 	book_animation_loop = {["open"] = true, ["close"] = true},
 	book_animation_speed = 40,
-	roman_numerals = dofile(modpath .. "/roman_numerals.lua"), 			-- https://exercism.io/tracks/lua/exercises/roman-numerals/solutions/73c2fb7521e347209312d115f872fa49
 	enchantments = {},
 	overlay = "^[colorize:purple:50",
 	--overlay = "^[invert:rgb^[multiply:#4df44d:50^[invert:rgb",
@@ -152,9 +151,7 @@ minetest.register_alias("mcl_books:book_enchanted", "mcl_enchanting:book_enchant
 local function spawn_book_entity(pos, respawn)
 	if respawn then
 		-- Check if we already have a book
-		local objs = minetest.get_objects_inside_radius(pos, 1)
-		for o=1, #objs do
-			local obj = objs[o]
+		for obj in minetest.objects_inside_radius(pos, 1) do
 			local lua = obj:get_luaentity()
 			if lua and lua.name == "mcl_enchanting:book" then
 				if lua._table_pos and vector.equals(pos, lua._table_pos) then
@@ -193,7 +190,7 @@ minetest.register_entity("mcl_enchanting:book", {
 		local old_player_near = self._player_near
 		local player_near = false
 		local player
-		for _, obj in pairs(minetest.get_objects_inside_radius(vector.subtract(self.object:get_pos(), mcl_enchanting.book_offset), 2.5)) do
+		for obj in minetest.objects_inside_radius(vector.subtract(self.object:get_pos(), mcl_enchanting.book_offset), 2.5) do
 			if obj:is_player() then
 				player_near = true
 				player = obj
@@ -241,7 +238,7 @@ minetest.register_node("mcl_enchanting:table", {
 	sounds = mcl_sounds.node_sound_stone_defaults(),
 	groups = {pickaxey = 2, deco_block = 1},
 	on_rotate = rotate,
-	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing) ---@diagnostic disable-line: unused-local
+	on_rightclick = function(pos, _, clicker)
 		local player_meta = clicker:get_meta()
 		--local table_meta = minetest.get_meta(pos)
 		--local num_bookshelves = table_meta:get_int("mcl_enchanting:num_bookshelves")
@@ -278,9 +275,7 @@ minetest.register_node("mcl_enchanting:table", {
 		meta:set_string("description", itemmeta:get_string("description"))
 	end,
 	after_destruct = function(pos)
-		local objs = minetest.get_objects_inside_radius(pos, 1)
-		for o=1, #objs do
-			local obj = objs[o]
+		for obj in minetest.objects_inside_radius(pos, 1) do
 			local lua = obj:get_luaentity()
 			if lua and lua.name == "mcl_enchanting:book" then
 				if lua._table_pos and vector.equals(pos, lua._table_pos) then
@@ -310,7 +305,7 @@ minetest.register_abm({
 	nodenames = "mcl_enchanting:table",
 	action = function(pos)
 		local playernames = {}
-		for _, obj in pairs(minetest.get_objects_inside_radius(pos, 15)) do
+		for obj in minetest.objects_inside_radius(pos, 15) do
 			if obj:is_player() then
 				table.insert(playernames, obj:get_player_name())
 			end

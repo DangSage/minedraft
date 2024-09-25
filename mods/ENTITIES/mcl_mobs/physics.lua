@@ -27,9 +27,9 @@ local function within_limits(pos, radius)
 end
 
 function mob_class:player_in_active_range()
-	for _,p in pairs(minetest.get_connected_players()) do
-		if vector.distance(self.object:get_pos(),p:get_pos()) <= self.player_active_range then return true end
+	for _ in mcl_util.connected_players(self.object:get_pos(), self.player_active_range) do
 		-- slightly larger than the mc 32 since mobs spawn on that circle and easily stand still immediately right after spawning.
+		return true
 	end
 end
 
@@ -157,8 +157,8 @@ function mob_class:collision()
 	local z = 0
 	local cbox = self.object:get_properties().collisionbox
 	local width = -cbox[1] + cbox[4]
-	for _,object in pairs(minetest.get_objects_inside_radius(pos, width)) do
 
+	for object in minetest.objects_inside_radius(pos, width) do
 		local ent = object:get_luaentity()
 		if (self.pushable and object:is_player()) or
 		   (self.mob_pushable and ent and ent.is_mob and object ~= self.object) then
@@ -441,47 +441,10 @@ function mob_class:check_for_death(cause, cmi_cause)
 
 	self:mob_sound("death")
 
-	local function death_handle(self)
-		local killed_by_player = false
-		if self.last_player_hit_time and minetest.get_gametime() - self.last_player_hit_time <= 5 then
-			killed_by_player  = true
-		end
-
-		if cause == "lava" or cause == "fire" then
-			self:item_drop(true, 0, cmi_cause)
-		else
-			local wielditem = ItemStack()
-			if cause == "hit" then
-				local puncher = cmi_cause.puncher
-				if puncher then
-					wielditem = puncher:get_wielded_item()
-				end
-			end
-			local cooked = mcl_burning.is_burning(self.object) or mcl_enchanting.has_enchantment(wielditem, "fire_aspect")
-			local looting = mcl_enchanting.get_enchantment(wielditem, "looting")
-			self:item_drop(cooked, looting, cmi_cause)
-			if killed_by_player then
-				if self.type == "monster" or self.name == "mobs_mc:zombified_piglin" and self.last_player_hit_name then
-					awards.unlock(self.last_player_hit_name, "mcl:monsterHunter")
-				end
-				if ((not self.child) or self.type ~= "animal") and (minetest.get_us_time() - self.xp_timestamp <= math.huge) then
-					local pos = self.object:get_pos()
-					local xp_amount = math.random(self.xp_min, self.xp_max)
-					if not minetest.is_creative_enabled(self.last_player_hit_name) and not mcl_sculk.handle_death(pos, xp_amount) then
-						mcl_experience.throw_xp(pos, xp_amount)
-					end
-				end
-			end
-		end
-	end
-
 	-- execute custom death function
 	if self.on_die then
 		local pos = self.object:get_pos()
 		local on_die_exit = self.on_die(self, pos, cmi_cause)
-		if on_die_exit ~= true then
-			death_handle(self)
-		end
 		if on_die_exit == true then
 			self:set_state("die")
 			self:safe_remove()
@@ -529,20 +492,52 @@ function mob_class:check_for_death(cause, cmi_cause)
 		self:set_animation( "stand", true)
 	end
 
+	local killed_by_player = false
+	if self.last_player_hit_time and minetest.get_gametime() - self.last_player_hit_time <= 5 then
+		killed_by_player  = true
+	end
 
-	-- Remove body after a few seconds and drop stuff
+	-- Drop items and xp
+	if cmi_cause and (cmi_cause.type == "lava" or cmi_cause.type == "fire") then
+		self:item_drop(true, 0, cmi_cause)
+	else
+		local wielditem = ItemStack()
+		if cmi_cause and cmi_cause.type == "player" then
+			local puncher = cmi_cause.direct
+			if puncher then
+				wielditem = puncher:get_wielded_item()
+			end
+		end
+		local cooked = mcl_burning.is_burning(self.object) or mcl_enchanting.has_enchantment(wielditem, "fire_aspect")
+		local looting = mcl_enchanting.get_enchantment(wielditem, "looting")
+		self:item_drop(cooked, looting, cmi_cause)
+		if killed_by_player then
+			if self.type == "monster" or self.name == "mobs_mc:zombified_piglin" and self.last_player_hit_name then
+				awards.unlock(self.last_player_hit_name, "mcl:monsterHunter")
+			end
+			if ((not self.child) or self.type ~= "animal") and (minetest.get_us_time() - self.xp_timestamp <= math.huge) then
+				local pos = self.object:get_pos()
+				local xp_amount = math.random(self.xp_min, self.xp_max)
+				if not minetest.is_creative_enabled(self.last_player_hit_name) and not mcl_sculk.handle_death(pos, xp_amount) then
+					mcl_experience.throw_xp(pos, xp_amount)
+				end
+			end
+		end
+	end
+
+	-- Remove body after a few seconds
 	local kill = function(self)
 		if not self.object:get_luaentity() then
 			return
 		end
 
-		death_handle(self)
 		local dpos = self.object:get_pos()
 		local cbox = self.object:get_properties().collisionbox
 		local yaw = self.object:get_rotation().y
 		self:safe_remove()
 		mcl_mobs.death_effect(dpos, yaw, cbox, not self.instant_death)
 	end
+
 	if length <= 0 then
 		kill(self)
 	else
@@ -570,6 +565,13 @@ function mob_class:is_in_node(itemstring) --can be group:...
 	local pos = self.object:get_pos()
 	local nn = minetest.find_nodes_in_area(vector.offset(pos, cb[1], cb[2], cb[3]), vector.offset(pos, cb[4], cb[5], cb[6]), {itemstring})
 	if nn and #nn > 0 then return true end
+end
+
+function mob_class:reset_breath ()
+    local max = self.object:get_properties ().breath_max
+    if max ~= -1 then
+	self.breath = max
+    end
 end
 
 -- environmental damage (water, lava, fire, light etc.)
@@ -613,7 +615,7 @@ function mob_class:do_env_damage()
 		self.object:set_velocity({x = 0, y = 0, z = 0})
 	-- wither rose effect
 	elseif self.standing_in == "mcl_flowers:wither_rose" then
-		mcl_potions.withering_func(self.object, 1, 2)
+		mcl_potions.give_effect_by_level("withering", self.object, 2, 2)
 	end
 
 	local nodef = minetest.registered_nodes[self.standing_in]
@@ -648,7 +650,7 @@ function mob_class:do_env_damage()
 	and (nodef2.groups.fire) then
 
 		if self.fire_damage ~= 0 then
-			self:damage_mob("environment", self.fire_damage)
+			self:damage_mob("hot_floor", self.fire_damage)
 			if self:check_for_death("fire", {type = "environment",
 					pos = pos, node = self.standing_in}) then
 				return true
@@ -659,7 +661,7 @@ function mob_class:do_env_damage()
 	and self:is_in_node("group:lava") then
 
 		if self.lava_damage ~= 0 then
-			self:damage_mob("environment", self.lava_damage)
+			self:damage_mob("lava", self.lava_damage)
 			mcl_mobs.effect(pos, 5, "fire_basic_flame.png", nil, nil, 1, nil)
 			mcl_burning.set_on_fire(self.object, 10)
 
@@ -674,7 +676,7 @@ function mob_class:do_env_damage()
 
 		if self.fire_damage ~= 0 then
 
-			self:damage_mob("environment", self.fire_damage)
+			self:damage_mob("in_fire", self.fire_damage)
 
 			mcl_mobs.effect(pos, 5, "fire_basic_flame.png", nil, nil, 1, nil)
 			mcl_burning.set_on_fire(self.object, 5)
@@ -683,6 +685,14 @@ function mob_class:do_env_damage()
 					pos = pos, node = self.standing_in}) then
 				return true
 			end
+		end
+	elseif self._mcl_freeze_damage > 0
+	and self:is_in_node("mcl_powder_snow:powder_snow") then
+		self:damage_mob("freeze", self._mcl_freeze_damage)
+
+		if self:check_for_death("freeze", {type = "freeze",
+				pos = pos, node = self.standing_in}) then
+			return true
 		end
 	-- damage_per_second node check
 	elseif nodef.damage_per_second ~= 0 and not nodef.groups.lava and not nodef.groups.fire then
@@ -791,9 +801,8 @@ end
 function mob_class:check_entity_cramming()
 	local p = self.object:get_pos()
 	if not p then return end
-	local oo = minetest.get_objects_inside_radius(p, 0.5)
 	local mobs = {}
-	for _,o in pairs(oo) do
+	for o in minetest.objects_inside_radius(p, 0.5) do
 		local l = o:get_luaentity()
 		if l and l.is_mob and l.health > 0 then table.insert(mobs,l) end
 	end
@@ -883,6 +892,10 @@ function mob_class:falling(pos)
 		if self.floats_on_lava == 1 then
 			self.object:set_acceleration(vector.new(0, -self.fall_speed / (math.max(1, v.y) ^ 2), 0))
 		end
+	end
+
+	if minetest.registered_nodes[mcl_mobs.node_ok(pos).name].name == "mcl_powder_snow:powder_snow" then
+		self.reset_fall_damage = 1
 	end
 	-- in water then float up
 	if minetest.registered_nodes[mcl_mobs.node_ok(pos).name].groups.water then
@@ -977,4 +990,30 @@ function mob_class:check_suspend()
 		end
 		return true
 	end
+end
+
+local function apply_physics_factors (self, field, id)
+    local base = self._physics_factors[field].base
+    for name, value in pairs (self._physics_factors[field]) do
+	if name ~= "base" then
+	    base = base * value
+	end
+    end
+    self[field] = base
+end
+
+function mob_class:add_physics_factor (field, id, factor)
+    if not self._physics_factors[field] then
+	self._physics_factors[field] = { base = self[field], }
+    end
+    self._physics_factors[field][id] = factor
+    apply_physics_factors (self, field, id)
+end
+
+function mob_class:remove_physics_factor (field, id)
+    if not self._physics_factors[field] then
+	return
+    end
+    self._physics_factors[field][id] = nil
+    apply_physics_factors (self, field, id)
 end

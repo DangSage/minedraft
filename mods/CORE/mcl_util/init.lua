@@ -163,44 +163,6 @@ function mcl_util.rotate_axis(itemstack, placer, pointed_thing)
 	return itemstack
 end
 
--- Determine if pointer (player) is pointing above the middle of a pointed thing
--- Used when placing slabs and stairs.
-function mcl_util.is_pointing_above_middle(pointer, pointed_thing)
-	if
-		not pointer
-		or not pointer:is_player()
-		or not pointed_thing
-		or not pointed_thing.under
-		or not pointed_thing.above
-	then
-		return false
-	end
-
-	local p1 = pointed_thing.above
-
-	-- this uses placer:get_look_dir() which is not quite right on touch
-	-- with disabled crosshair, but the shootline used on the client isn't
-	-- available to the server; therefore just check the general look
-	-- direction to make it somewhat controllable by touch users (even if
-	-- standing on the pointed node) without changing anything for crosshair
-	-- users
-	--
-	-- if looking at a side face we check whether player is looking more
-	-- than a little bit above the center (keeping default positioning if
-	-- looking more or less at the center of the node) of the pointed node
-	--
-	-- if looking at the top/bottom face never/always return true (this is
-	-- achieved by using y of pointed_thing.above for comparison; note that
-	-- under.y == above.y if looking at a side face)
-	--
-	-- also note that it is actually beneficial that the exact position of
-	-- the touch event is not used, allowing touch users to touch any part
-	-- of the node face
-	local fpos = minetest.pointed_thing_to_face_pos(pointer, pointed_thing).y - p1.y
-
-	return (fpos > 0.05)
-end
-
 -- Returns position of the neighbor of a double chest node
 -- or nil if node is invalid.
 -- This function assumes that the large chest is actually intact
@@ -270,7 +232,7 @@ end
 -- Possible failures: No item in source slot, destination inventory full
 function mcl_util.move_item(source_inventory, source_list, source_stack_id, destination_inventory, destination_list)
 	if source_stack_id == -1 then
-		source_stack_id = mcl_util.get_first_occupied_inventory_slot(source_inventory, source_list)
+		source_stack_id =  mcl_util.get_eligible_transfer_item_slot(source_inventory, source_list)
 		if source_stack_id == nil then
 			return false
 		end
@@ -433,12 +395,6 @@ function mcl_util.move_item_container(source_pos, destination_pos, source_list, 
 	return false
 end
 
--- Returns the ID of the first non-empty slot in the given inventory list
--- or nil, if inventory is empty.
-function mcl_util.get_first_occupied_inventory_slot(inventory, listname)
-	return mcl_util.get_eligible_transfer_item_slot(inventory, listname)
-end
-
 local function drop_item_stack(pos, stack)
 	if not stack or stack:is_empty() then return end
 	local drop_offset = vector.new(math.random() - 0.5, 0, math.random() - 0.5)
@@ -476,10 +432,23 @@ function mcl_util.drop_items_from_meta_container(lists)
 	end
 end
 
+local fuel_cache = {}
+
+-- Returns the burntime of an item
+-- Returns false otherwise
+function mcl_util.get_burntime(item)
+	assert(minetest.get_current_modname() == nil, "mcl_util.is_fuel and mcl_util.get_burntime cannot be called when loading mods")
+	if fuel_cache[item] == nil then
+		fuel_cache[item] = minetest.get_craft_result({method = "fuel", width = 1, items = {item}}).time
+	end
+
+	return fuel_cache[item]
+end
+
 -- Returns true if item (itemstring or ItemStack) can be used as a furnace fuel.
 -- Returns false otherwise
 function mcl_util.is_fuel(item)
-	return minetest.get_craft_result({method = "fuel", width = 1, items = {item}}).time ~= 0
+	return mcl_util.get_burntime(item) ~= 0
 end
 
 -- Returns a on_place function for plants
@@ -685,15 +654,6 @@ function mcl_util.get_inventory(object, create)
 	end
 end
 
-function mcl_util.get_wielded_item(object)
-	if object:is_player() then
-		return object:get_wielded_item()
-	else
-		-- ToDo: implement getting wielditems from mobs as soon as mobs have wielditems
-		return ItemStack()
-	end
-end
-
 function mcl_util.get_object_name(object)
 	if object:is_player() then
 		return object:get_player_name()
@@ -731,11 +691,25 @@ function mcl_util.replace_mob(obj, mob)
 	return obj
 end
 
-function mcl_util.get_pointed_thing(player, liquid)
+-- This function is essentially a wrapper around minetest.raycast to get the currently pointed at "pointed_thing"
+-- The last "ignore" argument is either a table of nodename to ignore in the raycast or a func(pointed_thing) that
+-- returns true if that position in the ray shall be discounted.
+function mcl_util.get_pointed_thing(player, objects, liquid, ignore)
 	local pos = vector.offset(player:get_pos(), 0, player:get_properties().eye_height, 0)
-	local look_dir = vector.multiply(player:get_look_dir(), 5)
+	local def = player:get_wielded_item():get_definition()
+	local range = math.ceil(def and def.range or ItemStack():get_definition().range or tonumber(minetest.settings:get("mcl_hand_range")) or 4.5)
+	local look_dir = vector.multiply(player:get_look_dir(), range)
 	local pos2 = vector.add(pos, look_dir)
-	local ray = minetest.raycast(pos, pos2, false, liquid)
+	local ray = minetest.raycast(pos, pos2, objects, liquid)
+
+	if ignore then
+		for pointed_thing in ray do
+			if (type(ignore) == "table" and table.indexof(ignore, minetest.get_node(pointed_thing.under).name) == -1 ) or
+			(type(ignore) == "function" and not ignore(pointed_thing)) then
+				return pointed_thing
+			end
+		end
+	end
 	return ray:next()
 end
 
@@ -1081,21 +1055,6 @@ function mcl_util.bypass_buildable_to(func)
 	end
 end
 
---Check for a protection violation in a given area.
--- Applies is_protected() to a 3D lattice of points in the defined volume. The points are spaced
--- evenly throughout the volume and have a spacing similar to, but no larger than, "interval".
-function mcl_util.check_area_protection(pos1, pos2, player, interval)
-	local name = player and player:get_player_name() or ""
-
-	local protected_pos = minetest.is_area_protected(pos1, pos2, name, interval)
-	if protected_pos then
-		minetest.record_protection_violation(protected_pos, name)
-		return true
-	end
-
-	return false
-end
-
 --Check for a protection violation on a single position.
 function mcl_util.check_position_protection(position, player)
 	local name = player and player:get_player_name() or ""
@@ -1126,37 +1085,6 @@ end
 function mcl_util.get_pos_p2(pos)
 	local biomedef = minetest.registered_biomes[minetest.get_biome_name(minetest.get_biome_data(pos).biome)]
 	return biomedef and biomedef._mcl_palette_index or 0
-end
-
-local function between(x, y, z) -- x is between y and z (inclusive)
-	return y <= x and x <= z
-end
-
-function mcl_util.in_cube(tpos, wpos1, wpos2)
-	local xmax=wpos2.x
-	local xmin=wpos1.x
-
-	local ymax=wpos2.y
-	local ymin=wpos1.y
-
-	local zmax=wpos2.z
-	local zmin=wpos1.z
-	if wpos1.x > wpos2.x then
-		xmax=wpos1.x
-		xmin=wpos2.x
-	end
-	if wpos1.y > wpos2.y then
-		ymax=wpos1.y
-		ymin=wpos2.y
-	end
-	if wpos1.z > wpos2.z then
-		zmax=wpos1.z
-		zmin=wpos2.z
-	end
-	if between(tpos.x, xmin, xmax) and between(tpos.y, ymin, ymax) and between(tpos.z, zmin, zmax) then
-		return true
-	end
-	return false
 end
 
 function mcl_util.traverse_tower(pos, dir, callback)
@@ -1217,46 +1145,12 @@ function mcl_util.replace_node_vm(pos1, pos2, mat_from, mat_to, is_group)
 	vm:write_to_map(true)
 end
 
--- Voxel manip function to replace a node type with another in a circle
--- Will also set param2 on changed nodes if provided.
-function mcl_util.circle_replace_node_vm(radius, pos, y, mat_from, mat_to, param2)
-	local c_from = minetest.get_content_id(mat_from)
-	local c_to = minetest.get_content_id(mat_to)
-
-	-- Using new as y is not relative
-	local pos1 = vector.new(pos.x - radius, y, pos.z - radius)
-	local pos2 = vector.new(pos.x + radius, y, pos.z + radius)
-
-	local vm = minetest.get_voxel_manip()
-	local emin, emax = vm:read_from_map(pos1, pos2)
-	local a = VoxelArea:new({
-		MinEdge = emin,
-		MaxEdge = emax,
-	})
-	local data = vm:get_data()
-
-	local param2data = vm:get_param2_data()
-
-	for z = -radius, radius do
-		for x = -radius, radius do
-			if x * x + z * z <= radius * radius + radius * 0.8 then
-				local vi = a:index(pos.x + x, y, pos.z + z)
-				if data[vi] == c_from then
-					data[vi] = c_to
-					if param2 then
-						param2data[vi] = param2
-					end
-				end
-			end
-		end
+-- TODO: Remove and use minetest.bulk_swap_node directly after abandoning
+-- compatibility with Minetest versions were it is not present.
+mcl_util.bulk_swap_node = minetest.bulk_swap_node or function(positions, node)
+	for _, pos in pairs(positions) do
+		minetest.swap_node(pos, node)
 	end
-
-	-- Write data
-	vm:set_data(data)
-	if param2 then
-		vm:set_param2_data(param2data)
-	end
-	vm:write_to_map(true)
 end
 
 -- Voxel manip function to change nodes if they don't match in an area.
@@ -1448,3 +1342,35 @@ function mcl_util.float_random(from, to)
 	to = to or 1
 	return from + ( math.random() * ( to - from ))
 end
+
+local roman_conversion = {
+	{1000, "M"},
+	{900, "CM"},
+	{500, "D"},
+	{400, "CD"},
+	{100, "C"},
+	{90, "XC"},
+	{50, "L"},
+	{40, "XL"},
+	{10, "X"},
+	{9, "IX"},
+	{5, "V"},
+	{4, "IV"},
+	{1, "I"}
+}
+function mcl_util.to_roman(number)
+	local r = ""
+	local a = number
+	local i = 1
+	while a > 0 do
+		if a >= roman_conversion[i][1] then
+			a = a - roman_conversion[i][1]
+			r = r.. roman_conversion[i][2]
+		else
+			i = i + 1
+		end
+	end
+	return r
+end
+
+dofile(minetest.get_modpath(minetest.get_current_modname()).."/compat.lua")

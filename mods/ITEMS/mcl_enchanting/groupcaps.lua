@@ -41,7 +41,11 @@ end
 --
 -- To make it more efficient it will first check a hash value to determine if
 -- the tool needs to be updated.
-function mcl_enchanting.update_groupcaps(itemstack)
+--
+-- IGNORE_HASH means to ignore the hash so that values may be
+-- overwritten when they have received alterations from elsewhere,
+-- e.g., haste/fatigue effects.
+function mcl_enchanting.update_groupcaps(itemstack, ignore_hash)
 	local name = itemstack:get_name()
 	if not minetest.registered_tools[name] or not minetest.registered_tools[name].tool_capabilities then
 		return
@@ -56,7 +60,7 @@ function mcl_enchanting.update_groupcaps(itemstack)
 	local groupcaps = get_efficiency_groupcaps(name, efficiency)
 	local hash = itemstack:get_meta():get_string("groupcaps_hash")
 
-	if not hash or hash ~= groupcaps.hash then
+	if ignore_hash or not hash or hash ~= groupcaps.hash then
 		local tool_capabilities = itemstack:get_tool_capabilities()
 		tool_capabilities.groupcaps = table.copy(groupcaps.values)
 

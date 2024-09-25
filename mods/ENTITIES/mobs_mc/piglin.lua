@@ -97,8 +97,13 @@ local piglin = {
 		if mcl_worlds.pos_to_dimension(self.object:get_pos()) == "overworld" then
 			self._zombie_timer = (self._zombie_timer or zombiefication_delay) - dtime
 			if self._zombie_timer < 0 then
-				mcl_util.replace_mob(self.object, "mobs_mc:zombified_piglin")
-				return
+			    local object
+				= mcl_util.replace_mob(self.object, "mobs_mc:zombified_piglin")
+			    if object then
+				mcl_potions.give_effect ("nausea", object, 1,
+							 10, false)
+			    end
+			    return
 			end
 		elseif self.trading then
 			self:set_state("stand")
@@ -130,7 +135,7 @@ local piglin = {
 			self.trading = true
 			self.gold_items = self.gold_items + 1
 			mcl_util.set_bone_position(self.object, "Wield_Item", vector.new(-1.5,4.9,1.8), vector.new(135,0,90))
-			for _,v in pairs(minetest.get_objects_inside_radius(self.object:get_pos(), 7)) do
+			for v in minetest.objects_inside_radius(self.object:get_pos(), 7) do
 				if v:is_player() then self:look_at(v:get_pos()) end
 			end
 			self:set_state("stand")
@@ -210,6 +215,7 @@ mcl_mobs.register_mob("mobs_mc:zombified_piglin",table.merge(piglin,{
 	type = "animal",
 	passive = false,
 	spawn_class = "passive",
+	can_despawn = true,
 	do_custom = function() end,
 	on_spawn = function() end,
 	on_rightclick = function() end,

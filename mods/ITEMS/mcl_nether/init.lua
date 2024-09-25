@@ -133,7 +133,7 @@ minetest.register_node("mcl_nether:magma", {
 	-- From walkover mod
 	on_walk_over = function(_, _, player)
 		local armor_feet = player:get_inventory():get_stack("armor", 5)
-		if player and player:get_player_control().sneak or (minetest.global_exists("mcl_enchanting") and mcl_enchanting.has_enchantment(armor_feet, "frost_walker")) or (minetest.global_exists("mcl_potions") and mcl_potions.player_has_effect(player, "fire_proof")) then
+		if player and player:get_player_control().sneak or (minetest.global_exists("mcl_enchanting") and mcl_enchanting.has_enchantment(armor_feet, "frost_walker")) or (minetest.global_exists("mcl_potions") and mcl_potions.has_effect(player, "fire_resistance")) then
 			return
 		end
 		-- Hurt players standing on top of this block
@@ -440,8 +440,8 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "mcl_nether:chiseled_nether_brick",
 	recipe = {
-		{"mcl_stairs:netherbrick_slab"},
-		{"mcl_stairs:netherbrick_slab"},
+		{"mcl_stairs:slab_nether_brick"},
+		{"mcl_stairs:slab_nether_brick"},
 	}
 })
 

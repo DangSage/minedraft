@@ -191,7 +191,7 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos)
-		for _, object in pairs(minetest.get_objects_inside_radius(pos, 1.1)) do
+		for object in minetest.objects_inside_radius(pos, 1.1) do
 			local entity = object:get_luaentity()
 			local dst = vector.distance(object:get_pos(), pos)
 			if entity and entity.name == "__builtin:item" and dst <= 0.9 then
@@ -349,37 +349,6 @@ minetest.register_abm({
 		if name ~= "ignore" and nodedef and (nodedef.groups and nodedef.groups.solid) then
 			minetest.set_node(pos, {name = "mcl_core:dirt"})
 		end
-	end,
-})
-
-local SAVANNA_INDEX = 1
-minetest.register_lbm({
-	label = "Replace legacy dry grass",
-	name = "mcl_core:replace_legacy_dry_grass_0_65_0",
-	nodenames = {"mcl_core:dirt_with_dry_grass", "mcl_core:dirt_with_dry_grass_snow"},
-	action = function(pos, node)
-		local biome_data = minetest.get_biome_data(pos)
-		if biome_data then
-			local biome = biome_data.biome
-			local biome_name = minetest.get_biome_name(biome)
-			local reg_biome = minetest.registered_biomes[biome_name]
-			if reg_biome then
-				if node.name == "mcl_core:dirt_with_dry_grass_snow" then
-					node.name = "mcl_core:dirt_with_grass_snow"
-				else
-					node.name = "mcl_core:dirt_with_grass"
-				end
-				node.param2 = reg_biome._mcl_palette_index
-				-- Fall back to savanna palette index
-				if not node.param2 then
-					node.param2 = SAVANNA_INDEX
-				end
-				minetest.set_node(pos, node)
-				return
-			end
-		end
-		node.param2 = SAVANNA_INDEX
-		minetest.set_node(pos, node)
 	end,
 })
 

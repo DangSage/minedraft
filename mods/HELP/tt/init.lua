@@ -20,7 +20,6 @@ dofile(minetest.get_modpath(minetest.get_current_modname()).."/snippets.lua")
 -- Apply item description updates
 
 local function apply_snippets(desc, itemstring, toolcaps, itemstack)
-	local first = true
 	-- Apply snippets
 	for s=1, #tt.registered_snippets do
 		local str, snippet_color = tt.registered_snippets[s](itemstring, toolcaps, itemstack)
@@ -28,9 +27,6 @@ local function apply_snippets(desc, itemstring, toolcaps, itemstack)
 			snippet_color = tt.COLOR_DEFAULT
 		end
 		if str then
-			if first then
-				first = false
-			end
 			desc = desc .. "\n"
 			if snippet_color then
 				desc = desc .. minetest.colorize(snippet_color, str)
@@ -72,6 +68,10 @@ function tt.reload_itemstack_description(itemstack)
 			toolcaps = itemstack:get_tool_capabilities()
 		end
 		local orig_desc = def._tt_original_description or def.description
+		if def._mcl_filter_description then
+		    orig_desc = def._mcl_filter_description (itemstack,
+							     orig_desc)
+		end
 		if meta:get_string("name") ~= "" then
 			orig_desc = minetest.colorize(tt.NAME_COLOR, meta:get_string("name"))
 		end

@@ -36,42 +36,29 @@ function mcl_gamemode.set_gamemode(p, gm)
 	for _, func in ipairs(mcl_gamemode.registered_on_gamemode_change) do
 		func(p, old_gm, gm)
 	end
-
-    -- update player HUD
-    if gm == "creative" then
-        p:set_armor_groups({immortal = 1})
-        p:get_meta():set_string("disable_hunger", "true")
-    else
-        p:set_armor_groups({immortal = 0})
-        p:get_meta():set_string("disable_hunger", "false")
-    end
 	return true
 end
 
 minetest.register_chatcommand("gamemode",{
-    params = S("[<gamemode>] [<player>]"),
-    description = S("Change gamemode (survival/creative) for yourself or player"),
-    privs = { server = true },
-    func = function(n,param)
-        local p
-        local args = param:split(" ")
-        if args[2] ~= nil then
-            p = minetest.get_player_by_name(args[2])
-            n = args[2]
-        else
-            p = minetest.get_player_by_name(n)
-        end
-        if not p then
-            return false, S("Player not online")
-        end
-        if args[1] and mcl_gamemode.set_gamemode(p, args[1]) == false then
-            return false, S("Failed to set Gamemode @1 for player @2", args[1], p:get_player_name())
-        end
-
-        -- Set player properties based on gamemode
-        local new_gamemode = mcl_gamemode.get_gamemode(p)
-
-        -- Result message - show effective game mode
-        return true, S("Gamemode for player @1: @2", n, new_gamemode)
-    end
+	params = S("[<gamemode>] [<player>]"),
+	description = S("Change gamemode (survival/creative) for yourself or player"),
+	privs = { server = true },
+	func = function(n,param)
+		local p
+		local args = param:split(" ")
+		if args[2] ~= nil then
+			p = minetest.get_player_by_name(args[2])
+			n = args[2]
+		else
+			p = minetest.get_player_by_name(n)
+		end
+		if not p then
+			return false, S("Player not online")
+		end
+		if args[1] and mcl_gamemode.set_gamemode(p, args[1]) == false then
+			return false, S("Failed to set Gamemode @1 for player @2", args[1], p:get_player_name())
+		end
+		--Result message - show effective game mode
+		return true, S("Gamemode for player @1: @2", n, mcl_gamemode.get_gamemode(p))
+	end
 })

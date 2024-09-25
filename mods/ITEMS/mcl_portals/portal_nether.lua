@@ -104,6 +104,29 @@ local function unregister_portal(pos)
 	end
 end
 
+-- There is 3/2000 (0.15%) chance of spawning zombified_piglin on each portal
+-- node at random tick. In Minecraft random tick happens on average every 68.27
+-- seconds.
+local function spawn_zombified_piglin(pos)
+	if math.random() < 0.0015 / 68.27 then
+		-- Find Y of lowest portal frame
+		local floor = minetest.find_nodes_in_area(pos, vector.offset(pos, 0,-MAX_PORTAL_NODES,0), {"mcl_core:obsidian"})
+		if #floor > 0 then
+			local spawn = floor[#floor]
+			if minetest.get_node(pos).param2 == 3 then
+				spawn = vector.offset(spawn, 1,0.5,0) -- East
+			else
+				spawn = vector.offset(spawn, 0,0.5,-1) -- South
+			end
+			local up = minetest.find_nodes_in_area(spawn, vector.offset(spawn, 0,1.5,0), {"air"})
+			if #up >= 2 then
+				minetest.add_entity(spawn, "mobs_mc:zombified_piglin", minetest.serialize({ _just_portaled = 60 }))
+			end
+		end
+	end
+	return true
+end
+
 -- Rotate vector 90 degrees if 'param2 % 2 == 1'.
 local function orient(pos, param2)
 	if (param2 % 2) == 1 then
@@ -597,7 +620,7 @@ local function initiate_teleport(obj)
 end
 
 local function teleport_objs_in_portal(pos)
-	for _, obj in pairs(minetest.get_objects_inside_radius(pos, 1)) do
+	for obj in minetest.objects_inside_radius(pos, 1) do
 		local lua_entity = obj:get_luaentity()
 		if obj:is_player() or lua_entity then
 			initiate_teleport(obj)
@@ -629,7 +652,7 @@ local function emit_portal_particles(pos, node)
 		end
 	end
 	distance = vector.subtract(pos, distance)
-	for _, obj in pairs(minetest.get_objects_inside_radius(pos, 15)) do
+	for obj in minetest.objects_inside_radius(pos, 15) do
 		if obj:is_player() then
 			minetest.add_particle({
 				amount = 1,
@@ -803,6 +826,7 @@ minetest.register_abm({
 	action = function(pos, node)
 		emit_portal_particles(pos, node)
 		teleport_objs_in_portal(pos)
+		spawn_zombified_piglin(pos)
 	end,
 })
 

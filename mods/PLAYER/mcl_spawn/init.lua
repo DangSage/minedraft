@@ -124,8 +124,6 @@ function mcl_spawn.set_spawn_pos(player, pos, message)
 				bed_bottom_meta:set_string("infotext", "")
 			end
 
-
-
 			if oldpos and oldpos ~= pos then
 				local old_bed_meta = minetest.get_meta(oldpos)
 				if old_bed_meta then
@@ -212,4 +210,4 @@ function mcl_spawn.spawn(player)
 end
 
 -- Respawn player at specified respawn position
-minetest.register_on_respawnplayer(mcl_spawn.spawn)
+minetest.register_on_respawnplayer(function(player) return mcl_spawn.spawn(player) end)

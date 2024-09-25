@@ -77,7 +77,7 @@ local ARROW_ENTITY={
 	_deflection_cooloff=0, -- Cooloff timer after an arrow deflection, to prevent many deflections in quick succession
 }
 
--- Destroy arrow entity self at pos and drops it as an item
+-- Drop arrow as item at pos
 local function spawn_item(self, pos)
 	if not minetest.is_creative_enabled("") then
 		local itemstring = "mcl_bows:arrow"
@@ -88,8 +88,6 @@ local function spawn_item(self, pos)
 		item:set_velocity(vector.new(0, 0, 0))
 		item:set_yaw(self.object:get_yaw())
 	end
-	mcl_burning.extinguish(self.object)
-	self.object:remove()
 end
 
 local function damage_particles(pos, is_critical)
@@ -140,14 +138,17 @@ function ARROW_ENTITY.on_step(self, dtime)
 			end
 			-- TODO: In MC, arrow just falls down without turning into an item
 			if stuckin_def and stuckin_def.walkable == false then
-				spawn_item(self, pos)
+				if self._collectable then
+					spawn_item(self, pos)
+				end
+				mcl_burning.extinguish(self.object)
+				self.object:remove()
 				return
 			end
 			self._stuckrechecktimer = 0
 		end
 		-- Pickup arrow if player is nearby (not in Creative Mode)
-		local objects = minetest.get_objects_inside_radius(pos, 1)
-		for _,obj in ipairs(objects) do
+		for obj in minetest.objects_inside_radius(pos, 1) do
 			if obj:is_player() then
 				if self._collectable and not minetest.is_creative_enabled(obj:get_player_name()) then
 					if obj:get_inventory():room_for_item("main", "mcl_bows:arrow") then
@@ -367,6 +368,10 @@ function ARROW_ENTITY.on_step(self, dtime)
 					-- Reset deflection cooloff timer to prevent many deflections happening in quick succession
 					self._deflection_cooloff = 1.0
 				end
+				-- Set fire to arrows which pass through lava or fire.
+				if minetest.get_item_group(node.name, "set_on_fire") > 0 then
+					mcl_burning.set_on_fire (self.object, ARROW_TIMEOUT)
+				end
 			else
 
 				-- Node was walkable, make arrow stuck
@@ -385,23 +390,31 @@ function ARROW_ENTITY.on_step(self, dtime)
 				elseif (sdef and sdef._on_arrow_hit) then
 					sdef._on_arrow_hit(self._stuckin, self)
 				end
+				-- Extinguish this stuck arrow.
+				mcl_burning.extinguish (self.object)
 			end
-		elseif (def and def.liquidtype ~= "none") then
-			-- Slow down arrow in liquids
-			local v = def.liquid_viscosity
-			if not v then
-				v = 0
+		else
+		    if (def and def.liquidtype ~= "none") then
+				-- Slow down arrow in liquids
+				local v = def.liquid_viscosity
+				if not v then
+					v = 0
+				end
+				--local old_v = self._viscosity
+				self._viscosity = v
+				local vpenalty = math.max(0.1, 0.98 - 0.1 * v)
+				if math.abs(vel.x) > 0.001 then
+					vel.x = vel.x * vpenalty
+				end
+				if math.abs(vel.z) > 0.001 then
+					vel.z = vel.z * vpenalty
+				end
+				self.object:set_velocity(vel)
 			end
-			--local old_v = self._viscosity
-			self._viscosity = v
-			local vpenalty = math.max(0.1, 0.98 - 0.1 * v)
-			if math.abs(vel.x) > 0.001 then
-				vel.x = vel.x * vpenalty
+			-- Set fire to arrows which pass through lava or fire.
+			if minetest.get_item_group(node.name, "set_on_fire") > 0 then
+				mcl_burning.set_on_fire (self.object, ARROW_TIMEOUT)
 			end
-			if math.abs(vel.z) > 0.001 then
-				vel.z = vel.z * vpenalty
-			end
-			self.object:set_velocity(vel)
 		end
 	end
 

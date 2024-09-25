@@ -29,7 +29,7 @@ msgid "Light Grey Banner"
 msgstr "Bannière Gris Clair"
 
 msgid "Light Grey"
-msgstr "Gris clair"
+msgstr "Gris Clair"
 
 msgid "Black Banner"
 msgstr "Bannière Noir"
@@ -101,13 +101,13 @@ msgid "Lime Banner"
 msgstr "Bannière Vert Clair"
 
 msgid "Lime"
-msgstr "Vert clair"
+msgstr "Vert Clair"
 
 msgid "Light Blue Banner"
 msgstr "Bannière Bleue Clair"
 
 msgid "Light Blue"
-msgstr "Bleu clair"
+msgstr "Bleu Clair"
 
 msgid "Banner"
 msgstr "Bannière"

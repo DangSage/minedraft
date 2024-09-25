@@ -92,6 +92,7 @@ mcl_mobs.register_mob("mobs_mc:wither", {
 		min = 1,
 		max = 1},
 	},
+	_mcl_freeze_damage = 0,
 	lava_damage = 0,
 	fire_damage = 0,
 	attack_type = "custom",
@@ -128,7 +129,7 @@ mcl_mobs.register_mob("mobs_mc:wither", {
 			}
 
 			local pos = self.object:get_pos()
-			for _, player in pairs(minetest.get_connected_players()) do
+			for player in mcl_util.connected_players() do
 				local d = vector.distance(pos, player:get_pos())
 				if d <= 80 then
 					mcl_bossbars.add_bar(player, bardef, true, d)
@@ -306,19 +307,18 @@ mcl_mobs.register_mob("mobs_mc:wither", {
 			self._melee_timer = 0
 			local pos = table.copy(s)
 			pos.y = pos.y + 2
-			local objs = minetest.get_objects_inside_radius(pos, self.reach)
 			local hit_some = false
-			for n = 1, #objs do
-				objs[n]:punch(objs[n], 1.0, {
+			for obj in minetest.objects_inside_radius(pos, self.reach) do
+				obj:punch(obj, 1.0, {
 					full_punch_interval = 1.0,
 					damage_groups = {fleshy = 4},
 				}, pos)
-				local ent = objs[n]:get_luaentity()
-				if objs[n]:is_player() or (ent and ent ~= self and (not ent._shooter or ent._shooter ~= self)) then
-					mcl_util.deal_damage(objs[n], 8, {type = "magic"})
+				local ent = obj:get_luaentity()
+				if obj:is_player() or (ent and ent ~= self and (not ent._shooter or ent._shooter ~= self)) then
+					mcl_util.deal_damage(obj, 8, {type = "magic"})
 					hit_some = true
 				end
-				mcl_mobs.effect_functions["withering"](objs[n], 0.5, 10)
+				mcl_potions.give_effect("withering", obj, 2, 10)
 			end
 			if hit_some then
 				mcl_mobs.effect(pos, 32, "mcl_particles_soul_fire_flame.png", 5, 10, self.reach, 1, 0)
@@ -390,7 +390,6 @@ mcl_mobs.register_mob("mobs_mc:wither", {
 	end,
 	deal_damage = function(self, damage, mcl_reason)
 		if self._spawning then return end
-		if self._arrow_resistant and mcl_reason.type == "magic" then return end
 		wither_unstuck(self)
 		self.health = self.health - damage
 	end,
@@ -437,9 +436,13 @@ mcl_mobs.register_arrow("mobs_mc:wither_skull", {
 
 	-- direct hit
 	hit_player = function(self, player)
-		mcl_mobs.effect_functions["withering"](player, 0.5, 10)
-		mcl_mobs.mob_class.boom(self,self.object:get_pos(), 1, false, true)
-		mcl_mobs.get_arrow_damage_func(8, "wither_skull")(self, player)
+		local pos = vector.new(self.object:get_pos())
+		mcl_potions.give_effect("withering", player, 2, 10)
+		player:punch(self.object, 1.0, {
+			full_punch_interval = 0.5,
+			damage_groups = {fleshy = 8},
+		}, nil)
+		mcl_mobs.mob_class.boom(self, pos, 1)
 		if player:get_hp() <= 0 then
 			local shooter = self._shooter:get_luaentity()
 			if shooter then shooter.health = shooter.health + 5 end
@@ -448,10 +451,13 @@ mcl_mobs.register_arrow("mobs_mc:wither_skull", {
 	end,
 
 	hit_mob = function(self, mob)
-		mcl_mobs.effect_functions["withering"](mob, 0.5, 10)
-		mcl_mobs.get_arrow_damage_func(8, "wither_skull")(self, mob)
-		mcl_mobs.effect_functions["withering"](mob, 0.5, 10)
-		mcl_mobs.mob_class.boom(self,self.object:get_pos(), 1, false, true)
+		local pos = vector.new(self.object:get_pos())
+		mcl_potions.give_effect("withering", mob, 2, 10)
+		mob:punch(self.object, 1.0, {
+			full_punch_interval = 0.5,
+			damage_groups = {fleshy = 8},
+		}, nil)
+		mcl_mobs.mob_class.boom(self, pos, 1)
 		local l = mob:get_luaentity()
 		if l and l.health - 8 <= 0 then
 			local shooter = self._shooter:get_luaentity()
@@ -484,8 +490,17 @@ mcl_mobs.register_arrow("mobs_mc:wither_skull_strong", {
 
 	-- direct hit
 	hit_player = function(self, player)
-		mcl_mobs.effect_functions["withering"](player, 0.5, 10)
-		mcl_mobs.get_arrow_damage_func(12, "wither_skull")(self, player)
+		local pos = vector.new(self.object:get_pos())
+		mcl_potions.give_effect("withering", player, 2, 10)
+		player:punch(self.object, 1.0, {
+			full_punch_interval = 0.5,
+			damage_groups = {fleshy = 12},
+		}, nil)
+		if mobs_griefing and not minetest.is_protected(pos, "") then
+			mcl_explosions.explode(pos, 1, { drop_chance = 1.0, max_blast_resistance = 0, }, self.object)
+		else
+			mcl_mobs.mob_class.safe_boom(self, pos, 1) --need to call it this way bc self is the "arrow" object here
+		end
 		if player:get_hp() <= 0 then
 			local shooter = self._shooter:get_luaentity()
 			if shooter then shooter.health = shooter.health + 5 end
@@ -494,10 +509,12 @@ mcl_mobs.register_arrow("mobs_mc:wither_skull_strong", {
 	end,
 
 	hit_mob = function(self, mob)
-		mcl_mobs.effect_functions["withering"](mob, 0.5, 10)
-		mcl_mobs.get_arrow_damage_func(12, "wither_skull")(self, mob)
-		mcl_mobs.effect_functions["withering"](mob, 0.5, 10)
-		local pos = self.object:get_pos()
+		local pos = vector.new(self.object:get_pos())
+		mcl_potions.give_effect("withering", mob, 2, 10)
+		mob:punch(self.object, 1.0, {
+			full_punch_interval = 0.5,
+			damage_groups = {fleshy = 12},
+		}, nil)
 		if mobs_griefing and not minetest.is_protected(pos, "") then
 			mcl_explosions.explode(pos, 1, { drop_chance = 1.0, max_blast_resistance = 0, }, self.object)
 		else

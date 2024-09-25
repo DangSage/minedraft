@@ -155,7 +155,7 @@ local function SetNodeIfCanBuild(pos, node, check_above, can_replace_rail)
 			name == tsm_railcorridors.nodes.torch_floor or
 			(can_replace_rail and name == tsm_railcorridors.nodes.rail)
 			) then
-		minetest.set_node(pos, node)
+		minetest.swap_node(pos, node)
 		return true
 	else
 		return false
@@ -258,13 +258,13 @@ local function Cube(p, radius, node, replace_air_only, wood, post)
 					if replace_air_only ~= true then
 						-- Cut into wood structures (post/wood)
 						if post and (xi == p.x or zi == p.z) and thisnode.name == post then
-							minetest.set_node({x=xi,y=yi,z=zi}, node)
+							minetest.swap_node({x=xi,y=yi,z=zi}, node)
 							built = true
 						elseif wood and (xi == p.x or zi == p.z) and thisnode.name == wood then
 							local topnode = minetest.get_node({x=xi,y=yi+1,z=zi})
 							local topdef = minetest.registered_nodes[topnode.name]
 							if topdef and topdef.walkable and topnode.name ~= wood then
-								minetest.set_node({x=xi,y=yi,z=zi}, node)
+								minetest.swap_node({x=xi,y=yi,z=zi}, node)
 								-- Check for torches around the wood and schedule them
 								-- for removal
 								if node.name == "air" then
@@ -295,7 +295,7 @@ local function Cube(p, radius, node, replace_air_only, wood, post)
 	for c=1, #cleanup_torches do
 		local check = minetest.get_node(cleanup_torches[c])
 		if check.name == tsm_railcorridors.nodes.torch_wall or check.name == tsm_railcorridors.nodes.torch_floor then
-			minetest.set_node(cleanup_torches[c], node)
+			minetest.swap_node(cleanup_torches[c], node)
 		end
 	end
 	return built_all
@@ -357,22 +357,23 @@ local function Platform(p, radius, node, node2)
 			local np, np2 = NeedsPlatform({x=xi,y=p.y,z=zi})
 			if np then
 				if np2 then
-					--minetest.set_node({x=xi,y=p.y-1,z=zi}, node2)
+					--minetest.swap_node({x=xi,y=p.y-1,z=zi}, node2)
 					table.insert(n1,{x=xi,y=p.y-1,z=zi})
 				else
-					--minetest.set_node({x=xi,y=p.y-1,z=zi}, node)
+					--minetest.swap_node({x=xi,y=p.y-1,z=zi}, node)
 					table.insert(n2,{x=xi,y=p.y-1,z=zi})
 				end
 			end
 		end
 	end
-	minetest.bulk_set_node(n1,node)
-	minetest.bulk_set_node(n2,node2)
+	mcl_util.bulk_swap_node(n1,node)
+	mcl_util.bulk_swap_node(n2,node2)
 end
 
 -- Chests
 local function PlaceChest(pos, param2)
 	if SetNodeIfCanBuild(pos, {name=tsm_railcorridors.nodes.chest, param2=param2}) then
+		mcl_structures.construct_nodes(pos, pos, {"mcl_chests:chest"})
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local items = tsm_railcorridors.get_treasures(pr)
@@ -390,7 +391,7 @@ local function RecheckCartHack(params)
 	local pos = params[1]
 	local cart_id = params[2]
 	-- Find cart
-	for _, obj in pairs(minetest.get_objects_inside_radius(pos, 1)) do
+	for obj in minetest.objects_inside_radius(pos, 1) do
 		if obj and obj:get_luaentity().name == cart_id then
 			-- Cart found! We can now safely call the callback func.
 			-- (calling it earlier has the danger of failing)
@@ -1090,7 +1091,7 @@ end
 
 mcl_structures.register_structure("mineshaft",{
 	place_on = {"group:sand","group:grass_block","mcl_core:water_source","group:dirt","mcl_core:dirt_with_grass","mcl_core:gravel","group:material_stone","mcl_core:snow"},
-	fill_ratio = 0.0001,
+	chunk_probability = 4,
 	flags = "place_center_x, place_center_z, force_placement, all_floors",
 	sidelen = 32,
 	y_max = 40,

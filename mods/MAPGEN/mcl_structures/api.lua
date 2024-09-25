@@ -2,7 +2,6 @@ mcl_structures.registered_structures = {}
 local modname = minetest.get_current_modname()
 local modpath = minetest.get_modpath(modname)
 
---local place_queue = {}
 local disabled_structures = minetest.settings:get("mcl_disabled_structures")
 if disabled_structures then	disabled_structures = disabled_structures:split(",")
 else disabled_structures = {} end
@@ -12,6 +11,7 @@ local mob_cap_player = tonumber(minetest.settings:get("mcl_mob_cap_player")) or 
 local mob_cap_animal = tonumber(minetest.settings:get("mcl_mob_cap_animal")) or 10
 
 local logging = minetest.settings:get_bool("mcl_logging_structures",true)
+mcl_structures.DBG = false
 
 local rotations = {
 	"0",
@@ -19,6 +19,8 @@ local rotations = {
 	"180",
 	"270"
 }
+
+local EMPTY_SCHEMATIC = { size = {x = 0, y = 0, z = 0}, data = { } }
 
 function mcl_structures.is_disabled(structname)
 	return table.indexof(disabled_structures,structname) ~= -1
@@ -136,101 +138,6 @@ function mcl_structures.find_highest_y(pp)
 	end
 	return y
 end
---[[
-
-local function smooth_cube(nn,pos,plane,amnt)
-	local r = {}
-	local amnt = amnt or 9
-	table.sort(nn,function(a, b)
-		if false or plane then
-			return vector.distance(vector.new(pos.x,0,pos.z), vector.new(a.x,0,a.z)) < vector.distance(vector.new(pos.x,0,pos.z), vector.new(b.x,0,b.z))
-		else
-			return vector.distance(pos, a) < vector.distance(pos, b)
-		end
-	end)
-	for i=1,math.max(1,#nn-amnt) do table.insert(r,nn[i]) end
-	return r
-end
-
-local function find_ground(pos,nn,gn)
-	local r = 0
-	for _,v in pairs(nn) do
-		local p=vector.new(v)
-		repeat
-			local n = minetest.get_node(p).name
-			p = vector.offset(p,0,-1,0)
-		until not n or n == "mcl_core:bedrock" or n == "ignore" or n == gn
-	--minetest.log(tostring(pos.y - p.y))
-		if pos.y - p.y > r then r = pos.y - p.y end
-	end
-	return r
-end
-
-local function get_foundation_nodes(ground_p1,ground_p2,pos,sidelen,node_stone)
-	local replace = {"air","group:liquid","mcl_core:snow","group:tree","group:leaves","group:plant","grass_block","group:dirt"}
-	local depth = find_ground(pos,minetest.find_nodes_in_area(ground_p1,ground_p2,replace),node_stone)
-	local nn = smooth_cube(minetest.find_nodes_in_area(vector.offset(ground_p1,0,-1,0),vector.offset(ground_p2,0,-depth,0),replace),vector.offset(pos,0,-depth,0),true,sidelen * 64)
-	local stone = {}
-	local filler = {}
-	local top = {}
-	local dust = {}
-	for l,v in pairs(nn) do
-		if v.y == ground_p1.y - 1 then
-			table.insert(filler,v)
-			table.insert(top,vector.offset(v,0,1,0))
-			table.insert(dust,vector.offset(v,0,2,0))
-		elseif v.y < ground_p1.y -1 and v.y > ground_p2.y -4 then table.insert(filler,v)
-		elseif v.y < ground_p2.y - 3 and v.y > ground_p2.y -5 then
-			if math.random(3) == 1 then
-				table.insert(filler,v)
-			else
-				table.insert(stone,v)
-			end
-		else
-			table.insert(stone,v)
-		end
-	end
-	return stone,filler,top,dust
-end
-
-local function foundation(ground_p1,ground_p2,pos,sidelen)
-	local node_stone = "mcl_core:stone"
-	local node_filler = "mcl_core:dirt"
-	local node_top = "mcl_core:dirt_with_grass" or minetest.get_node(ground_p1).name
-	local node_dust = nil
-
-	local b = minetest.registered_biomes[minetest.get_biome_name(minetest.get_biome_data(pos).biome)]
-	--minetest.log(dump(b.node_top))
-	if b then
-		if b.node_top then node_top = b.node_top end
-		if b.node_filler then node_filler = b.node_filler end
-		if b.node_stone then node_stone = b.node_stone end
-		if b.node_dust then node_dust = b.node_dust end
-	end
-
-	local stone,filler,top,dust = get_foundation_nodes(ground_p1,ground_p2,pos,sidelen,node_stone)
-	minetest.bulk_set_node(top,{name=node_top},node_stone)
-
-	if node_dust then
-		minetest.bulk_set_node(dust,{name=node_dust})
-	end
-	minetest.bulk_set_node(filler,{name=node_filler})
-	minetest.bulk_set_node(stone,{name=node_stone})
-end
-]]
-
---[[
-local function process_queue()
-	if #place_queue < 1 then return end
-	local s = table.remove(place_queue)
-	mcl_structures.place_schematic(s.pos, s.file, s.rot, nil, true, "place_center_x,place_center_z",function(s)
-		if s.after_place then
-			s.after_place(s.pos,s.def,s.pr)
-		end
-	end,s.pr)
-	minetest.after(0.5,process_queue)
-end
---]]
 
 function mcl_structures.spawn_mobs(mob, spawnon, p1 ,p2 ,_ ,n , water)
 	n = n or 1
@@ -343,40 +250,33 @@ end
 
 function mcl_structures.register_structure(name,def,nospawn) --nospawn means it will be placed by another (non-nospawn) structure that contains it's structblock i.e. it will not be placed by mapgen directly
 	if mcl_structures.is_disabled(name) then return end
-	local structblock = "mcl_structures:structblock_"..name
 	local flags = "place_center_x, place_center_z, force_placement"
-	local sbgroups = { structblock = 1, not_in_creative_inventory=1 }
 	if def.flags then flags = def.flags end
 	def.name = name
-	if nospawn then
-		sbgroups.structblock = nil
-		sbgroups.structblock_lbm = 1
-	else
-		if def.place_on then
-			minetest.register_on_mods_loaded(function() --make sure all previous decorations and biomes have been registered
-				def.deco = minetest.register_decoration({
-					name = "mcl_structures:deco_"..name,
-					decoration = structblock,
-					deco_type = "simple",
-					place_on = def.place_on,
-					spawn_by = def.spawn_by,
-					num_spawn_by = def.num_spawn_by,
-					sidelen = 80,
-					fill_ratio = def.fill_ratio,
-					noise_params = def.noise_params,
-					flags = flags,
-					biomes = def.biomes,
-					y_max = def.y_max,
-					y_min = def.y_min
-				})
-				minetest.register_node(":"..structblock, {drawtype="airlike", walkable = false, pointable = false,groups = sbgroups,sunlight_propagates = true,})
-				def.structblock = structblock
-				def.deco_id = minetest.get_decoration_id("mcl_structures:deco_"..name)
-				minetest.set_gen_notify({decoration=true}, { def.deco_id })
-				--catching of gennotify happens in mcl_mapgen_core
-
-			end)
-		end
+	if not def.noise_params and def.chunk_probability then
+		def.fill_ratio = def.fill_ratio or 1.1/80/80 -- aim for 1 per chunk, control via chunk probability
+	end
+	if not nospawn and def.place_on then
+		minetest.register_on_mods_loaded(function() --make sure all previous decorations and biomes have been registered
+			def.deco = minetest.register_decoration({
+				name = "mcl_structures:deco_"..name,
+				deco_type = "schematic",
+				schematic = EMPTY_SCHEMATIC,
+				place_on = def.place_on,
+				spawn_by = def.spawn_by,
+				num_spawn_by = def.num_spawn_by,
+				sidelen = 80,
+				fill_ratio = def.fill_ratio,
+				noise_params = def.noise_params,
+				flags = flags,
+				biomes = def.biomes,
+				y_max = def.y_max,
+				y_min = def.y_min
+			})
+			def.deco_id = minetest.get_decoration_id("mcl_structures:deco_"..name)
+			minetest.set_gen_notify({decoration=true}, { def.deco_id })
+			--catching of gennotify happens in mcl_mapgen_core
+		end)
 	end
 	mcl_structures.registered_structures[name] = def
 end
@@ -408,17 +308,3 @@ function mcl_structures.register_structure_spawn(def)
 		end,
 	})
 end
-
---lbm for secondary structures (structblock included in base structure)
-minetest.register_lbm({
-	name = "mcl_structures:struct_lbm",
-	run_at_every_load = true,
-	nodenames = {"group:structblock_lbm"},
-	action = function(pos, node)
-		minetest.remove_node(pos)
-		local name = node.name:gsub("mcl_structures:structblock_","")
-		local def = mcl_structures.registered_structures[name]
-		if not def then return end
-		mcl_structures.place_structure(pos)
-	end
-})

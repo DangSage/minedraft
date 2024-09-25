@@ -194,25 +194,25 @@ msgid "Increases item durability."
 msgstr "Augmente la durabilité des objets."
 
 msgid "Density"
-msgstr ""
+msgstr "Densité"
 
 msgid "Increases mace damage when falling."
-msgstr ""
+msgstr "Augmente les dommages de la masse au cours d'une chute."
 
 msgid "Breach"
-msgstr ""
+msgstr "Brèche"
 
 msgid "Reduces target's armor effectiveness."
-msgstr ""
+msgstr "Réduit l'efficacité de l'armure de la cible."
 
 msgid "Wind Burst"
-msgstr ""
+msgstr "Rafale de Vent"
 
 msgid "Emits a burst of wind from a mace smash attack."
-msgstr ""
+msgstr "Produit une rafale de vent à l'impact d'une attaque de masse fracassante."
 
 msgid "Unknown Enchantment"
-msgstr ""
+msgstr "Enchantement inconnu"
 
 msgid "Inventory"
 msgstr "Inventaire"

@@ -217,7 +217,7 @@ msgid "The Cutest Predator"
 msgstr "El depredador más lindo"
 
 msgid "Catch an Axolotl with a bucket!"
-msgstr "Atrapa a un ajolote en un cubo"
+msgstr "¡Atrapa un Ajolote con un cubo!"
 
 msgid "Withering Heights"
 msgstr "Dr. Witherstein"

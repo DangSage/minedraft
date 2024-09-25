@@ -12,11 +12,10 @@ end
 
 local def = {
 	place_on = {"group:grass_block","group:dirt","mcl_core:dirt_with_grass","group:grass_block","group:sand","group:grass_block_snow","mcl_core:snow"},
-	fill_ratio = 0.006,
 	flags = "place_center_x, place_center_z, all_floors",
 	solid_ground = true,
 	make_foundation = true,
-	chunk_probability = 800,
+	chunk_probability = 20,
 	y_max = mcl_vars.mg_overworld_max,
 	y_min = 1,
 	sidelen = 10,
@@ -38,14 +37,14 @@ local def = {
 		local rack = minetest.find_nodes_in_area(p1,p2,{"mcl_nether:netherrack"})
 		local brick = minetest.find_nodes_in_area(p1,p2,{"mcl_core:stonebrick"})
 		local obby = minetest.find_nodes_in_area(p1,p2,{"mcl_core:obsidian"})
-		minetest.bulk_set_node(get_replacements(gold,30,pr),{name="air"})
-		minetest.bulk_set_node(get_replacements(lava,20,pr),{name="mcl_nether:magma"})
-		minetest.bulk_set_node(get_replacements(rack,7,pr),{name="mcl_nether:magma"})
-		minetest.bulk_set_node(get_replacements(obby,30,pr),{name="mcl_core:crying_obsidian"})
-		minetest.bulk_set_node(get_replacements(obby,10,pr),{name="air"})
-		minetest.bulk_set_node(get_replacements(brick,50,pr),{name="mcl_core:stonebrickcracked"})
+		mcl_util.bulk_swap_node(get_replacements(gold,30,pr),{name="air"})
+		mcl_util.bulk_swap_node(get_replacements(lava,20,pr),{name="mcl_nether:magma"})
+		mcl_util.bulk_swap_node(get_replacements(rack,7,pr),{name="mcl_nether:magma"})
+		mcl_util.bulk_swap_node(get_replacements(obby,30,pr),{name="mcl_core:crying_obsidian"})
+		mcl_util.bulk_swap_node(get_replacements(obby,10,pr),{name="air"})
+		mcl_util.bulk_swap_node(get_replacements(brick,50,pr),{name="mcl_core:stonebrickcracked"})
 		brick = minetest.find_nodes_in_area(p1,p2,{"mcl_core:stonebrick"})
-		minetest.bulk_set_node(get_replacements(brick,50,pr),{name="mcl_core:stonebrickmossy"})
+		mcl_util.bulk_swap_node(get_replacements(brick,50,pr),{name="mcl_core:stonebrickmossy"})
 	end,
 	loot = {
 		["mcl_chests:chest_small" ] ={{

@@ -108,7 +108,7 @@ function mcl_structures.generate_igloo(pos, def, pr)
 					brick = "mcl_core:stonebrick"
 				end
 			end
-			minetest.set_node(pos, {name=brick})
+			minetest.swap_node(pos, {name=brick})
 		end
 		local ladder_param2 = minetest.dir_to_wallmounted(tdir)
 		local real_depth = 0
@@ -131,13 +131,13 @@ function mcl_structures.generate_igloo(pos, def, pr)
 			set_brick({x=tpos.x+1,y=tpos.y-y,z=tpos.z  })
 			set_brick({x=tpos.x  ,y=tpos.y-y,z=tpos.z-1})
 			set_brick({x=tpos.x  ,y=tpos.y-y,z=tpos.z+1})
-			minetest.set_node({x=tpos.x,y=tpos.y-y,z=tpos.z}, {name="mcl_core:ladder", param2=ladder_param2})
+			minetest.swap_node({x=tpos.x,y=tpos.y-y,z=tpos.z}, {name="mcl_core:ladder", param2=ladder_param2})
 		end
 		-- Place basement
 		mcl_structures.generate_igloo_basement(bpos, rotation, def.loot, pr)
 		-- Place hidden trapdoor
 		minetest.after(5, function(tpos, dir)
-			minetest.set_node(tpos, {name="mcl_doors:trapdoor", param2=20+minetest.dir_to_facedir(dir)}) -- TODO: more reliable param2
+			minetest.swap_node(tpos, {name="mcl_doors:trapdoor", param2=20+minetest.dir_to_facedir(dir)}) -- TODO: more reliable param2
 		end, tpos, dir)
 	end
 	return success
@@ -145,9 +145,8 @@ end
 
 mcl_structures.register_structure("igloo",{
 	place_on = {"mcl_core:snowblock","mcl_core:snow","group:grass_block_snow"},
-	fill_ratio = 0.01,
 	sidelen = 16,
-	chunk_probability = 250,
+	chunk_probability = 7,
 	solid_ground = true,
 	make_foundation = true,
 	y_max = mcl_vars.mg_overworld_max,

@@ -558,7 +558,7 @@ mcl_enchanting.enchantments.punch = {
 -- requires missing MineClone2 feature
 mcl_enchanting.enchantments.quick_charge = {
 	name = S("Quick Charge"),
-	max_level = 6,
+	max_level = 10,
 	primary = {crossbow = true},
 	secondary = {},
 	disallow = {},

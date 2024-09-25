@@ -101,6 +101,25 @@ mcl_mobs.register_mob("mobs_mc:guardian_elder", {
 	swims = true,
 	makes_footstep_sound = false,
 	jump = false,
+	do_custom = function (self, dtime)
+	    local self_pos
+	    -- See:
+	    -- https://minecraft.fandom.com/wiki/Elder_Guardian#Inflicting_Mining_Fatigue
+	    self._fatigue_counter = (self._fatigue_counter or 60) + dtime;
+	    self_pos = self.object:get_pos ()
+	    if self._fatigue_counter > 60 then
+		self._fatigue_counter = self._fatigue_counter - 60
+
+		for player in mcl_util.connected_players() do
+		    local pos = player:get_pos ()
+		    if vector.distance (pos, self_pos) <= 50 then
+			-- Inflict Mining Fatigue III for 5 minutes.
+			mcl_potions.give_effect_by_level ("fatigue", player, 3, 300)
+			-- TODO: display an apparition and play eerie noises.
+		    end
+		end
+	    end
+	end,
 })
 
 -- spawn eggs

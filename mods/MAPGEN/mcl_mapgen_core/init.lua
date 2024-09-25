@@ -274,8 +274,7 @@ local function end_basic(vm, data, data2, emin, emax, area, minp, maxp, blocksee
 		end
 	end
 	end
-	vm:set_lighting({day=15, night=15}, emin, emax)
-	return true
+	return true, false -- necessary so lighting is correctly initialized
 end
 
 
@@ -287,25 +286,28 @@ if mg_name ~= "singlenode" or end_fixes_in_singlenode then
 end
 
 -- This should be moved to mcl_structures eventually if the dependencies can be sorted out.
+local function in_cube(tpos, wpos1, wpos2)
+	local minp, maxp = vector.sort(wpos1, wpos2)
+	return vector.in_area(tpos, minp, maxp)
+end
+
 mcl_mapgen_core.register_generator("structures",nil, function(minp, maxp, blockseed)
 	local gennotify = minetest.get_mapgen_object("gennotify")
-	local has = false
 	for _,struct in pairs(mcl_structures.registered_structures) do
-		local pr = PseudoRandom(blockseed + 42)
 		if struct.deco_id then
+			local has = false
 			for _, pos in pairs(gennotify["decoration#"..struct.deco_id] or {}) do
-				local realpos = vector.offset(pos,0,1,0)
-				minetest.remove_node(realpos)
-				minetest.fix_light(vector.offset(pos,-1,-1,-1),vector.offset(pos,1,3,1))
+				local pr = PcgRandom(minetest.hash_node_position(pos) + 42)
 				if struct.chunk_probability == nil or (not has and pr:next(1,struct.chunk_probability) == 1 ) then
-					mcl_structures.place_structure(realpos,struct,pr,blockseed)
+					mcl_structures.place_structure(vector.offset(pos,0,1,0), struct, pr, blockseed)
 					has=true
 				end
 			end
 		elseif struct.static_pos then
-			for _,p in pairs(struct.static_pos) do
-				if mcl_util.in_cube(p,minp,maxp) then
-					mcl_structures.place_structure(p,struct,pr,blockseed)
+			for _, pos in pairs(struct.static_pos) do
+				local pr = PcgRandom(minetest.hash_node_position(pos) + 42)
+				if in_cube(pos, minp, maxp) then
+					mcl_structures.place_structure(pos, struct, pr, blockseed)
 				end
 			end
 		end

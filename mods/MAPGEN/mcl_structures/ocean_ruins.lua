@@ -78,7 +78,7 @@ local function place_sus_nodes(pos,def,pr,susnode,replace_nodes)
 		if #sus_poss > 0 then
 			table.shuffle(sus_poss)
 			for i = 1,pr:next(1,math.min(250,#sus_poss)) do
-				minetest.set_node(sus_poss[i],{name="mcl_sus_nodes:"..susnode})
+				minetest.swap_node(sus_poss[i],{name="mcl_sus_nodes:"..susnode})
 				local meta = minetest.get_meta(sus_poss[i])
 				meta:set_string("structure", def.name)
 			end
@@ -90,7 +90,6 @@ local cold = {
 	place_on = {"group:sand","mcl_core:gravel","mcl_core:dirt","mcl_core:clay","group:material_stone"},
 	spawn_by = {"mcl_core:water_source"},
 	num_spawn_by = 2,
-	fill_ratio = 0.01,
 	flags = "place_center_x, place_center_z, force_placement",
 	solid_ground = true,
 	make_foundation = true,
@@ -98,7 +97,7 @@ local cold = {
 	y_min = mcl_vars.mg_overworld_min,
 	y_max = -2,
 	biomes = cold_oceans,
-	chunk_probability = 400,
+	chunk_probability = 10,
 	sidelen = 10,
 	filenames = {
 		modpath.."/schematics/mcl_structures_ocean_ruins_cold_1.mts",

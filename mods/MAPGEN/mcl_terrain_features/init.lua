@@ -17,35 +17,28 @@ local function airtower(pos,tbl,h)
 end
 
 local function makelake(pos,size,liquid,placein,border,pr,noair)
-	local p1 = vector.offset(pos,-size,-1,-size)
-	local p2 = vector.offset(pos,size,-1,size)
+	local p1, p2 = vector.offset(pos,-size,-1,-size), vector.offset(pos,size,-1,size)
 	minetest.emerge_area(p1, p2, function(_, _, calls_remaining)
 		if calls_remaining ~= 0 then return end
 		local nn = minetest.find_nodes_in_area(p1,p2,placein)
-		table.sort(nn,function(a, b)
-		   return vector.distance(vector.new(pos.x,0,pos.z), a) < vector.distance(vector.new(pos.x,0,pos.z), b)
-		end)
 		if not nn[1] then return end
-		local y = pos.y - pr:next(1,2)
-		local lq = {}
-		local air = {}
-		local r = pr:next(1,#nn)
-		if r > #nn then return end
+		table.sort(nn,function(a, b)
+		   return vector.distance(pos, a) < vector.distance(pos, b)
+		end)
+		local lq, air = {}, {}
+		local r = pr:next(math.ceil(#nn/4),#nn)
 		for i=1,r do
-			if nn[i].y == y then
-				airtower(nn[i],air,55)
-				table.insert(lq,nn[i])
-			end
+			airtower(nn[i],air,10)
+			table.insert(lq,nn[i])
 		end
-		minetest.bulk_set_node(lq,{name=liquid})
-		minetest.bulk_set_node(air,{name="air"})
+		mcl_util.bulk_swap_node(lq,{name=liquid})
+		mcl_util.bulk_swap_node(air,{name="air"})
 		air = {}
 		local br = {}
 		for _, v in pairs(lq) do
 			for _, vv in pairs(adjacents) do
 				local pp = vector.add(v,vv)
 				local an = minetest.get_node(pp)
-				local un = minetest.get_node(vector.offset(pp,0,1,0))
 				if not border then
 					if minetest.get_item_group(an.name,"solid") > 0 then
 						border = an.name
@@ -58,14 +51,15 @@ local function makelake(pos,size,liquid,placein,border,pr,noair)
 				end
 				if not noair and an.name ~= liquid then
 					table.insert(br,pp)
+					local un = minetest.get_node(vector.offset(pp,0,1,0))
 					if un.name ~= liquid then
-						airtower(pp,air,55)
+						airtower(pp,air,10)
 					end
 				end
 			end
 		end
-		minetest.bulk_set_node(br,{name=border})
-		minetest.bulk_set_node(air,{name="air"})
+		mcl_util.bulk_swap_node(br,{name=border})
+		mcl_util.bulk_swap_node(air,{name="air"})
 		return true
 	end)
 	return true
@@ -167,6 +161,9 @@ mcl_structures.register_structure("lavapool",{
 		persist = 0.001,
 		flags = "absvalue",
 	},
+	spawn_by = "air", -- this should not be necessary, but we had pools spawn underground
+	check_offset = 1,
+	num_spawn_by = 5,
 	flags = "place_center_x, place_center_z, force_placement",
 	y_max = mcl_vars.mg_overworld_max,
 	y_min = minetest.get_mapgen_setting("water_level"),
@@ -187,6 +184,9 @@ mcl_structures.register_structure("water_lake",{
 		persist = 0.001,
 		flags = "absvalue",
 	},
+	spawn_by = "air", -- this should not be necessary, but we had pools spawn underground
+	check_offset = 1,
+	num_spawn_by = 5,
 	flags = "place_center_x, place_center_z, force_placement",
 	y_max = mcl_vars.mg_overworld_max,
 	y_min = minetest.get_mapgen_setting("water_level"),
@@ -208,6 +208,9 @@ mcl_structures.register_structure("water_lake_mangrove_swamp",{
 		persist = 0.001,
 		flags = "absvalue",
 	},
+	spawn_by = "air", -- this should not be necessary, but we had pools spawn underground
+	check_offset = 1,
+	num_spawn_by = 5,
 	flags = "place_center_x, place_center_z, force_placement",
 	y_max = mcl_vars.mg_overworld_max,
 	y_min = minetest.get_mapgen_setting("water_level"),
@@ -255,8 +258,8 @@ mcl_structures.register_structure("basalt_column",{
 				end
 			end
 		end
-		minetest.bulk_set_node(magma,{name="mcl_nether:magma"})
-		minetest.bulk_set_node(basalt,{name="mcl_blackstone:basalt"})
+		mcl_util.bulk_swap_node(magma,{name="mcl_nether:magma"})
+		mcl_util.bulk_swap_node(basalt,{name="mcl_blackstone:basalt"})
 		return true
 	end
 })
@@ -296,8 +299,8 @@ mcl_structures.register_structure("basalt_pillar",{
 				end
 			end
 		end
-		minetest.bulk_set_node(basalt,{name="mcl_blackstone:basalt"})
-		minetest.bulk_set_node(magma,{name="mcl_nether:magma"})
+		mcl_util.bulk_swap_node(basalt,{name="mcl_blackstone:basalt"})
+		mcl_util.bulk_swap_node(magma,{name="mcl_nether:magma"})
 		return true
 	end
 })
@@ -330,7 +333,7 @@ mcl_structures.register_structure("lavadelta",{
 		for i=1,pr:next(1,#nn) do
 			table.insert(lava,nn[i])
 		end
-		minetest.bulk_set_node(lava,{name="mcl_nether:nether_lava_source"})
+		mcl_util.bulk_swap_node(lava,{name="mcl_nether:nether_lava_source"})
 		local basalt = {}
 		local magma = {}
 		for _,v in pairs(lava) do
@@ -345,8 +348,52 @@ mcl_structures.register_structure("lavadelta",{
 				table.insert(magma,v)
 			end
 		end
-		minetest.bulk_set_node(basalt,{name="mcl_blackstone:basalt"})
-		minetest.bulk_set_node(magma,{name="mcl_nether:magma"})
+		mcl_util.bulk_swap_node(basalt,{name="mcl_blackstone:basalt"})
+		mcl_util.bulk_swap_node(magma,{name="mcl_nether:magma"})
+		return true
+	end
+})
+
+-- Powder snow traps
+mcl_structures.register_structure("powder_snow_trap", {
+	place_on = {"mcl_core:snowblock", "mcl_core:snow", "group:grass_block_snow"},
+	sidelen = 80,
+	noise_params = {
+		offset = 0.00040,
+		scale = 0.001,
+		spread = {x = 500, y = 500, z = 500},
+		seed = 2137,
+		octaves = 4,
+		persist = 0.67,
+	},
+	biomes = {"IcePlainsSpikes, ColdTaiga, ColdTaiga_beach, IcePlains"},
+	y_min = 1,
+	y_max = mcl_vars.mg_overworld_max,
+	place_func = function(pos)
+		local width  = math.random(6) - 3
+		local length = math.random(6) - 3
+		local depth  = math.random(4)
+
+		local solid_nodes = {}
+		local node_name
+		for i = 0, width do
+			for j = 0, length do
+				for k = 0, depth do
+					node_name = minetest.get_node(vector.offset(pos, i, k, j)).name
+					if minetest.get_item_group(node_name, "dirt") > 0
+						or minetest.get_item_group(node_name, "snow_cover") > 0
+						or minetest.get_item_group(node_name, "stone") > 0 then
+						table.insert(solid_nodes, vector.offset(pos, i, k, j))
+					end
+				end
+			end
+		end
+
+		if #solid_nodes == 0 then
+			return false
+		end
+
+		minetest.bulk_set_node(solid_nodes, {name = "mcl_powder_snow:powder_snow"})
 		return true
 	end
 })

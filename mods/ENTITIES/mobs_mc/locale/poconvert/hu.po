@@ -38,7 +38,7 @@ msgid "Creeper"
 msgstr "Lopódzó"
 
 msgid "Charged Creeper"
-msgstr ""
+msgstr "Feltöltött Lopódzó"
 
 msgid "Dolphin"
 msgstr "Delfin"
@@ -89,7 +89,7 @@ msgid "Mule"
 msgstr "Öszvér"
 
 msgid "Sneak to dismount"
-msgstr ""
+msgstr "Guggolj, hogy leszereld"
 
 msgid "Iron Golem"
 msgstr "Vas Gólem"
@@ -155,22 +155,22 @@ msgid "Wither Skeleton"
 msgstr "Sorvasztó Csontváz"
 
 msgid "Slime - big"
-msgstr ""
+msgstr "Zselé - nagy"
 
 msgid "Slime - small"
-msgstr ""
+msgstr "Zselé - kicsi"
 
 msgid "Slime - tiny"
-msgstr ""
+msgstr "Zselé - parány"
 
 msgid "Magma Cube - big"
-msgstr ""
+msgstr "Magma Kocka - nagy"
 
 msgid "Magma Cube - small"
-msgstr ""
+msgstr "Magma Kocka - kicsi"
 
 msgid "Magma Cube - tiny"
-msgstr ""
+msgstr "Magma Kocka - apró"
 
 msgid "Magma Cube"
 msgstr "Magma Kocka"
@@ -299,7 +299,7 @@ msgid "Master"
 msgstr "Mester"
 
 msgid "Witch"
-msgstr ""
+msgstr "Boszi"
 
 msgid "Wither"
 msgstr "Sorvasztó"
@@ -308,7 +308,7 @@ msgid "Wolf"
 msgstr "Farkas"
 
 msgid "Dog"
-msgstr ""
+msgstr "Kutya"
 
 msgid "Zombie"
 msgstr "Zombi"

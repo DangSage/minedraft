@@ -401,15 +401,15 @@ controls.register_on_hold(function(player, key)
 end)
 
 minetest.register_globalstep(function()
-    for _, player in pairs(minetest.get_connected_players()) do
-        local name = player:get_player_name()
-        local wielditem = player:get_wielded_item()
-        local wieldindex = player:get_wield_index()
-        if type(bow_load[name]) == "number" and ((wielditem:get_name() ~= "mcl_bows:crossbow_0" and wielditem:get_name() ~= "mcl_bows:crossbow_1" and wielditem:get_name() ~= "mcl_bows:crossbow_2" and
-            wielditem:get_name() ~= "mcl_bows:crossbow_0_enchanted" and wielditem:get_name() ~= "mcl_bows:crossbow_1_enchanted" and wielditem:get_name() ~= "mcl_bows:crossbow_2_enchanted") or wieldindex ~= bow_index[name]) then
-            reset_bow_state(player, true)
-        end
-    end
+	for player in mcl_util.connected_players() do
+		local name = player:get_player_name()
+		local wielditem = player:get_wielded_item()
+		local wieldindex = player:get_wield_index()
+		--local controls = player:get_player_control()
+		if type(bow_load[name]) == "number" and ((wielditem:get_name()~="mcl_bows:crossbow_0" and wielditem:get_name()~="mcl_bows:crossbow_1" and wielditem:get_name()~="mcl_bows:crossbow_2" and wielditem:get_name()~="mcl_bows:crossbow_0_enchanted" and wielditem:get_name()~="mcl_bows:crossbow_1_enchanted" and wielditem:get_name()~="mcl_bows:crossbow_2_enchanted") or wieldindex ~= bow_index[name]) then
+			reset_bow_state(player, true)
+		end
+	end
 end)
 
 minetest.register_on_joinplayer(function(player)

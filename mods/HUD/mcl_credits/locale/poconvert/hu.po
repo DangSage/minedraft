@@ -14,44 +14,44 @@ msgstr ""
 "X-Generator: mtt_convert 0.1.0\n"
 
 msgid "A faithful Open Source clone of Minecraft"
-msgstr ""
+msgstr "Nyílt forráskódú hű másolata a Minecraft-nak"
 
 msgid "Sneak to skip"
-msgstr ""
+msgstr "Guggolj, hogy tovább lapozz"
 
 msgid "Jump to speed up (additionally sprint)"
-msgstr ""
+msgstr "Ugorj a felgyorsításhoz (továbbá fuss)"
 
 msgid "Show the Mineclonia end credits"
-msgstr ""
+msgstr "Mutasd a Mineclonia vége főcímét"
 
 msgid "Creators of Mineclonia"
-msgstr ""
+msgstr "Mineclonia készítői"
 
 msgid "Creator of MineClone 2"
-msgstr ""
+msgstr "MineClone 2 készítői"
 
 msgid "Creator of MineClone"
-msgstr ""
+msgstr "MineClone készítői"
 
 msgid "Active Contributors"
-msgstr ""
+msgstr "Aktív közreműködők"
 
 msgid "Previous Contributors"
-msgstr ""
+msgstr "Korábbi közreműködők"
 
 msgid "Original Mod Authors"
-msgstr ""
+msgstr "Eredeti Mod-készítők"
 
 msgid "3D Models"
-msgstr ""
+msgstr "3D modellek"
 
 msgid "Textures and menu images"
-msgstr ""
+msgstr "Textúrák és menü képek"
 
 msgid "Translations"
-msgstr ""
+msgstr "Fordítások"
 
 msgid "Special thanks"
-msgstr ""
+msgstr "Külön köszönet"
 

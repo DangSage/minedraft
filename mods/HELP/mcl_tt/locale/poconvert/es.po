@@ -101,7 +101,7 @@ msgid "Bouncy (@1%)"
 msgstr "Rebota (@1%)"
 
 msgid "Luminance: @1"
-msgstr "Luminancia: @1"
+msgstr "Iluminación: @1"
 
 msgid "@1 uses"
 msgstr "@1 usos"

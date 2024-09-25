@@ -76,9 +76,8 @@ local function check_conduit(pos)
 end
 
 function mcl_conduits.player_effect(player)
-	if minetest.get_item_group(mcl_player.players[player].nodes.feet, "water") == 0 then return end
-	mcl_potions.water_breathing_func(player, 2, 13)
-	mcl_potions.swiftness_func(player, 2, 13)
+    if minetest.get_item_group(mcl_player.players[player].nodes.feet, "water") == 0 then return end
+    mcl_potions.give_effect_by_level ("conduit_power", player, 1, 17)
 end
 
 function mcl_conduits.conduit_damage(ent)
@@ -121,12 +120,11 @@ minetest.register_entity("mcl_conduits:conduit", {
 			self.object:remove()
 			return
 		end
-		local dst = lvl * 2
-		for _, pl in pairs(minetest.get_connected_players()) do
-			if vector.distance(self._pos, pl:get_pos()) < dst then
-				mcl_conduits.player_effect(pl)
-			end
+
+		for pl in mcl_util.connected_players(self._pos, lvl * 2) do
+			mcl_conduits.player_effect(pl)
 		end
+
 		for _, ent in pairs(minetest.luaentities) do
 			if ent.is_mob and ent.type == "monster" and ent.object and ent.object:get_pos() and vector.distance(self._pos, ent.object:get_pos()) < 9 then
 				mcl_conduits.conduit_damage(ent)
@@ -158,7 +156,7 @@ minetest.register_abm({
 	interval = check_interval,
 	chance = 1,
 	action = function(pos, _)
-		for _, v in pairs(minetest.get_objects_inside_radius(vector.subtract(pos, entity_pos_offset), 0.5)) do
+		for v in minetest.objects_inside_radius(vector.subtract(pos, entity_pos_offset), 0.5) do
 			if v.name == "mcl_conduits:conduit" then return end
 		end
 		if check_conduit(pos) then

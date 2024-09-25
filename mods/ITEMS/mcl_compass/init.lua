@@ -169,7 +169,7 @@ minetest.register_globalstep(function(dtime)
 
 	local compass_nr, compass_frame
 	local pos, dir, inv
-	for _, player in pairs(minetest.get_connected_players()) do
+	for player in mcl_util.connected_players() do
 		pos = player:get_pos()
 		dir = player:get_look_horizontal()
 		inv = player:get_inventory()
@@ -293,6 +293,8 @@ minetest.register_node("mcl_compass:lodestone",{
 				itemstack:set_name("mcl_compass:" .. frame .. "_lodestone")
 			end
 		end
+
+		return itemstack
 	end,
 	tiles = {
 		"lodestone_top.png",

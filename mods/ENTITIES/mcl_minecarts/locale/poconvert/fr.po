@@ -38,7 +38,7 @@ msgid "If it moves over a powered activator rail, you'll get ejected."
 msgstr "S'il passe au-dessus d'un rail d'activation motorisé, vous serez éjecté."
 
 msgid "Sneak to dismount"
-msgstr "Se baisser pour descendre"
+msgstr "S'accroupir pour descendre"
 
 msgid "Minecart with Chest"
 msgstr "Wagonnet avec Coffre"

@@ -85,9 +85,11 @@ minetest.register_node("mcl_cauldrons:cauldron", {
 			s = "mcl_core:lava_source"
 		end
 		if minetest.registered_nodes[n] then
-			itemstack:take_item()
-			local inv = placer:get_inventory()
-			inv:add_item("main","mcl_buckets:bucket_empty")
+			if not minetest.is_creative_enabled(placer:get_player_name()) then
+				itemstack:take_item()
+				local inv = placer:get_inventory()
+				inv:add_item("main","mcl_buckets:bucket_empty")
+			end
 			minetest.swap_node(pointed_thing.under,{name=n})
 			if s then
 				sound_place(s, pointed_thing.under)
@@ -144,9 +146,11 @@ local function register_filled_cauldron(water_level, description, liquid)
 				s = "mcl_core:lava_source"
 			end
 			if minetest.registered_items[n] then
-				itemstack:take_item()
-				local inv = placer:get_inventory()
-				inv:add_item("main",n)
+				if not minetest.is_creative_enabled(placer:get_player_name()) then
+					itemstack:take_item()
+					local inv = placer:get_inventory()
+					inv:add_item("main",n)
+				end
 				minetest.swap_node(pointed_thing.under,{name="mcl_cauldrons:cauldron"})
 				if s then
 					sound_take(s, pointed_thing.under)
@@ -160,7 +164,7 @@ local function register_filled_cauldron(water_level, description, liquid)
 				minetest.sound_play("mcl_potions_bottle_pour",
 					{pos=pos, gain=0.5, max_hear_range=16},true)
 			end
-			return outcome
+			return outcome or itemstack
 		end,
 	})
 
@@ -202,7 +206,7 @@ minetest.register_globalstep(function(dtime)
 	etime = dtime + etime
 	if etime < 0.5 then return end
 	etime = 0
-	for _,pl in pairs(minetest.get_connected_players()) do
+	for pl in mcl_util.connected_players() do
 		local n = minetest.find_node_near(pl:get_pos(),0.4,{"group:cauldron_filled"},true)
 		if n and not minetest.get_node(n).name:find("lava") then
 			cauldron_extinguish(pl,n)

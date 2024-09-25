@@ -160,7 +160,7 @@ local function get_entity_pos(pos, dir, double)
 end
 
 local function find_entity(pos)
-	for _, obj in pairs(minetest.get_objects_inside_radius(pos, 0)) do
+	for obj in minetest.objects_inside_radius(pos, 0) do
 		local luaentity = obj:get_luaentity()
 		if luaentity and luaentity.name == "mcl_chests:chest" then
 			return luaentity
@@ -424,12 +424,8 @@ local function register_chest(basename, desc, longdesc, usagehelp, tt_help, tile
 	})
 
 	local function close_forms(canonical_basename, pos)
-		local players = minetest.get_connected_players()
-		for p = 1, #players do
-			if vector.distance(players[p]:get_pos(), pos) <= 30 then
-				minetest.close_formspec(players[p]:get_player_name(),
-					"mcl_chests:" .. canonical_basename .. "_" .. pos.x .. "_" .. pos.y .. "_" .. pos.z)
-			end
+		for pl in mcl_util.connected_players(pos, 30) do
+			minetest.close_formspec(pl:get_player_name(), "mcl_chests:" .. canonical_basename .. "_" .. pos.x .. "_" .. pos.y .. "_" .. pos.z)
 		end
 	end
 
@@ -1310,16 +1306,19 @@ tt.register_snippet(function(itemstring, _ , itemstack)
 		if itemstack then
 			local d = ""
 			local i = 0
-			for _, v in ipairs(minetest.deserialize(itemstack:get_meta():get_string(""))) do
-				local stack = ItemStack(v)
-				if not stack:is_empty() then
-					if i < shulker_num_tt_stacks then
-						local newline = d ~= "" and "\n" or ""
-						local item = (stack:get_short_description() or stack:get_description())
-						local count = (stack:get_count() > 1 and ("x"..stack:get_count()) or "")
-						d = d..newline..item.." "..count
+			local its = minetest.deserialize(itemstack:get_meta():get_string(""))
+			if its then
+				for _, v in ipairs(its) do
+					local stack = ItemStack(v)
+					if not stack:is_empty() then
+						if i < shulker_num_tt_stacks then
+							local newline = d ~= "" and "\n" or ""
+							local item = (stack:get_short_description() or stack:get_description())
+							local count = (stack:get_count() > 1 and ("x"..stack:get_count()) or "")
+							d = d..newline..item.." "..count
+						end
+						i = i + 1
 					end
-					i = i + 1
 				end
 			end
 			if d ~= "" and i - shulker_num_tt_stacks > 0 then

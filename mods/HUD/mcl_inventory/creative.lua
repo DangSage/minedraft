@@ -101,7 +101,13 @@ minetest.register_on_mods_loaded(function()
 				nonmisc = true
 			end
 			if def.groups.brewitem then
-				table.insert(inventory_lists["brew"], name)
+				local str = name
+				if def.groups._mcl_potion == 1 then
+					local stack = ItemStack(name)
+					tt.reload_itemstack_description(stack)
+					str = stack:to_string()
+				end
+				table.insert(inventory_lists["brew"], str)
 				nonmisc = true
 			end
 			if def.groups.craftitem then
@@ -111,6 +117,23 @@ minetest.register_on_mods_loaded(function()
 			-- Misc. category is for everything which is not in any other category
 			if not nonmisc then
 				table.insert(inventory_lists["misc"], name)
+			end
+
+			if def.groups._mcl_potion == 1 then
+				if def.has_potent then
+					local stack = ItemStack(name)
+					local potency = def._default_potent_level - 1
+					stack:get_meta():set_int("mcl_potions:potion_potent", potency)
+					tt.reload_itemstack_description(stack)
+					table.insert(inventory_lists["brew"], stack:to_string())
+				end
+				if def.has_plus then
+					local stack = ItemStack(name)
+					local extend = def._default_extend_level
+					stack:get_meta():set_int("mcl_potions:potion_plus", extend)
+					tt.reload_itemstack_description(stack)
+					table.insert(inventory_lists["brew"], stack:to_string())
+				end
 			end
 
 			table.insert(inventory_lists["all"], name)
@@ -152,11 +175,47 @@ local function set_inv_search(filter, player)
 	local creative_list = {}
 	local lang = minetest.get_player_information(playername).lang_code
 	for name, def in pairs(minetest.registered_items) do
-		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0) and def.description and
-			def.description ~= "" then
-			if filter_item(string.lower(def.name), def.description, lang, filter) then
-				table.insert(creative_list, name)
+		if (not def.groups.not_in_creative_inventory or def.groups.not_in_creative_inventory == 0)
+		and def.description and
+		def.description ~= "" then
+		local name = string.lower(def.name)
+		if filter_item (name, def.description, lang, filter) then
+			if def.groups._mcl_potion == 1 then
+			local stack = ItemStack (name)
+			tt.reload_itemstack_description (stack)
+			table.insert(creative_list, stack:to_string ())
+			else
+			table.insert(creative_list, name)
 			end
+		end
+		if def.groups._mcl_potion == 1 then
+			if def.has_potent then
+			local stack = ItemStack (name)
+			local potency = def._default_potent_level - 1
+			stack:get_meta ():set_int ("mcl_potions:potion_potent",
+						   potency)
+			tt.reload_itemstack_description (stack)
+			local desc
+				= minetest.strip_colors (stack:get_description ())
+
+			if filter_item (name, desc, lang, filter) then
+				table.insert (creative_list, stack:to_string ())
+			end
+			end
+			if def.has_plus then
+			local stack = ItemStack (name)
+			local extend = def._default_extend_level
+			stack:get_meta ():set_int ("mcl_potions:potion_plus",
+						   extend)
+			tt.reload_itemstack_description (stack)
+			local desc
+				= minetest.strip_colors (stack:get_description ())
+
+			if filter_item (name, desc, lang, filter) then
+				table.insert (creative_list, stack:to_string ())
+			end
+			end
+		end
 		end
 	end
 	for ench, def in pairs(mcl_enchanting.enchantments) do

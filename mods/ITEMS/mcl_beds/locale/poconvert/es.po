@@ -38,7 +38,7 @@ msgid "Bed"
 msgstr "Cama"
 
 msgid "@1 Bed"
-msgstr "@1 Cama"
+msgstr "Cama color @1"
 
 msgid "You can only sleep at night or during a thunderstorm."
 msgstr "Solo puedes dormir por la noche o durante tormentas eléctricas."

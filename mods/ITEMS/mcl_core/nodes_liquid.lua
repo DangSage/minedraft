@@ -160,7 +160,7 @@ S("• When flowing water touches flowing lava either from above or horizontally
 S("• When lava is directly above water, the water turns into stone."),
 	drawtype = "liquid",
 	tiles = {
-		{name="default_lava_source_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=96.0}}
+		{name="default_lava_source_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}}
 	},
 	special_tiles = {
 		-- New-style lava source material (mostly unused)

@@ -216,7 +216,7 @@ function mobs_mc.check_iron_golem_summon(pos, player)
 		for i=1, 4 do
 			local cpos = vector.add(pos, checks[c][i])
 			local node = minetest.get_node(cpos)
-			if node.name ~= "mcl_core:ironblock" then
+			if node.name ~= "mcl_core:iron_block" then
 				ok = false
 				break
 			end

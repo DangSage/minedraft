@@ -754,7 +754,7 @@ minetest.register_node("mcl_core:coalblock", {
 	_mcl_burntime = 800
 })
 
-minetest.register_node("mcl_core:ironblock", {
+minetest.register_node("mcl_core:iron_block", {
 	description = S("Block of Iron"),
 	_doc_items_longdesc = S("A block of iron is mostly a decorative block but also useful as a compact storage of iron ingots."),
 	tiles = {"default_iron_block.png"},
@@ -765,7 +765,7 @@ minetest.register_node("mcl_core:ironblock", {
 	_mcl_hardness = 5,
 })
 
-minetest.register_node("mcl_core:goldblock", {
+minetest.register_node("mcl_core:gold_block", {
 	description = S("Block of Gold"),
 	_doc_items_longdesc = S("A block of gold is mostly a shiny decorative block but also useful as a compact storage of gold ingots."),
 	tiles = {"default_gold_block.png"},
@@ -776,7 +776,7 @@ minetest.register_node("mcl_core:goldblock", {
 	_mcl_hardness = 3,
 })
 
-minetest.register_node("mcl_core:diamondblock", {
+minetest.register_node("mcl_core:diamond_block", {
 	description = S("Block of Diamond"),
 	_doc_items_longdesc = S("A block of diamond is mostly a shiny decorative block but also useful as a compact storage of diamonds."),
 	tiles = {"default_diamond_block.png"},

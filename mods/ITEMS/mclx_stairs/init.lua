@@ -15,30 +15,30 @@ mcl_stairs.register_slab("lapisblock", {
 	tiles={"mcl_core_lapis_block.png", "mcl_core_lapis_block.png", "mcl_stairs_lapis_block_slab.png"},
 })
 
-mcl_stairs.register_stair("goldblock", {
-	baseitem="mcl_core:goldblock",
+mcl_stairs.register_stair("gold_block", {
+	baseitem="mcl_core:gold_block",
 	description=S("Gold Stairs"),
-	recipeitem=extra_nodes and "mcl_core:goldblock" or "",
+	recipeitem=extra_nodes and "mcl_core:gold_block" or "",
 	groups={not_in_creative_inventory=extra_nodes and 0 or 1},
 })
-mcl_stairs.register_slab("goldblock", {
-	baseitem="mcl_core:goldblock",
+mcl_stairs.register_slab("gold_block", {
+	baseitem="mcl_core:gold_block",
 	description=S("Gold Slab"),
-	recipeitem=extra_nodes and "mcl_core:goldblock" or "",
+	recipeitem=extra_nodes and "mcl_core:gold_block" or "",
 	groups={not_in_creative_inventory=extra_nodes and 0 or 1},
 	tiles={"default_gold_block.png", "default_gold_block.png", "mcl_stairs_gold_block_slab.png"},
 })
 
-mcl_stairs.register_stair("ironblock", {
-	baseitem="mcl_core:ironblock",
+mcl_stairs.register_stair("iron_block", {
+	baseitem="mcl_core:iron_block",
 	description=S("Iron Stairs"),
-	recipeitem=extra_nodes and "mcl_core:ironblock" or "",
+	recipeitem=extra_nodes and "mcl_core:iron_block" or "",
 	groups={not_in_creative_inventory=extra_nodes and 0 or 1},
 })
-mcl_stairs.register_slab("ironblock", {
-	baseitem="mcl_core:ironblock",
+mcl_stairs.register_slab("iron_block", {
+	baseitem="mcl_core:iron_block",
 	description=S("Iron Slab"),
-	recipeitem=extra_nodes and "mcl_core:ironblock" or "",
+	recipeitem=extra_nodes and "mcl_core:iron_block" or "",
 	groups={not_in_creative_inventory=extra_nodes and 0 or 1},
 	tiles={"default_iron_block.png", "default_iron_block.png", "mcl_stairs_iron_block_slab.png"},
 })

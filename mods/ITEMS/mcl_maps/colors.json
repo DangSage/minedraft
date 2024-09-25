@@ -2934,7 +2934,7 @@
 		191,
 		187
 	],
-	"mcl_nether_netheriteblock.png": [
+	"mcl_nether_netherite_block.png": [
 		35,
 		33,
 		31
@@ -4539,11 +4539,6 @@
 		74,
 		96
 	],
-	"mcl_end_endframe_side.png": [
-		110,
-		99,
-		86
-	],
 	"mcl_end_dragon_egg.png": [
 		55,
 		34,
@@ -4584,11 +4579,6 @@
 		187,
 		123
 	],
-	"mcl_end_endframe_eye.png": [
-		135,
-		36,
-		18
-	],
 	"mcl_end_crystal_beam.png": [
 		195,
 		81,
@@ -4598,11 +4588,6 @@
 		157,
 		108,
 		171
-	],
-	"mcl_end_endframe_top.png": [
-		95,
-		85,
-		74
 	],
 	"mcl_end_ender_eye.png": [
 		130,

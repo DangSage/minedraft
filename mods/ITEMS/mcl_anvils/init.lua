@@ -609,7 +609,7 @@ if minetest.get_modpath("mcl_core") then
 	minetest.register_craft({
 		output = "mcl_anvils:anvil",
 		recipe = {
-			{ "mcl_core:ironblock", "mcl_core:ironblock", "mcl_core:ironblock" },
+			{ "mcl_core:iron_block", "mcl_core:iron_block", "mcl_core:iron_block" },
 			{ "", "mcl_core:iron_ingot", "" },
 			{ "mcl_core:iron_ingot", "mcl_core:iron_ingot", "mcl_core:iron_ingot" },
 		},

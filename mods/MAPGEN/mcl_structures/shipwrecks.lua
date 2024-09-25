@@ -278,7 +278,7 @@ mcl_structures.register_structure("ocean_temple",{
 			stacks_max = 6,
 			items = {
 				{ itemstring = "mcl_core:iron_ingot", weight = 10, amount_min = 1, amount_max = 5 },
-				{ itemstring = "mcl_core:goldblock", weight = 1, amount_min = 1, amount_max = 2 },
+				{ itemstring = "mcl_core:gold_block", weight = 1, amount_min = 1, amount_max = 2 },
 				{ itemstring = "mcl_experience:bottle", weight = 5, amount_min = 1, amount_max = 1 },
 				{ itemstring = "mcl_core:diamond", weight = 5, amount_min = 1, amount_max = 1 },
 				{ itemstring = "mcl_fishing:fishing_rod", weight = 1, amount_min = 1, amount_max = 1 },

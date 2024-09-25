@@ -32,7 +32,7 @@ local def = {
 	after_place = function(pos, _, pr)
 		local p1 = vector.offset(pos,-9, -1, -9)
 		local p2 = vector.offset(pos,9, 16 ,9)
-		local gold = minetest.find_nodes_in_area(p1,p2,{"mcl_core:goldblock"})
+		local gold = minetest.find_nodes_in_area(p1,p2,{"mcl_core:gold_block"})
 		local lava = minetest.find_nodes_in_area(p1,p2,{"mcl_core:lava_source"})
 		local rack = minetest.find_nodes_in_area(p1,p2,{"mcl_nether:netherrack"})
 		local brick = minetest.find_nodes_in_area(p1,p2,{"mcl_core:stonebrick"})
@@ -94,7 +94,7 @@ local def = {
 				{ itemstring = "mcl_core:gold_ingot", weight = 5, amount_min = 2, amount_max = 8 },
 				{ itemstring = "mcl_clock:clock", weight = 5, },
 				{ itemstring = "mcl_mobitems:gold_horse_armor", weight = 1, },
-				{ itemstring = "mcl_core:goldblock", weight = 1, amount_min = 1, amount_max = 2 },
+				{ itemstring = "mcl_core:gold_block", weight = 1, amount_min = 1, amount_max = 2 },
 				{ itemstring = "mcl_bells:bell", weight = 1, },
 				{ itemstring = "mcl_core:apple_gold_enchanted", weight = 1, },
 			}

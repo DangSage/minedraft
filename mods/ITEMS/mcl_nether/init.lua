@@ -62,13 +62,13 @@ minetest.register_node("mcl_nether:ancient_debris", {
 	_mcl_cooking_output = "mcl_nether:netherite_scrap"
 })
 
-minetest.register_node("mcl_nether:netheriteblock", {
+minetest.register_node("mcl_nether:netherite_block", {
 	description = S("Netherite Block"),
 	_doc_items_longdesc = S("Netherite block is very hard and can be made of 9 netherite ingots."),
-	tiles = {"mcl_nether_netheriteblock.png"},
+	tiles = {"mcl_nether_netherite_block.png"},
 	is_ground_content = false,
 	groups = { pickaxey=4, building_block=1, material_stone=1, xp = 0, fire_immune=1 },
-	drop = "mcl_nether:netheriteblock",
+	drop = "mcl_nether:netherite_block",
 	sounds = mcl_sounds.node_sound_stone_defaults(),
 	_mcl_blast_resistance = 1200,
 	_mcl_hardness = 50,
@@ -464,7 +464,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "mcl_nether:netheriteblock",
+	output = "mcl_nether:netherite_block",
 	recipe = {
 		{"mcl_nether:netherite_ingot", "mcl_nether:netherite_ingot", "mcl_nether:netherite_ingot"},
 		{"mcl_nether:netherite_ingot", "mcl_nether:netherite_ingot", "mcl_nether:netherite_ingot"},
@@ -475,7 +475,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "mcl_nether:netherite_ingot 9",
 	recipe = {
-		{"mcl_nether:netheriteblock", "", ""},
+		{"mcl_nether:netherite_block", "", ""},
 		{"", "", ""},
 		{"", "", ""}
 	}

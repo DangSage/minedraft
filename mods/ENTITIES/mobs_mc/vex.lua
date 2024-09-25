@@ -26,7 +26,7 @@ mcl_mobs.register_mob("mobs_mc:vex", {
 	mesh = "mobs_mc_vex.b3d",
 	textures = {
 		{
-			"default_tool_steelsword.png",
+			"default_tool_iron_sword.png",
 			"mobs_mc_vex.png",
 		},
 	},
@@ -65,8 +65,8 @@ mcl_mobs.register_mob("mobs_mc:vex", {
 			if self.base_texture[2] == "mobs_mc_vex_charging.png" then
 				self.base_texture[2] = "mobs_mc_vex.png"
 			end
-			if self.base_texture[1] ~= "default_tool_steelsword.png" then
-				self.base_texture[1] = "default_tool_steelsword.png"
+			if self.base_texture[1] ~= "default_tool_iron_sword.png" then
+				self.base_texture[1] = "default_tool_iron_sword.png"
 			end
 			self.object:set_properties({textures=self.base_texture})
 		end

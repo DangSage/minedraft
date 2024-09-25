@@ -30,7 +30,7 @@ mcl_mobs.register_mob("mobs_mc:witherskeleton", {
 	textures = {
 		{
 			"mobs_mc_empty.png", -- armor
-			"default_tool_stonesword.png", -- sword
+			"default_tool_stone_sword.png", -- sword
 			"mobs_mc_wither_skeleton.png", -- wither skeleton
 		}
 	},

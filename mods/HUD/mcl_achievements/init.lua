@@ -41,7 +41,7 @@ awards.register_achievement("mcl_buildWorkBench", {
 awards.register_achievement("mcl:buildPickaxe", {
 	title = S("Time to Mine!"),
 	description = S("Use a crafting table to craft a wooden pickaxe from wooden planks and sticks."),
-	icon = "default_tool_woodpick.png",
+	icon = "default_tool_wooden_pickaxe.png",
 	trigger = {
 		type = "craft",
 		item = "mcl_tools:pick_wood",
@@ -65,7 +65,7 @@ awards.register_achievement("mcl:buildFurnace", {
 awards.register_achievement("mcl:buildHoe", {
 	title = S("Time to Farm!"),
 	description = S("Use a crafting table to craft a wooden hoe from wooden planks and sticks."),
-	icon = "farming_tool_woodhoe.png",
+	icon = "farming_tool_wooden_hoe.png",
 	trigger = {
 		type = "craft",
 		item = "mcl_farming:hoe_wood",
@@ -103,7 +103,7 @@ awards.register_achievement("mcl:buildBetterPickaxe", {
 	title = S("Getting an Upgrade"),
 	-- TODO: This achievement should support all non-wood pickaxes
 	description = S("Craft a stone pickaxe using sticks and cobblestone."),
-	icon = "default_tool_stonepick.png",
+	icon = "default_tool_stone_pickaxe.png",
 	trigger = {
 		type = "craft",
 		item = "mcl_tools:pick_stone",
@@ -115,7 +115,7 @@ awards.register_achievement("mcl:buildBetterPickaxe", {
 awards.register_achievement("mcl:buildSword", {
 	title = S("Time to Strike!"),
 	description = S("Craft a wooden sword using wooden planks and sticks on a crafting table."),
-	icon = "default_tool_woodsword.png",
+	icon = "default_tool_wooden_sword.png",
 	trigger = {
 		type = "craft",
 		item = "mcl_tools:sword_wood",
@@ -141,7 +141,7 @@ awards.register_achievement("mcl:bookcase", {
 awards.register_achievement("mcl:buildIronPickaxe", {
 	title = S("Isn't It Iron Pick"),
 	description = S("Craft a iron pickaxe using sticks and iron."),
-	icon = "default_tool_steelpick.png",
+	icon = "default_tool_iron_pickaxe.png",
 	trigger = {
 		type = "craft",
 		item = "mcl_tools:pick_iron",
@@ -219,7 +219,7 @@ awards.register_achievement("mcl:skysTheLimit", {
 awards.register_achievement("mcl:acquireIron", {
 	title = S("Acquire Hardware"),
 	description = S("Take an iron ingot from a furnace's output slot.\nHint: To smelt an iron ingot, put a fuel (like coal) and iron ore into a furnace."),
-	icon = "default_steel_ingot.png",
+	icon = "default_iron_ingot.png",
 	type = "Advancement",
 	group = "Overworld",
 })
@@ -377,7 +377,7 @@ awards.register_achievement("mcl:countryLode", {
 awards.register_achievement("mcl:seriousDedication", {
 	title = S("Serious Dedication"),
 	description = S("Use a Netherite Ingot to upgrade a hoe, and then completely reevaluate your life choices."),
-	icon = "farming_tool_netheritehoe.png",
+	icon = "farming_tool_netherite_hoe.png",
 	type = "Challenge",
 	group = "Husbandry",
 })
@@ -455,7 +455,7 @@ awards.register_achievement("mcl:wax_on", {
 awards.register_achievement("mcl:wax_off", {
 	title = S("Wax Off"),
 	description = S("Scrape wax off of a copper block."),
-	icon = "default_tool_stoneaxe.png",
+	icon = "default_tool_stone_axe.png",
 	type = "Advancement",
 	group = "Husbandry",
 })

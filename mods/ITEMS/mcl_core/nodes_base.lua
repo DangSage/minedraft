@@ -757,7 +757,7 @@ minetest.register_node("mcl_core:coalblock", {
 minetest.register_node("mcl_core:ironblock", {
 	description = S("Block of Iron"),
 	_doc_items_longdesc = S("A block of iron is mostly a decorative block but also useful as a compact storage of iron ingots."),
-	tiles = {"default_steel_block.png"},
+	tiles = {"default_iron_block.png"},
 	is_ground_content = false,
 	groups = {pickaxey=2, building_block=1},
 	sounds = mcl_sounds.node_sound_metal_defaults(),

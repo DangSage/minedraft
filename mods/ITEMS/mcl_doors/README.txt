@@ -16,17 +16,17 @@ Opening-Sound created by CGEffex (CC BY 3.0), modified by BlockMen
   doors_door_open.ogg
 Closing-Sound created by bennstir (CC BY 3.0)
   doors_door_close.ogg
-Steel door sounds open & close (CC-BY-3.0) by HazMatt
+iron door sounds open & close (CC-BY-3.0) by HazMatt
   - http://www.freesound.org/people/HazMattt/sounds/187283/
-  doors_steel_door_open.ogg
-  doors_steel_door_close.ogg
+  doors_iron_door_open.ogg
+  doors_iron_door_close.ogg
 
 License/authors of texture files
 --------------------------------------
 Same as media license for MineClone 2 (see root directory).
 
 With modifications by GitHub user kingoscargames:
-- `doors_item_steel.png`
+- `doors_item_iron.png`
 - `mcl_doors_door_iron_lower.png`
 - `mcl_doors_door_iron_upper.png`
 - `mcl_doors_trapdoor_acaica.png`

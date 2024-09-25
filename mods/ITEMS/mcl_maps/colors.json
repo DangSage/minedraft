@@ -2124,7 +2124,7 @@
 		127,
 		113
 	],
-	"doors_trapdoor_steel.png": [
+	"doors_trapdoor_iron.png": [
 		149,
 		140,
 		140
@@ -2184,7 +2184,7 @@
 		69,
 		57
 	],
-	"doors_trapdoor_steel_side.png": [
+	"doors_trapdoor_iron_side.png": [
 		149,
 		140,
 		140
@@ -2289,7 +2289,7 @@
 		149,
 		148
 	],
-	"doors_item_steel.png": [
+	"doors_item_iron.png": [
 		148,
 		144,
 		143
@@ -2944,122 +2944,122 @@
 		132,
 		124
 	],
-	"default_tool_woodshovel.png": [
+	"default_tool_wooden_shovel.png": [
 		108,
 		90,
 		76
 	],
-	"default_tool_diamondshovel.png": [
+	"default_tool_diamond_shovel.png": [
 		106,
 		125,
 		134
 	],
-	"default_tool_goldpick.png": [
+	"default_tool_golden_pickaxe.png": [
 		172,
 		139,
 		73
 	],
-	"default_tool_goldshovel.png": [
+	"default_tool_golden_shovel.png": [
 		167,
 		133,
 		64
 	],
-	"default_tool_diamondaxe.png": [
+	"default_tool_diamond_axe.png": [
 		103,
 		110,
 		113
 	],
-	"default_tool_goldsword.png": [
+	"default_tool_golden_sword.png": [
 		194,
 		154,
 		70
 	],
-	"default_tool_stoneshovel.png": [
+	"default_tool_stone_shovel.png": [
 		126,
 		116,
 		107
 	],
-	"default_tool_stonepick.png": [
+	"default_tool_stone_pickaxe.png": [
 		126,
 		114,
 		104
 	],
-	"default_tool_steelshovel.png": [
+	"default_tool_iron_shovel.png": [
 		125,
 		115,
 		107
 	],
-	"default_tool_woodsword.png": [
+	"default_tool_wooden_sword.png": [
 		100,
 		82,
 		68
 	],
-	"default_tool_netheritepick.png": [
+	"default_tool_netherite_pickaxe.png": [
 		76,
 		59,
 		53
 	],
-	"default_tool_steelpick.png": [
+	"default_tool_iron_pickaxe.png": [
 		137,
 		128,
 		119
 	],
-	"default_tool_stonesword.png": [
+	"default_tool_stone_sword.png": [
 		133,
 		125,
 		118
 	],
-	"default_tool_netheriteaxe.png": [
+	"default_tool_netherite_axe.png": [
 		70,
 		53,
 		48
 	],
-	"default_tool_steelsword.png": [
+	"default_tool_iron_sword.png": [
 		134,
 		130,
 		125
 	],
-	"default_tool_goldaxe.png": [
+	"default_tool_golden_axe.png": [
 		160,
 		128,
 		66
 	],
-	"default_tool_netheriteshovel.png": [
+	"default_tool_netherite_shovel.png": [
 		66,
 		48,
 		46
 	],
-	"default_tool_netheritesword.png": [
+	"default_tool_netherite_sword.png": [
 		62,
 		50,
 		44
 	],
-	"default_tool_woodaxe.png": [
+	"default_tool_wooden_axe.png": [
 		110,
 		92,
 		77
 	],
-	"default_tool_diamondpick.png": [
+	"default_tool_diamond_pickaxe.png": [
 		92,
 		105,
 		111
 	],
-	"default_tool_woodpick.png": [
+	"default_tool_wooden_pickaxe.png": [
 		110,
 		91,
 		76
 	],
-	"default_tool_stoneaxe.png": [
+	"default_tool_stone_axe.png": [
 		126,
 		115,
 		104
 	],
-	"default_tool_steelaxe.png": [
+	"default_tool_iron_axe.png": [
 		129,
 		119,
 		110
 	],
-	"default_tool_diamondsword.png": [
+	"default_tool_diamond_sword.png": [
 		105,
 		133,
 		149
@@ -3104,7 +3104,7 @@
 		87,
 		40
 	],
-	"farming_tool_netheritehoe.png": [
+	"farming_tool_netherite_hoe.png": [
 		83,
 		62,
 		57
@@ -3129,7 +3129,7 @@
 		100,
 		42
 	],
-	"farming_tool_diamondhoe.png": [
+	"farming_tool_diamond_hoe.png": [
 		101,
 		104,
 		104
@@ -3284,7 +3284,7 @@
 		129,
 		65
 	],
-	"farming_tool_stonehoe.png": [
+	"farming_tool_stone_hoe.png": [
 		133,
 		122,
 		111
@@ -3294,7 +3294,7 @@
 		120,
 		87
 	],
-	"farming_tool_steelhoe.png": [
+	"farming_tool_iron_hoe.png": [
 		123,
 		112,
 		102
@@ -3344,7 +3344,7 @@
 		105,
 		58
 	],
-	"farming_tool_goldhoe.png": [
+	"farming_tool_golden_hoe.png": [
 		162,
 		131,
 		70
@@ -3379,7 +3379,7 @@
 		118,
 		72
 	],
-	"farming_tool_woodhoe.png": [
+	"farming_tool_wooden_hoe.png": [
 		120,
 		101,
 		86
@@ -4894,7 +4894,7 @@
 		129,
 		121
 	],
-	"mcl_bows_crossbow_3.png": [
+	"mcl_bows_crossbow_arrow.png": [
 		103,
 		87,
 		73
@@ -9344,7 +9344,7 @@
 		124,
 		106
 	],
-	"default_steel_ingot.png": [
+	"default_iron_ingot.png": [
 		142,
 		137,
 		131

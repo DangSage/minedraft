@@ -49,12 +49,14 @@ end
 local slow_gs_timer = 0.5
 
 minetest.register_on_joinplayer(function(player)
-	mcl_player.players[player] = table.copy(tpl_playerinfo)
-	player:get_inventory():set_size("hand", 1)
-	player:set_fov(default_fov)
-	for bone, pos in pairs(bone_start_positions) do
-		mcl_util.set_bone_position(player, bone, pos, vector.zero())
-	end
+    mcl_player.players[player] = table.copy(tpl_playerinfo)
+    player:get_inventory():set_size("hand", 1)
+    -- Set FOV based on the player's state
+	local proper_fov = minetest.settings:get("fov")
+	player:set_fov(proper_fov)
+    for bone, pos in pairs(bone_start_positions) do
+        mcl_util.set_bone_position(player, bone, pos, vector.zero())
+    end
 end)
 
 minetest.register_on_leaveplayer(function(player)

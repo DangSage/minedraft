@@ -7,7 +7,7 @@
 ```Lua
 mcl_craftguide.register_craft_type("digging", {
 	description = "Digging",
-	icon = "default_tool_steelpick.png",
+	icon = "default_tool_iron_pickaxe.png",
 })
 ```
 

@@ -67,7 +67,7 @@ groups = { pickaxe = 1, tool = 1 }
 -- Definitions for Wooden Pickaxe.
 ["pick"] = {
     description = S("Wooden Pickaxe"),
-    inventory_image = "default_tool_woodpick.png",
+    inventory_image = "default_tool_wooden_pickaxe.png",
     tool_capabilities = {
         full_punch_interval = 0.83333333,
         damage_groups = { fleshy = 2 }
@@ -76,7 +76,7 @@ groups = { pickaxe = 1, tool = 1 }
 -- Definitions for Wooden Shovel.
 ["shovel"] = {
     description = S("Wooden Shovel"),
-    inventory_image = "default_tool_woodshovel.png",
+    inventory_image = "default_tool_wooden_shovel.png",
     tool_capabilities = {
         full_punch_interval = 1,
         damage_groups = { fleshy = 2 }
@@ -91,7 +91,7 @@ groups = { pickaxe = 1, tool = 1 }
 -- Definitions for Wooden Hammer.
 ["wood"] = {
     description = S("Wooden Hammer"),
-    inventory_image = "default_tool_woodhammer.png",
+    inventory_image = "default_tool_wooden_hammer.png",
     tool_capabilities = {
         full_punch_interval = 0.83333333,
         damage_groups = { fleshy = 4 }

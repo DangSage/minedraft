@@ -72,7 +72,7 @@ minetest.register_tool("mcl_farming:hoe_wood", {
 	_doc_items_longdesc = hoe_longdesc,
 	_doc_items_usagehelp = hoe_usagehelp,
 	_doc_items_hidden = false,
-	inventory_image = "farming_tool_wooden_hoe.png",
+	inventory_image = "farming_tool_wooden_en_hoe.png",
 	wield_scale = mcl_vars.tool_wield_scale,
 	on_place = hoe_on_place_function(uses.wood),
 	groups = { tool=1, hoe=1, enchantability=15 },

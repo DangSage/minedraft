@@ -40,7 +40,7 @@ mcl_stairs.register_slab("ironblock", {
 	description=S("Iron Slab"),
 	recipeitem=extra_nodes and "mcl_core:ironblock" or "",
 	groups={not_in_creative_inventory=extra_nodes and 0 or 1},
-	tiles={"default_steel_block.png", "default_steel_block.png", "mcl_stairs_iron_block_slab.png"},
+	tiles={"default_iron_block.png", "default_iron_block.png", "mcl_stairs_iron_block_slab.png"},
 })
 
 mcl_stairs.register_stair_and_slab("stonebrickcracked", {

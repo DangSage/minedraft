@@ -74,7 +74,7 @@ minetest.register_craftitem("mcl_core:clay_lump", {
 minetest.register_craftitem("mcl_core:iron_ingot", {
 	description = S("Iron Ingot"),
 	_doc_items_longdesc = S("Molten iron. It is used to craft armor, tools, and whatnot."),
-	inventory_image = "default_steel_ingot.png",
+	inventory_image = "default_iron_ingot.png",
 	groups = { craftitem=1 },
 })
 

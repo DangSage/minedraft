@@ -19,7 +19,7 @@ This mod provides 3 new help categories (using the
 Documentation System [`doc`]):
 
 * Blocks (e.g. dirt, stone, wooden stair)
-* Tools and weapons (e.g. wooden pickaxe, steel sword, screwdriver)
+* Tools and weapons (e.g. wooden pickaxe, iron sword, screwdriver)
 * Misc. items (e.g. dye, stick, flour)
 
 Entries are automatically added. The information in the entries is

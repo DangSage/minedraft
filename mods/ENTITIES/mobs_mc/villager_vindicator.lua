@@ -30,7 +30,7 @@ mcl_mobs.register_mob("mobs_mc:vindicator", {
       {
           "mobs_mc_vindicator.png",
           "blank.png", --no hat
-          "default_tool_steelaxe.png",
+          "default_tool_iron_axe.png",
           -- TODO: Glow when attacking (mobs_mc_vindicator.png)
       },
   },

@@ -178,7 +178,7 @@ function mcl_player.player_set_model(player, model_name)
 			damage_texture_modifier = "^[colorize:red:130",
 		})
 		update_player_textures(player)
-		mcl_player.player_set_animation(player, "stand")
+		mcl_player.player_set_animation(player, "stand", 0)
 	end
 end
 
@@ -375,7 +375,7 @@ mcl_player.register_globalstep(function(player)
 			mcl_util.set_properties(player, player_props_normal)
 			mcl_util.set_bone_position(player,"Head_Control", nil, vector.new(pitch, player_vel_yaw - yaw, 0))
 			mcl_util.set_bone_position(player,"Body_Control", nil, vector.new(0, -player_vel_yaw + yaw, 0))
-			mcl_player.player_set_animation(player, "stand", animation_speed_mod)
+			mcl_player.player_set_animation(player, "stand", 0)
 		end
 	end
 

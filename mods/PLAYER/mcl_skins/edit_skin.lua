@@ -620,6 +620,13 @@ local function init()
 		texture = "alex.png",
 		slim_arms = true
 	})
+
+	-- Register custom skins
+	dofile(minetest.get_modpath("mcl_skins") .. "/custom_skins.lua")
+	-- list all registered skins
+	for index, skin in pairs(mcl_skins.simple_skins) do
+		minetest.log("action", "[mcl_skins] Registered skin: " .. skin.texture .. " with index: " .. index)
+	end
 end
 
 init()

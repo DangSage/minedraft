@@ -133,7 +133,7 @@ function mesecon.noteblock_play(pos, param2)
 	local block_below_name = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name
 	local pitched = false
 	local soundname, pitch
-	if block_below_name == "mcl_core:gold_block" then
+	if block_below_name == "mcl_core:goldblock" then
 		soundname="mesecons_noteblock_bell"
 	elseif block_below_name == "mcl_core:clay" then
 		soundname="mesecons_noteblock_flute"
@@ -141,7 +141,7 @@ function mesecon.noteblock_play(pos, param2)
 		soundname="mesecons_noteblock_chime"
 	elseif block_below_name == "mcl_core:bone_block" then
 		soundname="mesecons_noteblock_xylophone_wood"
-	elseif block_below_name == "mcl_core:iron_block" then
+	elseif block_below_name == "mcl_core:ironblock" then
 		soundname="mesecons_noteblock_xylophone_metal"
 	elseif block_below_name == "mcl_nether:soul_sand" then
 		soundname="mesecons_noteblock_cowbell"

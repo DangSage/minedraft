@@ -38,7 +38,7 @@ msgid "• Sand or gravel: Snare drum"
 msgstr "• Sand oder Kies: Kleine Trommel"
 
 msgid "• Block of Gold: Bell"
-msgstr "• Goldblock: Glocke"
+msgstr "• goldblock: Glocke"
 
 msgid "• Clay: Flute"
 msgstr "• Ton: Flöte"

@@ -377,10 +377,10 @@ msgid "A block of iron is mostly a decorative block but also useful as a compact
 msgstr "Ein Eisenblock ist hauptsächlich ein Dekorationsblock, aber er ist auch nützlich zur kompakten Aufbewahrung von Eisenbarren."
 
 msgid "Block of Gold"
-msgstr "Goldblock"
+msgstr "goldblock"
 
 msgid "A block of gold is mostly a shiny decorative block but also useful as a compact storage of gold ingots."
-msgstr "Ein Goldblock ist hauptsächlich ein glänzender Dekorationsblock, aber er ist auch nützlich zur kompakten Aufbewahrung von Goldbarren."
+msgstr "Ein goldblock ist hauptsächlich ein glänzender Dekorationsblock, aber er ist auch nützlich zur kompakten Aufbewahrung von Goldbarren."
 
 msgid "Block of Diamond"
 msgstr "Diamantblock"

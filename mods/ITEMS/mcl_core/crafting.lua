@@ -166,7 +166,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "mcl_core:iron_block",
+	output = "mcl_core:ironblock",
 	recipe = {
 		{"mcl_core:iron_ingot", "mcl_core:iron_ingot", "mcl_core:iron_ingot"},
 		{"mcl_core:iron_ingot", "mcl_core:iron_ingot", "mcl_core:iron_ingot"},
@@ -177,12 +177,12 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "mcl_core:iron_ingot 9",
 	recipe = {
-		{"mcl_core:iron_block"},
+		{"mcl_core:ironblock"},
 	}
 })
 
 minetest.register_craft({
-	output = "mcl_core:gold_block",
+	output = "mcl_core:goldblock",
 	recipe = {
 		{"mcl_core:gold_ingot", "mcl_core:gold_ingot", "mcl_core:gold_ingot"},
 		{"mcl_core:gold_ingot", "mcl_core:gold_ingot", "mcl_core:gold_ingot"},
@@ -193,7 +193,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "mcl_core:gold_ingot 9",
 	recipe = {
-		{"mcl_core:gold_block"},
+		{"mcl_core:goldblock"},
 	}
 })
 

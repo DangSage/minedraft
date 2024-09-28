@@ -1,7 +1,7 @@
 local S = minetest.get_translator(minetest.get_current_modname())
 
 mcl_beacons = {
-	blocks ={"mcl_core:diamond_block","mcl_core:iron_block","mcl_core:gold_block","mcl_core:emeraldblock","mcl_nether:netherite_block"},
+	blocks ={"mcl_core:diamond_block","mcl_core:ironblock","mcl_core:goldblock","mcl_core:emeraldblock","mcl_nether:netherite_block"},
 	fuel = {"mcl_core:diamond","mcl_core:emerald","mcl_core:iron_ingot","mcl_core:gold_ingot","mcl_nether:netherite_ingot"}
 }
 

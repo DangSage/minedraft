@@ -776,7 +776,7 @@ minetest.register_node("mcl_core:goldblock", {
 	_mcl_hardness = 3,
 })
 
-minetest.register_node("mcl_core:diamond_block", {
+minetest.register_node("mcl_core:diamondblock", {
 	description = S("Block of Diamond"),
 	_doc_items_longdesc = S("A block of diamond is mostly a shiny decorative block but also useful as a compact storage of diamonds."),
 	tiles = {"default_diamond_block.png"},

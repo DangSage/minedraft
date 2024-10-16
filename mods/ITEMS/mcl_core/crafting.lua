@@ -314,7 +314,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "mcl_core:diamond_block",
+	output = "mcl_core:diamondblock",
 	recipe = {
 		{"mcl_core:diamond", "mcl_core:diamond", "mcl_core:diamond"},
 		{"mcl_core:diamond", "mcl_core:diamond", "mcl_core:diamond"},
@@ -325,7 +325,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "mcl_core:diamond 9",
 	recipe = {
-		{"mcl_core:diamond_block"},
+		{"mcl_core:diamondblock"},
 	}
 })
 

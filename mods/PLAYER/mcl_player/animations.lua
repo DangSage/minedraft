@@ -302,6 +302,15 @@ mcl_player.register_globalstep(function(player)
 			mcl_util.set_bone_position(player, "Body_Control", nil, vector.new(math.deg(dir_to_pitch(player_velocity)) + 110, -player_vel_yaw + yaw, 180))
 			-- sets eye height, and nametag color accordingly
 			mcl_util.set_properties(player, player_props_elytra)
+		elseif control.sneak then --sneaking
+			mcl_util.set_bone_position(player, "Head_Control", nil, vector.new(pitch, player_vel_yaw - yaw, player_vel_yaw - yaw))
+			mcl_util.set_bone_position(player, "Body_Control", nil, vector.new(0, -player_vel_yaw + yaw, 0))
+			mcl_util.set_properties(player, player_props_sneaking)
+			if get_mouse_button(player) then
+				mcl_player.player_set_animation(player, "sneak_walk_mine", animation_speed_mod)
+			else
+				mcl_player.player_set_animation(player, "sneak_walk", animation_speed_mod)
+			end
 		elseif walking and (math.abs(velocity.x) > 0.35 or math.abs(velocity.z) > 0.35) then --walking
 			mcl_util.set_properties(player, player_props_normal)
 			mcl_util.set_bone_position(player,"Head_Control", nil, vector.new(pitch, player_vel_yaw - yaw, 0))
@@ -337,12 +346,8 @@ mcl_player.register_globalstep(function(player)
 				mcl_player.player_set_animation(player, "run_walk_mine", animation_speed_mod)
 			elseif get_mouse_button(player) and not control.sneak then
 				mcl_player.player_set_animation(player, "walk_mine", animation_speed_mod)
-			elseif get_mouse_button(player) and control.sneak and is_sprinting ~= true then
-				mcl_player.player_set_animation(player, "sneak_walk_mine", animation_speed_mod)
 			elseif is_sprinting and not control.sneak and not head_in_water then
 				mcl_player.player_set_animation(player, "run_walk", animation_speed_mod)
-			elseif control.sneak and get_mouse_button(player) ~= true then
-				mcl_player.player_set_animation(player, "sneak_walk", animation_speed_mod)
 			else
 				mcl_player.player_set_animation(player, "walk", animation_speed_mod)
 			end
@@ -366,11 +371,6 @@ mcl_player.register_globalstep(function(player)
 			mcl_player.player_set_animation(player, "sneak_mine")
 		elseif not control.sneak and head_in_water and is_sprinting then
 			mcl_player.player_set_animation(player, "swim_stand", animation_speed_mod)
-		elseif control.sneak then
-			mcl_util.set_bone_position(player, "Head_Control", nil, vector.new(pitch, player_vel_yaw - yaw, player_vel_yaw - yaw))
-			mcl_util.set_bone_position(player, "Body_Control", nil, vector.new(0, -player_vel_yaw + yaw, 0))
-			mcl_util.set_properties(player, player_props_sneaking)
-			mcl_player.player_set_animation(player, "sneak_stand", animation_speed_mod)
 		elseif not mcl_player.players[player].attached then
 			mcl_util.set_properties(player, player_props_normal)
 			mcl_util.set_bone_position(player,"Head_Control", nil, vector.new(pitch, player_vel_yaw - yaw, 0))

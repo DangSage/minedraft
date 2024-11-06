@@ -167,42 +167,37 @@ end
 --- independently of this statistic, the change is adjusted by the
 --- statistic.
 
-function mcl_damage.damage_player (player, amount, mcl_reason)
-	if not mcl_reason.flags then
-	  mcl_damage.finish_reason (mcl_reason)
-	end
-	if amount < 0 then
-	  mcl_damage.heal_player (player, -amount)
+function mcl_damage.damage_player(player, amount, mcl_reason)
+    if not mcl_reason.flags then
+        mcl_damage.finish_reason(mcl_reason)
+    end
+    if amount < 0 then
+        mcl_damage.heal_player(player, -amount)
+    end
+    local meta = player:get_meta()
+    local mcl_health = meta:get_float("mcl_health")
+    local engine_hp = player:get_hp()
+
+	local hitter = mcl_reason.source
+	if hitter then
+		local dir = vector.direction(hitter:get_pos(), player:get_pos())
+		local knockback = minetest.calculate_knockback(player, hitter, 1.0, nil, dir, vector.distance(hitter:get_pos(), player:get_pos()), amount)
+		local knockback_vec = vector.multiply(dir, knockback)
+		player:add_velocity(knockback_vec)
 	end
 
-	local meta = player:get_meta ()
-	local mcl_health = meta:get_float ("mcl_health")
-	local engine_hp = player:get_hp ()
-
-	-- It's probably wise to be cautious and verify that the engine and
-	-- internal HPs match.
-
-	if math.ceil (mcl_health) ~= engine_hp then
-	  minetest.log ("warning", ("Engine health of player "
-				.. player:get_player_name ()
-				.. " disagrees with MCL health "
-				.. mcl_health ..""))
-	  -- Reset internal health to the engine value.
-	  mcl_health = engine_hp
-	end
-	amount = mcl_damage.run_modifiers (player, amount, mcl_reason)
-	mcl_health = math.max (0, mcl_health - amount)
-	meta:set_float ("mcl_health", mcl_health)
-
-	mcl_health = math.ceil (mcl_health)
-	if mcl_health < engine_hp then
-	  player:set_hp (mcl_health, { type = "set_hp", mcl_damage = true,
-					_mcl_reason = mcl_reason, })
-	elseif amount > 0 then
-	  -- Play a damage sound to the player.  Minetest affords games no
-	  -- control over the tilt animation, unfortunately.
-	  emulate_damage_tick (player)
-	end
+    if math.ceil(mcl_health) ~= engine_hp then
+        minetest.log("warning", ("Engine health of player " .. player:get_player_name() .. " disagrees with MCL health " .. mcl_health .. ""))
+        mcl_health = engine_hp
+    end
+    mcl_health = math.max(0, mcl_health - amount)
+    meta:set_float("mcl_health", mcl_health)
+    mcl_health = math.ceil(mcl_health)
+    if mcl_health < engine_hp then
+        player:set_hp(mcl_health, { type = "set_hp", mcl_damage = true, _mcl_reason = mcl_reason })
+    elseif amount > 0 then
+        emulate_damage_tick(player)
+    end
 end
 
 function mcl_damage.heal_player (player, amount)

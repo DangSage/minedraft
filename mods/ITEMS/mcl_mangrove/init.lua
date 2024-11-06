@@ -45,7 +45,7 @@ mcl_trees.register_wood("mangrove",{
 	},
 	trapdoor = {
 		tile_front = "mcl_mangrove_trapdoor.png",
-		tile_side = "mcl_mangrove_trapdoor_side.png",
+		tile_side = "mcl_mangrove_trapdoor.png",
 		wield_image = "mcl_mangrove_trapdoor.png",
 	},
 })

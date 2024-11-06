@@ -55,6 +55,19 @@ function mcl_doors:register_door(name, def)
 		def.sound_close = "doors_door_close"
 	end
 
+	def.tiles_bottom[2] = def.tiles_bottom[1] .. "^[sheet:2x1:0,0"
+	def.tiles_top[2] = def.tiles_top[1] .. "^[sheet:2x1:0,0"
+
+	-- Ensure texture transformations are correctly applied
+    def.tiles_bottom = {
+        def.tiles_bottom[1] .. "^[transformFX", -- Front texture flipped horizontally
+        def.tiles_bottom[2] -- Side texture
+    }
+    def.tiles_top = {
+        def.tiles_top[1] .. "^[transformFX", -- Front texture flipped horizontally
+        def.tiles_top[2] -- Side texture
+    }
+
 	local box = {{-8/16, -8/16, -8/16, 8/16, 8/16, -5/16}}
 
 	if not def.node_box_bottom then

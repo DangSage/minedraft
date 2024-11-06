@@ -30,9 +30,9 @@ mcl_trees.register_wood("bamboo",{
 		tiles_top = {"mcl_bamboo_door_top.png","mcl_bamboo_door_bottom.png"},
 	},
 	trapdoor = {
-		tile_front = "mcl_bamboo_trapdoor_side.png",
-		tile_side = "mcl_bamboo_trapdoor_side.png",
-		wield_image = "mcl_bamboo_trapdoor_side.png",
+		tile_front = "mcl_bamboo_bamboo_trapdoor.png",
+		tile_side = "mcl_bamboo_bamboo_trapdoor.png",
+		wield_image = "mcl_bamboo_bamboo_trapdoor.png",
 	},
 	boat = {
 		item = {

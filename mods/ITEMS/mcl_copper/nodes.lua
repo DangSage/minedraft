@@ -154,7 +154,7 @@ for n, desc in pairs(n_desc) do
 		sound_close = "doors_iron_door_close",
 		sound_open = "doors_iron_door_open",
 		tile_front = "mcl_copper_trapdoor"..n..".png",
-		tile_side = "mcl_copper_trapdoor"..n.."_side.png",
+		tile_side = "mcl_copper_trapdoor"..n..".png",
 		wield_image = "mcl_copper_trapdoor"..n..".png",
 		_mcl_blast_resistance = 3,
 		_mcl_hardness = 3
@@ -166,8 +166,8 @@ for n, desc in pairs(n_desc) do
 		sounds = mcl_sounds.node_sound_metal_defaults(),
 		sound_close = "doors_iron_door_close",
 		sound_open = "doors_iron_door_open",
-		tiles_bottom = { "mcl_copper_door"..n.."_bottom.png^[transformFX", "mcl_copper_door"..n.."_bottom.png" },
-		tiles_top = { "mcl_copper_door"..n.."_top.png^[transformFX", "mcl_copper_door"..n.."_top.png" },
+		tiles_bottom = { "mcl_copper_door"..n.."_bottom.png" },
+		tiles_top = { "mcl_copper_door"..n.."_top.png" },
 		_mcl_blast_resistance = 3,
 		_mcl_hardness = 3
 	})

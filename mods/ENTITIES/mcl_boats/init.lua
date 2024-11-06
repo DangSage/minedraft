@@ -6,7 +6,7 @@ local paddling_speed = 22
 local boat_y_offset = 0.35
 local boat_y_offset_ground = boat_y_offset + 0.6
 local boat_side_offset = 1.001
-local boat_max_hp = 4
+local boat_max_hp = 2
 
 local function is_group(pos, group)
 	local nn = minetest.get_node(pos).name
@@ -168,7 +168,6 @@ function boat.on_rightclick(self, clicker)
 end
 
 function boat.on_activate(self, staticdata)
-	self.object:set_armor_groups({fleshy = 125})
 	local data = minetest.deserialize(staticdata)
 	if type(data) == "table" then
 		self._v = data.v
@@ -202,15 +201,8 @@ end
 
 function boat.on_death(self, killer)
 	mcl_burning.extinguish(self.object)
+	minetest.add_item(self.object:get_pos(), self._itemstring)
 
-	if killer and killer:is_player() and minetest.is_creative_enabled(killer:get_player_name()) then
-		local inv = killer:get_inventory()
-		if not inv:contains_item("main", self._itemstring) then
-			inv:add_item("main", self._itemstring)
-		end
-	else
-		minetest.add_item(self.object:get_pos(), self._itemstring)
-	end
 	if self._driver then
 		detach_object(self._driver)
 	end

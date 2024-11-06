@@ -32,12 +32,12 @@ mcl_trees.register_wood("oak",{
 	},
 	door = {
 		inventory_image = "doors_item_wood.png",
-		tiles_bottom = {"mcl_doors_door_wood_lower.png", "mcl_doors_door_wood_side_lower.png"},
-		tiles_top = {"mcl_doors_door_wood_upper.png", "mcl_doors_door_wood_side_upper.png"}
+		tiles_bottom = {"mcl_doors_door_wood_lower.png" },
+		tiles_top = {"mcl_doors_door_wood_upper.png" }
 	},
 	trapdoor = {
 		tile_front = "doors_trapdoor.png",
-		tile_side = "doors_trapdoor_side.png",
+		tile_side = "doors_trapdoor.png",
 		wield_image = "doors_trapdoor.png",
 	},
 	potted_sapling = {

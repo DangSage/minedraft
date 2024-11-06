@@ -2134,11 +2134,6 @@
 		65,
 		51
 	],
-	"doors_trapdoor_side.png": [
-		113,
-		86,
-		67
-	],
 	"mcl_doors_door_spruce_upper.png": [
 		71,
 		58,
@@ -2668,11 +2663,6 @@
 		101,
 		153,
 		47
-	],
-	"mcl_bamboo_trapdoor_side.png": [
-		228,
-		206,
-		159
 	],
 	"mcl_bamboo_bamboo_sign.png": [
 		217,
@@ -5009,11 +4999,6 @@
 		132,
 		123
 	],
-	"mcl_cherry_blossom_trapdoor_side.png": [
-		223,
-		137,
-		127
-	],
 	"mcl_cherry_blossom_door_top_toppart.png": [
 		215,
 		140,
@@ -5328,11 +5313,6 @@
 		126,
 		62,
 		56
-	],
-	"mcl_mangrove_trapdoor_side.png": [
-		122,
-		60,
-		54
 	],
 	"mcl_mangrove_propagule_hanging.png": [
 		77,
@@ -6694,11 +6674,6 @@
 		67,
 		61
 	],
-	"mcl_crimson_crimson_trapdoor_side.png": [
-		84,
-		40,
-		47
-	],
 	"mcl_crimson_crimson_fence_side.png": [
 		77,
 		33,
@@ -6718,11 +6693,6 @@
 		17,
 		84,
 		78
-	],
-	"mcl_crimson_warped_trapdoor_side.png": [
-		36,
-		62,
-		55
 	],
 	"stripped_crimson_stem_side.png": [
 		116,

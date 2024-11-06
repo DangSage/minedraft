@@ -135,13 +135,13 @@ mcl_trees.register_wood("crimson",{
 	},
 	door = {
 		inventory_image = "mcl_crimson_crimson_door.png",
-		tiles_bottom = {"mcl_crimson_crimson_door_bottom.png","mcl_doors_door_crimson_side_upper.png"},
-		tiles_top = {"mcl_crimson_crimson_door_top.png","mcl_doors_door_crimson_side_upper.png"},
+		tiles_bottom = {"mcl_crimson_crimson_door_bottom.png" },
+		tiles_top = {"mcl_crimson_crimson_door_top.png" },
 		_mcl_burntime = 0
 	},
 	trapdoor = {
 		tile_front = "mcl_crimson_crimson_trapdoor.png",
-		tile_side = "mcl_crimson_crimson_trapdoor_side.png",
+		tile_side = "mcl_crimson_crimson_trapdoor.png",
 		wield_image = "mcl_crimson_crimson_trapdoor.png",
 		_mcl_burntime = 0
 	},
@@ -204,7 +204,7 @@ mcl_trees.register_wood("warped",{
 	},
 	trapdoor = {
 		tile_front = "mcl_crimson_warped_trapdoor.png",
-		tile_side = "mcl_crimson_warped_trapdoor_side.png",
+		tile_side = "mcl_crimson_warped_trapdoor.png",
 		wield_image = "mcl_crimson_warped_trapdoor.png",
 		_mcl_burntime = 0
 	},

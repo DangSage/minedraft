@@ -522,8 +522,8 @@ function mcl_trees.register_wood(name, p)
 		mcl_doors:register_door("mcl_doors:door_"..name,table.merge(tpl_door, {
 			description = S("@1 Door", rname),
 			inventory_image = "mcl_doors_door_"..name..".png",
-			tiles_bottom = {"mcl_doors_door_"..name.."_lower.png", "mcl_doors_door_"..name.."_side_lower.png"},
-			tiles_top = {"mcl_doors_door_"..name.."_upper.png", "mcl_doors_door_"..name.."_side_upper.png"}
+			tiles_bottom = {"mcl_doors_door_"..name.."_lower.png", "mcl_doors_door_"..name.."_lower.png".."^[sheet:2x1:1,0"},
+			tiles_top = {"mcl_doors_door_"..name.."_upper.png", "mcl_doors_door_"..name.."_upper.png".."^[sheet:2x1:1,0"}
 		}, p.door or {}))
 		minetest.register_craft({
 			output = "mcl_doors:door_"..name.." 3",
@@ -538,7 +538,7 @@ function mcl_trees.register_wood(name, p)
 		mcl_doors:register_trapdoor("mcl_doors:trapdoor_"..name,table.merge(tpl_trapdoor, {
 			description = S("@1 Trapdoor", rname),
 			tile_front = "mcl_doors_trapdoor_"..name..".png",
-			tile_side = "mcl_doors_trapdoor_"..name.."_side.png",
+			tile_side = "mcl_doors_trapdoor_"..name..".png",
 			wield_image = "mcl_doors_trapdoor_"..name..".png",
 		}, p.trapdoor or {}))
 		minetest.register_craft({

@@ -37,12 +37,12 @@ mcl_trees.register_wood("cherry_blossom",{
 	fence_gate = { tiles = {"mcl_cherry_blossom_planks.png"},},
 	door = {
 		inventory_image = "mcl_cherry_blossom_door_inv.png",
-		tiles_bottom = {"mcl_cherry_blossom_door_bottom.png", "mcl_cherry_blossom_door_bottom_side.png"},
-		tiles_top = {"mcl_cherry_blossom_door_top.png", "mcl_cherry_blossom_door_top_side.png"},
+		tiles_bottom = {"mcl_cherry_blossom_door_bottom.png"},
+		tiles_top = {"mcl_cherry_blossom_door_top.png"},
 	},
 	trapdoor = {
 		tile_front = "mcl_cherry_blossom_trapdoor.png",
-		tile_side = "mcl_cherry_blossom_trapdoor_side.png",
+		tile_side = "mcl_cherry_blossom_trapdoor.png",
 		wield_image = "mcl_cherry_blossom_trapdoor.png",
 	},
 })

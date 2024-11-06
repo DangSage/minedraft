@@ -62,6 +62,8 @@ function mcl_doors:register_trapdoor(name, def)
 		def.sound_close = "doors_door_close"
 	end
 
+	def.tile_side = def.tile_front.."^[sheet:2x1:1,0"
+
 	local function punch(pos)
 		local me = minetest.get_node(pos)
 		local tmp_node

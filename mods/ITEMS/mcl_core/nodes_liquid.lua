@@ -2,7 +2,6 @@
 
 local S = minetest.get_translator(minetest.get_current_modname())
 
---local WATER_ALPHA = 179
 local WATER_VISC = 1
 local LAVA_VISC = 7
 local LIGHT_LAVA = minetest.LIGHT_MAX
@@ -17,12 +16,12 @@ minetest.register_node("mcl_core:water_flowing", {
 		{
 			image="default_water_flowing_animated.png",
 			backface_culling=false,
-			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=4.0}
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=50.0}
 		},
 		{
 			image="default_water_flowing_animated.png",
 			backface_culling=false,
-			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=4.0}
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=50.0}
 		},
 	},
 	sounds = mcl_sounds.node_sound_water_defaults(),
@@ -62,13 +61,13 @@ S("• When water is directly below lava, the water turns into stone."),
 	drawtype = "liquid",
 	waving = 3,
 	tiles = {
-		{name="default_water_source_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=5.0}}
+		{name="default_water_source_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=50.0}}
 	},
 	special_tiles = {
 		-- New-style water source material (mostly unused)
 		{
 			name="default_water_source_animated.png",
-			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=5.0},
+			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=50.0},
 			backface_culling = false,
 		}
 	},

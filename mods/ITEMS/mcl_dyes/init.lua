@@ -134,29 +134,29 @@ function mcl_dyes.mcl2_to_color(mcl2color)
 	end
 end
 
-for k,v in pairs(mcl_dyes.colors) do
-	minetest.register_craftitem("mcl_dyes:" .. k, {
-		inventory_image = "mcl_dye_white.png^(mcl_dye_mask.png^[colorize:"..v.rgb..")",
-		description = S("@1 Dye", v.readable_name),
-		_doc_items_longdesc = S("This item is a dye which is used for dyeing and crafting."),
-		_doc_items_usagehelp = S("Rightclick on a sheep to dye its wool. Other things are dyed by crafting."),
-		groups = table.update({craftitem = 1, dye = 1}, v.groups),
-		_color = k,
-		on_place = function(itemstack,placer,pointed_thing)
-			local def = minetest.registered_nodes[minetest.get_node(pointed_thing.under).name]
-			if def and def._on_dye_place then
-				local ret = def._on_dye_place(pointed_thing.under,k)
-				if not minetest.is_creative_enabled(placer and placer:get_player_name() or "") then
-					if ret ~= true then itemstack:take_item() end
-				end
-			else
-				local rc = mcl_util.call_on_rightclick(itemstack, placer, pointed_thing)
-				if rc then return rc end
-			end
+for k, v in pairs(mcl_dyes.colors) do
+    minetest.register_craftitem("mcl_dyes:" .. k, {
+        inventory_image = "mcl_dye_white.png^[multiply:" .. v.rgb,
+        description = S("@1 Dye", v.readable_name),
+        _doc_items_longdesc = S("This item is a dye which is used for dyeing and crafting."),
+        _doc_items_usagehelp = S("Rightclick on a sheep to dye its wool. Other things are dyed by crafting."),
+        groups = table.update({craftitem = 1, dye = 1}, v.groups),
+        _color = k,
+        on_place = function(itemstack, placer, pointed_thing)
+            local def = minetest.registered_nodes[minetest.get_node(pointed_thing.under).name]
+            if def and def._on_dye_place then
+                local ret = def._on_dye_place(pointed_thing.under, k)
+                if not minetest.is_creative_enabled(placer and placer:get_player_name() or "") then
+                    if ret ~= true then itemstack:take_item() end
+                end
+            else
+                local rc = mcl_util.call_on_rightclick(itemstack, placer, pointed_thing)
+                if rc then return rc end
+            end
 
-			return itemstack
-		end,
-	})
+            return itemstack
+        end,
+    })
 end
 
 minetest.register_craft({

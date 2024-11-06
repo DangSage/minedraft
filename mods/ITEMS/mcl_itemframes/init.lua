@@ -232,8 +232,8 @@ mcl_itemframes.register_itemframe("frame", {
 		_doc_items_longdesc = S("Item frames are decorative blocks in which items can be placed."),
 		_doc_items_usagehelp = S("Just place any item on the item frame. Use the item frame again to retrieve the item."),
 		tiles = { "mcl_itemframes_item_frame.png" },
-		inventory_image = "mcl_itemframes_item_frame.png",
-		wield_image = "mcl_itemframes_item_frame.png",
+		inventory_image = "mcl_itemframes_wield_item_frame.png",
+		wield_image = "mcl_itemframes_wield_item_frame.png",
 	},
 })
 
@@ -244,8 +244,8 @@ mcl_itemframes.register_itemframe("glow_frame", {
 		_doc_items_longdesc = S("Item frames are decorative blocks in which items can be placed."),
 		_doc_items_usagehelp = S("Just place any item on the item frame. Use the item frame again to retrieve the item."),
 		tiles = { "mcl_itemframes_glow_item_frame.png" },
-		inventory_image = "mcl_itemframes_glow_item_frame.png",
-		wield_image = "mcl_itemframes_glow_item_frame.png",
+		inventory_image = "mcl_itemframes_wield_glow_item_frame.png",
+		wield_image = "mcl_itemframes_wield_glow_item_frame.png",
 	},
 	object_properties = { glow = 15 },
 })

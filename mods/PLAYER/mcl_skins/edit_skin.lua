@@ -372,32 +372,30 @@ function mcl_skins.show_formspec(player)
 
 		end
 
-		if active_tab ~= "base" then
-			-- Bitwise Operations !?!?!
-			local red = math.floor(selected_color / 0x10000) - 0xff00
-			local green = math.floor(selected_color / 0x100) - 0xff0000 - red * 0x100
-			local blue = selected_color - 0xff000000 - red * 0x10000 - green * 0x100
-			formspec = formspec ..
-				"container[10.2,8]" ..
-				"scrollbaroptions[min=0;max=255;smallstep=20]" ..
+		-- Bitwise Operations !?!?!
+		local red = math.floor(selected_color / 0x10000) - 0xff00
+		local green = math.floor(selected_color / 0x100) - 0xff0000 - red * 0x100
+		local blue = selected_color - 0xff000000 - red * 0x10000 - green * 0x100
+		formspec = formspec ..
+			"container[10.2,8]" ..
+			"scrollbaroptions[min=0;max=255;smallstep=20]" ..
 
-				"box[0.4,0;2.49,0.38;red]" ..
-				"label[0.2,0.2;-]" ..
-				"scrollbar[0.4,0;2.5,0.4;horizontal;red;" .. red .."]" ..
-				"label[2.9,0.2;+]" ..
+			"box[0.4,0;2.49,0.38;red]" ..
+			"label[0.2,0.2;-]" ..
+			"scrollbar[0.4,0;2.5,0.4;horizontal;red;" .. red .."]" ..
+			"label[2.9,0.2;+]" ..
 
-				"box[0.4,0.6;2.49,0.38;green]" ..
-				"label[0.2,0.8;-]" ..
-				"scrollbar[0.4,0.6;2.5,0.4;horizontal;green;" .. green .."]" ..
-				"label[2.9,0.8;+]" ..
+			"box[0.4,0.6;2.49,0.38;green]" ..
+			"label[0.2,0.8;-]" ..
+			"scrollbar[0.4,0.6;2.5,0.4;horizontal;green;" .. green .."]" ..
+			"label[2.9,0.8;+]" ..
 
-				"box[0.4,1.2;2.49,0.38;blue]" ..
-				"label[0.2,1.4;-]" ..
-				"scrollbar[0.4,1.2;2.5,0.4;horizontal;blue;" .. blue .. "]" ..
-				"label[2.9,1.4;+]" ..
+			"box[0.4,1.2;2.49,0.38;blue]" ..
+			"label[0.2,1.4;-]" ..
+			"scrollbar[0.4,1.2;2.5,0.4;horizontal;blue;" .. blue .. "]" ..
+			"label[2.9,1.4;+]" ..
 
-				"container_end[]"
-		end
+			"container_end[]"
 	end
 
 	local page_count = 1

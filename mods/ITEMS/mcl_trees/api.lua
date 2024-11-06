@@ -500,7 +500,6 @@ function mcl_trees.register_wood(name, p)
 		p.fence_gate = p.fence_gate or {}
 		mcl_fences.register_fence_gate_def(name.."_fence", table.merge({
 			description = p.fence_gate.description or S("@1 Fence Gate", rname),
-			tiles = p.fence_gate.tiles or { "mcl_fences_fence_"..name..".png" },
 			groups = p.fence_gate.groups or table.merge(wood_groups,{fence_wood = 1}),
 			_mcl_blast_resistance = p.fence_gate._mcl_blast_resistance or 3,
 			_mcl_hardness = p.fence_gate._mcl_hardness or 2,

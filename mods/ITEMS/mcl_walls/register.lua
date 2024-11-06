@@ -5,13 +5,11 @@ local S = minetest.get_translator(minetest.get_current_modname())
 mcl_walls.register_wall_def("mcl_walls:cobble",{
 	source = "mcl_core:cobble",
 	description = S("Cobblestone Wall"),
-	tiles = {"mcl_walls_cobble_wall_top.png", "default_cobble.png", "mcl_walls_cobble_wall_side.png"},
 	_mcl_stonecutter_recipes = { "mcl_core:cobble" },
 })
 mcl_walls.register_wall_def("mcl_walls:mossycobble", {
 	source = "mcl_core:mossycobble",
 	description = S("Mossy Cobblestone Wall"),
-	tiles = {"mcl_walls_cobble_mossy_wall_top.png", "default_mossycobble.png", "mcl_walls_cobble_mossy_wall_side.png"},
 	_mcl_stonecutter_recipes = { "mcl_core:mossycobble" },
 })
 mcl_walls.register_wall_def("mcl_walls:andesite", {

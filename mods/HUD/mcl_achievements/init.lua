@@ -368,7 +368,7 @@ awards.register_achievement("mcl:fishyBusiness", {
 awards.register_achievement("mcl:countryLode", {
 	title = S("Country Lode, Take Me Home"),
 	description = S("Use a compass on a Lodestone."),
-	icon = "lodestone_side4.png",
+	icon = "lodestone_side.png",
 	type = "Advancement",
 	group = "Nether",
 })

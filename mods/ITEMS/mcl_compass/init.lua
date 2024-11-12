@@ -298,11 +298,11 @@ minetest.register_node("mcl_compass:lodestone",{
 	end,
 	tiles = {
 		"lodestone_top.png",
-		"lodestone_bottom.png",
-		"lodestone_side1.png",
-		"lodestone_side2.png",
-		"lodestone_side3.png",
-		"lodestone_side4.png"
+		"lodestone_side.png",
+		"lodestone_side.png",
+		"lodestone_side.png",
+		"lodestone_side.png",
+		"lodestone_side.png"
 	},
 	groups = {pickaxey=1, material_stone=1, deco_block=1},
 	_mcl_hardness = 1.5,

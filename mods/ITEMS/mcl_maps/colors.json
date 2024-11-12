@@ -9859,30 +9859,15 @@
 		106,
 		103
 	],
-	"lodestone_side1.png": [
-		83,
-		73,
-		69
-	],
 	"mcl_compass_compass_03.png": [
 		116,
 		106,
 		104
 	],
-	"lodestone_side2.png": [
-		82,
-		72,
-		68
-	],
 	"mcl_compass_compass_31.png": [
 		115,
 		107,
 		104
-	],
-	"lodestone_side4.png": [
-		85,
-		75,
-		70
 	],
 	"mcl_compass_compass_15.png": [
 		115,
@@ -9939,7 +9924,7 @@
 		68,
 		66
 	],
-	"lodestone_bottom.png": [
+	"lodestone_side.png": [
 		81,
 		72,
 		69
@@ -10033,11 +10018,6 @@
 		56,
 		68,
 		65
-	],
-	"lodestone_side3.png": [
-		83,
-		73,
-		69
 	],
 	"mcl_compass_compass_12.png": [
 		117,

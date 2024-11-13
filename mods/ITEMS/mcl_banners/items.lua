@@ -11,8 +11,8 @@ for _,pattern in pairs({"thing", "skull", "creeper", "flower", "bricks", "curly_
 		description = S(readable_name(pattern).." Banner Pattern"),
 		_tt_help = minetest.colorize(mcl_colors.YELLOW, S("Can be used to craft special banner designs on the loom")),
 		_doc_items_longdesc = S("Special Banner Pattern"),
-		inventory_image = "mcl_banners_pattern_"..pattern..".png",
-		wield_image = "mcl_banners_pattern_"..pattern..".png",
+		inventory_image = "mcl_banners_pattern.png",
+		wield_image = "mcl_banners_pattern.png",
 		groups = { banner_pattern = 1 },
 		_pattern = pattern,
 	})

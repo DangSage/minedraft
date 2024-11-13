@@ -369,7 +369,7 @@ minetest.register_craftitem("mcl_nether:netherite_upgrade_template", {
 	minetest.colorize(mcl_colors.GRAY, S("Applies to:")).."\n"..minetest.colorize(mcl_colors.BLUE, " "..S("Diamond Armor")).."\n"..
 	minetest.colorize(mcl_colors.BLUE, " "..S("Diamond Tools")).."\n"..
 	minetest.colorize(mcl_colors.GRAY, S("Ingredients:")).."\n"..minetest.colorize(mcl_colors.BLUE, " "..S("Netherite Ingot")),
-	inventory_image  = "mcl_nether_netherite_ugrade_template.png",
+	inventory_image  = "mcl_nether_netherite_upgrade_template.png",
 	groups = { upgrade_template  = 1 },
 })
 

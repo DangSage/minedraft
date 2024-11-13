@@ -1,1 +1,1 @@
-local _={};_[1]="slim_arms";_[2]="1731384996";return {["duckagent.png"]={id=_[2],[_[1]]=false},["duckoverall.png"]={id=_[2],[_[1]]=false}}
+local _={};_[1]="slim_arms";_[2]="1731384996";return {["duckoverall.png"]={id=_[2],[_[1]]=false},["duckagent.png"]={id=_[2],[_[1]]=false}}

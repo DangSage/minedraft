@@ -4994,16 +4994,6 @@
 		139,
 		129
 	],
-	"mcl_cherry_blossom_door_bottom_bottompart.png": [
-		208,
-		132,
-		123
-	],
-	"mcl_cherry_blossom_door_top_toppart.png": [
-		215,
-		140,
-		131
-	],
 	"mcl_cherry_blossom_leaves.png": [
 		243,
 		174,
@@ -5058,11 +5048,6 @@
 		84,
 		67,
 		54
-	],
-	"mcl_books_bookshelf_top.png": [
-		109,
-		84,
-		65
 	],
 	"mcl_books_button9_pressed.png": [
 		145,

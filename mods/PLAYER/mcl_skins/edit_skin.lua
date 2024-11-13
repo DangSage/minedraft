@@ -133,22 +133,24 @@ function mcl_skins.compile_skin(skin)
 end
 
 function mcl_skins.update_player_skin(player)
-	if not player then
-		return
-	end
-
-	local skin = mcl_skins.player_skins[player]
-
-	mcl_player.player_set_skin(player, mcl_skins.compile_skin(skin))
-
-	local slim_arms
-	if skin.simple_skins_id then
-		slim_arms = mcl_skins.texture_to_simple_skin[skin.simple_skins_id].slim_arms
-	else
-		slim_arms = skin.slim_arms
-	end
-	local model = slim_arms and "mcl_armor_character_female.b3d" or "mcl_armor_character.b3d"
-	mcl_player.player_set_model(player, model)
+    if not player then
+        return
+    end
+    local skin = mcl_skins.player_skins[player]
+    mcl_player.player_set_skin(player, mcl_skins.compile_skin(skin))
+    local slim_arms
+    if skin.simple_skins_id then
+        slim_arms = mcl_skins.texture_to_simple_skin[skin.simple_skins_id].slim_arms
+    else
+        slim_arms = skin.slim_arms
+    end
+    local model = slim_arms and "mcl_armor_character_female.b3d" or "mcl_armor_character.b3d"
+    mcl_player.player_set_model(player, model)
+    
+    -- Update player hand item
+    local node_id = mcl_skins.get_node_id_by_player(player)
+    local hand = ItemStack("mcl_meshhand:" .. node_id)
+    player:get_inventory():set_stack("hand", 1, hand)
 end
 
 -- Load player skin on join

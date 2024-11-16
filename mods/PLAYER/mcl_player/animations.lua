@@ -213,16 +213,30 @@ function mcl_player.get_player_formspec_model(player, x, y, w, h, fsname)
 end
 
 function mcl_player.player_set_animation(player, anim_name, speed)
-	if mcl_player.players[player].animation == anim_name then
-		return
+    if mcl_player.players[player].animation == anim_name then
+        return
+    end
+    local model = mcl_player.players[player].model and mcl_player.registered_player_models[mcl_player.players[player].model]
+    if not (model and model.animations[anim_name]) then
+        return
+    end
+    local anim = model.animations[anim_name]
+	local blend_time = animation_blend
+    mcl_player.players[player].animation = anim_name
+    
+	if anim_name == ("stand" or "walk" or "sneak" or "sneak_walk" or "sneak_mine") then
+		blend_time = 0
 	end
-	local model = mcl_player.players[player].model and mcl_player.registered_player_models[mcl_player.players[player].model]
-	if not (model and model.animations[anim_name]) then
-		return
+
+	-- Lock the animation if it's a punch animation
+	if string.find(anim_name, "mine") then
+		mcl_player.players[player].animation_locked = true
+		minetest.after(((anim.y - anim.x) / (speed or model.animation_speed)), function()
+			mcl_player.players[player].animation_locked = false
+		end)
 	end
-	local anim = model.animations[anim_name]
-	mcl_player.players[player].animation = anim_name
-	player:set_animation(anim, speed or model.animation_speed, animation_blend)
+
+    player:set_animation(anim, speed or model.animation_speed, blend_time)
 end
 
 local function set_swimming(player, anim, anim_speed)
@@ -281,6 +295,7 @@ mcl_player.register_globalstep(function(player)
 		-- Determine if the player is sneaking, and reduce animation speed if so
 		if control.sneak then
 			animation_speed_mod = animation_speed_mod / 2
+			animation_blend = 0
 		end
 
 		if mcl_shields.is_blocking(player) then
@@ -307,9 +322,17 @@ mcl_player.register_globalstep(function(player)
 			mcl_util.set_bone_position(player, "Body_Control", nil, vector.new(0, -player_vel_yaw + yaw, 0))
 			mcl_util.set_properties(player, player_props_sneaking)
 			if get_mouse_button(player) then
-				mcl_player.player_set_animation(player, "sneak_walk_mine", animation_speed_mod)
+				if walking then
+					mcl_player.player_set_animation(player, "sneak_walk_mine", animation_speed_mod)
+				else
+					mcl_player.player_set_animation(player, "sneak_mine", animation_speed_mod)
+				end
 			else
-				mcl_player.player_set_animation(player, "sneak_walk", animation_speed_mod)
+				if walking then
+					mcl_player.player_set_animation(player, "sneak_walk", animation_speed_mod)
+				else
+					mcl_player.player_set_animation(player, "sneak_stand", 0)
+				end
 			end
 		elseif walking and (math.abs(velocity.x) > 0.35 or math.abs(velocity.z) > 0.35) then --walking
 			mcl_util.set_properties(player, player_props_normal)

@@ -229,12 +229,12 @@ function mcl_player.player_set_animation(player, anim_name, speed)
 	end
 
 	-- Lock the animation if it's a punch animation
-	if string.find(anim_name, "mine") then
-		mcl_player.players[player].animation_locked = true
-		minetest.after(((anim.y - anim.x) / (speed or model.animation_speed)), function()
-			mcl_player.players[player].animation_locked = false
-		end)
-	end
+	-- if string.find(anim_name, "mine") then
+	-- 	mcl_player.players[player].animation_locked = true
+	-- 	minetest.after(((anim.y - anim.x) / (speed or model.animation_speed)), function()
+	-- 		mcl_player.players[player].animation_locked = false
+	-- 	end)
+	-- end
 
     player:set_animation(anim, speed or model.animation_speed, blend_time)
 end

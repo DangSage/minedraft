@@ -80,7 +80,7 @@ if mcl_skins_enabled then
 else
 	node_def._mcl_hand_id = "hand"
 	node_def.mesh = "mcl_meshhand.b3d"
-	node_def.tiles = { "character.png" }
+	node_def.tiles = { "steve.png" }
 	minetest.register_node("mcl_meshhand:hand_surv", node_def)
 
 	node_def = table.copy(node_def)

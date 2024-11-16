@@ -7,7 +7,7 @@ mcl_player = {
 local default_fov = 86.1 --see <https://minecraft.gamepedia.com/Options#Video_settings>>>>
 
 local tpl_playerinfo = {
-	textures = { "character.png", "blank.png", "blank.png" },
+	textures = { "steve.png", "blank.png", "blank.png" },
 	model = "",
 	animation = "",
 	sneak = false,

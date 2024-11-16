@@ -24,7 +24,27 @@ mcl_skins = {
 	base = {}, -- List of base textures
 
 	-- Base color is separate to keep the number of junk nodes registered in check
-	base_color = {0xffeeb592, 0xffb47a57, 0xff8d471d},
+	base_color = {
+		0xffe2bc7b,
+		0xffeeb592,
+		0xffb17050,
+		0xff8d471d,
+		0xff613915,
+		-- weird colors below
+
+		0xfffc0eb3,
+		0xffc21c1c,
+		0xffae2ad3,
+		0xff178c32,
+		0xff449acc,
+		0xffd0672a,
+		0xff124d87,
+		0xffe3dd26,
+		0xff706662,
+		0xffebe8e4,
+		0xff151515,
+	},
+
 	color = {
 		0xff613915, -- 1 Dark brown
 		0xff97491b, -- 2 Medium brown
@@ -133,24 +153,22 @@ function mcl_skins.compile_skin(skin)
 end
 
 function mcl_skins.update_player_skin(player)
-    if not player then
-        return
-    end
-    local skin = mcl_skins.player_skins[player]
-    mcl_player.player_set_skin(player, mcl_skins.compile_skin(skin))
-    local slim_arms
-    if skin.simple_skins_id then
-        slim_arms = mcl_skins.texture_to_simple_skin[skin.simple_skins_id].slim_arms
-    else
-        slim_arms = skin.slim_arms
-    end
-    local model = slim_arms and "mcl_armor_character_female.b3d" or "mcl_armor_character.b3d"
-    mcl_player.player_set_model(player, model)
-    
-    -- Update player hand item
-    local node_id = mcl_skins.get_node_id_by_player(player)
-    local hand = ItemStack("mcl_meshhand:" .. node_id)
-    player:get_inventory():set_stack("hand", 1, hand)
+	if not player then
+		return
+	end
+
+	local skin = mcl_skins.player_skins[player]
+
+	mcl_player.player_set_skin(player, mcl_skins.compile_skin(skin))
+
+	local slim_arms
+	if skin.simple_skins_id then
+		slim_arms = mcl_skins.texture_to_simple_skin[skin.simple_skins_id].slim_arms
+	else
+		slim_arms = skin.slim_arms
+	end
+	local model = slim_arms and "mcl_armor_character_female.b3d" or "mcl_armor_character.b3d"
+	mcl_player.player_set_model(player, model)
 end
 
 -- Load player skin on join
@@ -620,13 +638,6 @@ local function init()
 		texture = "alex.png",
 		slim_arms = true
 	})
-
-	-- Register custom skins
-	dofile(minetest.get_modpath("mcl_skins") .. "/custom_skins.lua")
-	-- list all registered skins
-	for index, skin in pairs(mcl_skins.simple_skins) do
-		minetest.log("action", "[mcl_skins] Registered skin: " .. skin.texture .. " with index: " .. index)
-	end
 end
 
 init()

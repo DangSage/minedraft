@@ -1,7 +1,7 @@
 mcl_player.player_register_model("mcl_armor_character.b3d", {
 	animation_speed = 30,
 	textures = {
-		"character.png",
+		"steve.png",
 		"blank.png",
 		"blank.png",
 	},
@@ -33,7 +33,7 @@ mcl_player.player_register_model("mcl_armor_character.b3d", {
 mcl_player.player_register_model("mcl_armor_character_female.b3d", {
 	animation_speed = 30,
 	textures = {
-		"character.png",
+		"steve.png",
 		"blank.png",
 		"blank.png",
 	},

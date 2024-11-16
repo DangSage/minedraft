@@ -49,7 +49,7 @@ mcl_player.player_get_animation(player)
 
 	{
 		animation_speed = 30,            -- Default animation speed, in FPS.
-		textures = {"character.png", },  -- Default array of textures.
+		textures = {"steve.png", },  -- Default array of textures.
 		visual_size = {x = 1, y = 1},    -- Used to scale the model.
 		animations = {
 			-- <anim_name> = {x = <start_frame>, y = <end_frame>},

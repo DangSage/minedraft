@@ -262,7 +262,7 @@ if mcl_skins_enabled then
 else
 	filled_wield_def._mcl_hand_id = "hand"
 	filled_wield_def.mesh = "mcl_meshhand.b3d"
-	filled_wield_def.tiles = { "character.png" }
+	filled_wield_def.tiles = { "steve.png" }
 	minetest.register_node("mcl_maps:filled_map_hand", filled_wield_def)
 end
 

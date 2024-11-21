@@ -28,6 +28,7 @@ mcl_skins = {
 		0xffe2bc7b,
 		0xffeeb592,
 		0xffb17050,
+		0xff9e6a40,
 		0xff8d471d,
 		0xff613915,
 		-- weird colors below
@@ -153,59 +154,49 @@ function mcl_skins.compile_skin(skin)
 end
 
 function mcl_skins.update_player_skin(player)
-	if not player then
-		return
-	end
+    if not player then
+        return
+    end
+    local skin = mcl_skins.player_skins[player]
+    mcl_player.player_set_skin(player, mcl_skins.compile_skin(skin))
+    local slim_arms
+    if skin.simple_skins_id then
+        slim_arms = mcl_skins.texture_to_simple_skin[skin.simple_skins_id].slim_arms
+    else
+        slim_arms = skin.slim_arms
+    end
+    local model = slim_arms and "mcl_armor_character_female.b3d" or "mcl_armor_character.b3d"
+    mcl_player.player_set_model(player, model)
 
-	local skin = mcl_skins.player_skins[player]
-
-	mcl_player.player_set_skin(player, mcl_skins.compile_skin(skin))
-
-	local slim_arms
-	if skin.simple_skins_id then
-		slim_arms = mcl_skins.texture_to_simple_skin[skin.simple_skins_id].slim_arms
-	else
-		slim_arms = skin.slim_arms
-	end
-	local model = slim_arms and "mcl_armor_character_female.b3d" or "mcl_armor_character.b3d"
-	mcl_player.player_set_model(player, model)
+    -- Update player hand item
+    local node_id = mcl_skins.get_node_id_by_player(player)
+    local hand = ItemStack("mcl_meshhand:" .. node_id)
+    print("Setting player hand to:", hand:get_name())
+    player:get_inventory():set_stack("hand", 1, hand)
 end
 
 -- Load player skin on join
 minetest.register_on_joinplayer(function(player)
-	local skin = player:get_meta():get_string("mcl_skins:skin")
-	if skin then
-		skin = minetest.deserialize(skin)
-	end
-	if skin then
-		if not mcl_skins.texture_to_simple_skin[skin.simple_skins_id] then
-			skin.simple_skins_id = nil
-		end
+    local skin = player:get_meta():get_string("mcl_skins:skin")
+    if skin then
+        skin = minetest.deserialize(skin)
+    end
+    if skin then
+        if not mcl_skins.texture_to_simple_skin[skin.simple_skins_id] then
+            skin.simple_skins_id = nil
+        end
 
-		mcl_skins.player_skins[player] = skin
-	else
-		if math.random() > 0.5 then
-			skin = table.copy(mcl_skins.steve)
-		else
-			skin = table.copy(mcl_skins.alex)
-		end
-		mcl_skins.player_skins[player] = skin
-	end
-
-	mcl_skins.player_formspecs[player] = {
-		active_tab = "skin",
-		page_num = 1
-	}
-
-	if #mcl_skins.simple_skins > 0 then
-		local skin_id = tonumber(player:get_meta():get_string("mcl_skins:skin_id"))
-		if skin_id and mcl_skins.simple_skins[skin_id] then
-			local texture = mcl_skins.simple_skins[skin_id].texture
-			mcl_skins.player_skins[player].simple_skins_id = texture
-		end
-	end
-	mcl_skins.save(player)
-	mcl_skins.update_player_skin(player)
+        mcl_skins.player_skins[player] = skin
+    else
+        if math.random() > 0.5 then
+            skin = table.copy(mcl_skins.steve)
+        else
+            skin = table.copy(mcl_skins.alex)
+        end
+        mcl_skins.player_skins[player] = skin
+    end
+    mcl_skins.save(player)
+    mcl_skins.update_player_skin(player)
 end)
 
 minetest.register_on_leaveplayer(function(player)

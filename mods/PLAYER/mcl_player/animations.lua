@@ -213,7 +213,7 @@ function mcl_player.get_player_formspec_model(player, x, y, w, h, fsname)
 end
 
 function mcl_player.player_set_animation(player, anim_name, speed)
-    if mcl_player.players[player].animation == anim_name then
+    if mcl_player.players[player].animation == anim_name or mcl_player.players[player].animation_locked then
         return
     end
     local model = mcl_player.players[player].model and mcl_player.registered_player_models[mcl_player.players[player].model]
@@ -221,21 +221,28 @@ function mcl_player.player_set_animation(player, anim_name, speed)
         return
     end
     local anim = model.animations[anim_name]
-	local blend_time = animation_blend
+    local blend_time = 0
+    if mcl_player.players[player].animation then
+        local prev_anim = model.animations[mcl_player.players[player].animation]
+        if prev_anim then
+            blend_time = (prev_anim.blend_time or 0) + (anim.blend_time or 0)
+        end
+    end
+    if string.find(anim_name, "sneak") then
+        blend_time = 0
+    end
     mcl_player.players[player].animation = anim_name
     
-	if anim_name == ("stand" or "walk" or "sneak" or "sneak_walk" or "sneak_mine") then
-		blend_time = 0
-	end
+    -- Lock the animation if it's a mining animation
+    if string.find(anim_name, "mine") then
+        mcl_player.players[player].animation_locked = true
+        local animation_duration = (anim.y - anim.x) / (speed or model.animation_speed)
+        minetest.after(animation_duration, function()
+            mcl_player.players[player].animation_locked = false
+        end)
+    end
 
-	-- Lock the animation if it's a punch animation
-	-- if string.find(anim_name, "mine") then
-	-- 	mcl_player.players[player].animation_locked = true
-	-- 	minetest.after(((anim.y - anim.x) / (speed or model.animation_speed)), function()
-	-- 		mcl_player.players[player].animation_locked = false
-	-- 	end)
-	-- end
-
+    -- Set the animation
     player:set_animation(anim, speed or model.animation_speed, blend_time)
 end
 

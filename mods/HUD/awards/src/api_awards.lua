@@ -119,9 +119,6 @@ function awards.unlock(name, award)
 		end
 	end
 
-	-- Define the color codes
-	local title_color = "#ffcc00"  -- gold color for the title
-
 	local chat_announce
 	if awdef.secret then
 		chat_announce = S("Secret Award Unlocked: @1", title)
@@ -129,12 +126,12 @@ function awards.unlock(name, award)
 		chat_announce = S("Award Unlocked: @1", title)
 	end
 	-- Colorize the chat announcement
-	chat_announce = minetest.colorize(title_color, chat_announce)
+	chat_announce = minetest.colorize(mcl_colors.GOLD, chat_announce)
 	-- use the chat console to send it
 	minetest.chat_send_player(name, chat_announce)
 	if desc ~= "" then
 		-- Colorize the description
-		local colorized_desc = minetest.colorize("#aaaaaa", desc)
+		local colorized_desc = minetest.colorize(mcl_colors.GRAY, desc)
 		minetest.chat_send_player(name, colorized_desc)
 	end
 end

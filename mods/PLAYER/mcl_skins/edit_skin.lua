@@ -206,6 +206,16 @@ end)
 
 function mcl_skins.show_formspec(player)
 	local formspec_data = mcl_skins.player_formspecs[player]
+
+	-- Initialize formspec_data if it is nil
+    if not formspec_data then
+        formspec_data = {
+            active_tab = "skin",
+            page_num = 1,
+        }
+        mcl_skins.player_formspecs[player] = formspec_data
+    end
+
 	local skin = mcl_skins.player_skins[player]
 	local active_tab = formspec_data.active_tab
 	local page_num = formspec_data.page_num

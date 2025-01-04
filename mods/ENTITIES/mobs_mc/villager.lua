@@ -44,9 +44,16 @@ dofile(modpath.."/villagers/activities.lua")
 dofile(modpath.."/villagers/trading.lua")
 
 function mobs_mc.villager_mob:set_textures()
-	local badge_textures = self:get_badge_textures()
-	self.base_texture = badge_textures
-	self.object:set_properties({textures=badge_textures})
+    local base_texture = "mobs_mc_villager.png"
+    local profession_texture = mobs_mc.professions[self._profession].texture or "blank.png"
+    local badge_textures = self:get_badge_textures() or {"blank.png"}
+
+    -- Combine the textures in the correct order
+    local combined_textures = {
+        base_texture .. "^" .. profession_texture .. "^" .. table.concat(badge_textures, "^")
+    }
+
+    self.object:set_properties({textures = combined_textures})
 end
 
 --[------[ MOB REGISTRATION AND SPAWNING ]-------]
